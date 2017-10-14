@@ -5,19 +5,21 @@
 
 Line, SavingsAccount
 
-Common practice in the C++ development community.
+> Common practice in the C++ development community.
 
 ### 1.1.2 Variable names must be all lower-case with underscores separating words.
 
 line, savings_account
 
-Common practice in the C++ development community. Makes variables easy to distinguish from types, and effectively resolves potential naming collision as in the declaration Line line.
+> Common practice in the C++ development community. Makes variables easy to distinguish from types, and effectively resolves potential naming collision as in the declaration Line line.
 
 ### 1.1.3 Named constants (including enumeration values) must be all uppercase using underscore to separate words. Discussion
 
 MAX_ITERATIONS, COLOR_RED, PI
 
-Common practice in the C++ development community. In general, the use of such constants should be minimized. In many cases implementing the value as a method is a better choice:
+> Common practice in the C++ development community. 
+
+In general, the use of such constants should be minimized. In many cases implementing the value as a method is a better choice:
 ```C++
   int getMaxIterations() // NOT #define MAX_ITERATIONS 25
   {
@@ -38,7 +40,7 @@ In cases where the value is needed as a constant expression two possibilities ar
 
 getName(), computeTotalWidth()
 
-Common practice in the C++ development community. This is identical to variable names, but functions in C++ are already distinguishable from variables by their specific form.
+> Common practice in the C++ development community. This is identical to variable names, but functions in C++ are already distinguishable from variables by their specific form.
 
 ### 1.1.5 Names representing namespaces should be all lowercase.
 
@@ -51,9 +53,9 @@ typedef boost::shared_ptr<aslam::Camera> CameraPtr; //NOT: Camera_ptr
 ```
 Using the same naming convention as for types allows easier exchange in cases where a typename is replaced by an actual type later. Discussion.
 
-### 1.1.7 Names representing a structure should be written in mixed case starting with upper case.
+### 1.1.7 Names representing a structure should be written in mixed case starting with upper case and finished with _t.
 ```C++
-struct points_t
+struct Points_t
 {
 ...
 };
@@ -96,7 +98,7 @@ void setTopic(Topic* topic) // NOT: void setTopic(Topic* value)
 void connect(Database* database) // NOT: void connect(Database* db)
                                  // NOT: void connect (Database* oracleDB)
 ```
-Reduce complexity by reducing the number of terms and names used. Also makes it easy to deduce the type given a variable name only. If for some reason this convention doesn't seem to fit it is a strong indication that the type name is badly chosen.
+> Reduce complexity by reducing the number of terms and names used. Also makes it easy to deduce the type given a variable name only. If for some reason this convention doesn't seem to fit it is a strong indication that the type name is badly chosen.
 
 Non-generic variables have a role. These variables can often be named by combining role and type:
 ```C++
@@ -105,7 +107,7 @@ Non-generic variables have a role. These variables can often be named by combini
 ```
 ### 1.1.12 All names should be written in English.
 ```C++
-fileName;   // NOT: filNavn
+fileName;   // NOT: nomFichier
 ```
 English is the preferred language for international development.
 
@@ -130,21 +132,23 @@ matrix.setElement(2, 4, value);
 
 person.getAgeRef();
 ```
-Common practice in the C++ development community. In Java this convention has become more or less standard. Discussion about how to handle references
+
+> Common practice in the C++ development community. In Java this convention has become more or less standard. Discussion about how to handle references
 
 ### 1.2.2 The term compute can be used in methods where something is computed.
 ```C++
 valueSet->computeAverage();
 matrix->computeInverse()
 ```
-Give the reader the immediate clue that this is a potentially time-consuming operation, and if used repeatedly, he might consider caching the result. Consistent use of the term enhances readability. 
+
+> Give the reader the immediate clue that this is a potentially time-consuming operation, and if used repeatedly, he might consider caching the result. Consistent use of the term enhances readability. 
 
 ### 1.2.3 Plural form should be used on names representing a collection of objects.
 ```C++
 vector<Point>  points;
 int            values[];
 ```
-Enhances readability since the name gives the user an immediate clue of the type of the variable and the operations that can be performed on its elements. 
+> Enhances readability since the name gives the user an immediate clue of the type of the variable and the operations that can be performed on its elements. 
 
 ### 1.2.4 The prefix n should be used for variables representing a number of objects.
 
@@ -169,7 +173,7 @@ for (vector<MyClass>::iterator it = list.begin(); it != list.end(); ++it) {
 
 isSet, isVisible, isFinished, isFound, isOpen
 
-Common practice in the C++ development community and partially enforced in Java. Using the is prefix solves a common problem of choosing bad boolean names like status or flag. isStatus or isFlag simply doesn't fit, and the programmer is forced to choose more meaningful names.
+> Common practice in the C++ development community and partially enforced in Java. Using the is prefix solves a common problem of choosing bad boolean names like status or flag. isStatus or isFlag simply doesn't fit, and the programmer is forced to choose more meaningful names.
 
 There are a few alternatives to the is prefix that fit better in some situations. These are the has, can and should prefixes:
 ```C++
@@ -183,7 +187,7 @@ get/set, add/remove, create/destroy, start/stop, insert/delete,
 increment/decrement, old/new, begin/end, first/last, up/down, min/max,
 next/previous, open/close, show/hide, suspend/resume, etc.
 
-Reduce complexity by symmetry. 
+> Reduce complexity by symmetry. 
 
 ### 1.2.8 Naming pointers specifically should be avoided.
 ```C++
@@ -209,7 +213,8 @@ enum Color {
   COLOR_BLUE
 };
 ```
-This gives additional information of where the declaration can be found, which constants belongs together, and what concept the constants represent. 
+
+> This gives additional information of where the declaration can be found, which constants belongs together, and what concept the constants represent. 
 
 An alternative approach is to always refer to the constants through their common type: Color::RED, Airline::AIR_FRANCE etc.
 
@@ -229,7 +234,8 @@ class AccessException
   :
 }
 ```
-Exception classes are really not part of the main design of the program, and naming them like this makes them stand out relative to the other classes. 
+
+> Exception classes are really not part of the main design of the program, and naming them like this makes them stand out relative to the other classes. 
 
 ## 1.3 Source Files
 
@@ -237,13 +243,13 @@ Exception classes are really not part of the main design of the program, and nam
 
 MyClass.cpp, MyClass.hpp
 
-These are all accepted C++ standards for file extension. 
+> These are all accepted C++ standards for file extension. 
 
 ### 1.3.2 A class should be declared in a header file and defined in a source file where the name of the files match the name of the class.
 
 include/MyClass.hpp, src/MyClass.cpp
 
-This makes it easy to find the associated files of a given class.
+> This makes it easy to find the associated files of a given class.
 
 ### 1.3.3 All definitions should reside in source files. 
 
@@ -294,7 +300,7 @@ private:
 #endif // CLASSNAME_H
 ```
 
-The construction is to avoid compilation errors. The name convention resembles the location of the file inside the source tree and prevents naming conflicts. 
+> The construction is to avoid compilation errors. The name convention resembles the location of the file inside the source tree and prevents naming conflicts. 
 
 ### 1.4.2 Include statements should be sorted and grouped. 
 
@@ -313,7 +319,7 @@ The include statements should be grouped by libraries.
 #include "com/company/ui/MainWindow.h"
 ```
 
-In addition to show the reader the individual include files, it also give an immediate clue about the modules that are involved. Include file paths must never be absolute. Compiler directives should instead be used to indicate root directories for includes.
+> In addition to show the reader the individual include files, it also give an immediate clue about the modules that are involved. Include file paths must never be absolute. Compiler directives should instead be used to indicate root directories for includes.
 
 ### 1.4.3 Avoid nested includes.
 
@@ -354,7 +360,8 @@ This ensures that variables are valid at any time. Sometimes it is impossible to
   int x, y, z;
   getCenter(&x, &y, &z);
 ```
-In these cases it should be left uninitialized rather than initialized to some phony value.
+
+> In these cases it should be left uninitialized rather than initialized to some phony value.
 
 ### 2.2.2 Variables must never have dual meaning. 
 
@@ -380,7 +387,7 @@ float* x; // NOT: float *x;
 int& y;   // NOT: int &y;
 ```
 The pointer-ness or reference-ness of a variable is a property of the type rather than the name. 
-C-programmers often use the alternative approach, while in C++ it has become more common to follow this recommendation.
+> C-programmers often use the alternative approach, while in C++ it has become more common to follow this recommendation.
 
 ### 2.2.7 Implicit test for 0 should not be used other than for boolean variables and pointers.
 ```C++
@@ -452,7 +459,8 @@ if ((elementNo < 0) || (elementNo > maxElement)||
   :
 }
 ```
-By assigning boolean variables to expressions, the program gets automatic documentation. The construction will be easier to read, debug and maintain. 
+
+> By assigning boolean variables to expressions, the program gets automatic documentation. The construction will be easier to read, debug and maintain. 
 
 ### 2.4.2 The nominal case should be put in the if-part and the exception in the else-part of an if statement.
 ```C++
@@ -466,7 +474,8 @@ else
   :
 }
 ```
-Makes sure that the exceptions don't obscure the normal path of execution. This is important for both the readability and performance. 
+
+> Makes sure that the exceptions don't obscure the normal path of execution. This is important for both the readability and performance. 
 
 ### 2.4.3 The conditional should be put on a separate line. While not being necessary, the use of curly brackets around the statement is encouraged.
 ```C++
@@ -478,7 +487,8 @@ if (isDone)		  // NOT: if (isDone) doCleanup();
   doCleanup();
 }
 ```
-This is for debugging purposes. When writing on a single line, it is not apparent whether the test is really true or not.
+
+> This is for debugging purposes. When writing on a single line, it is not apparent whether the test is really true or not.
 
 ### 2.4.4 Executable statements in conditionals must be avoided.
 ```C++
@@ -493,7 +503,8 @@ if (!(fileHandle = open(fileName, "w"))) {
   :
 }
 ```
-Conditionals with executable statements are just very difficult to read. This is especially true for programmers new to C/C++. 
+
+> Conditionals with executable statements are just very difficult to read. This is especially true for programmers new to C/C++. 
 
 ## 2.5 Miscellaneous
 

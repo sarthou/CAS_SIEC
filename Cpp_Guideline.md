@@ -21,19 +21,19 @@ MAX_ITERATIONS, COLOR_RED, PI
 
 In general, the use of such constants should be minimized. In many cases implementing the value as a method is a better choice:
 ```C++
-  int getMaxIterations() // NOT #define MAX_ITERATIONS 25
-  {
-    return 25;
-  }
+int getMaxIterations() // NOT #define MAX_ITERATIONS 25
+{
+	return 25;
+}
 ```
 This form is both easier to read, and it ensures a unified interface towards class values.
 
 In cases where the value is needed as a constant expression two possibilities are encourages:
 ```C++
-  constexpr int getMaxIterations() // NOT #define MAX_ITERATIONS 25
-  {
-    return 25;
-  }
+constexpr int getMaxIterations() // NOT #define MAX_ITERATIONS 25
+{
+	return 25;
+}
 ```
 
 ### 1.1.4 Names representing methods or functions must be verbs and written in mixed case starting with lower case.
@@ -57,7 +57,7 @@ Using the same naming convention as for types allows easier exchange in cases wh
 ```C++
 struct Points_t
 {
-...
+	:
 };
 ```
 ### 1.1.8 Abbreviations and acronyms must not be uppercase when used as name.
@@ -73,17 +73,18 @@ Global variables are forbidden.
  
 ### 1.1.10 Class variables should have underscore suffix.
 ```C++
-class SomeClass {
-  private:
-    int length_;
+class SomeClass 
+{
+private:
+	int length_;
 }
 ```
 Apart from its name and its type, the scope of a variable is its most important feature. Indicating class scope by using underscore makes it easy to distinguish class variables from local scratch variables. This is important because class variables are considered to have higher significance than method variables, and should be treated with special care by the programmer. A side effect of the underscore naming convention is that it nicely resolves the problem of finding reasonable variable names for setter methods and constructors:
 ```C++
-  void setDepth (int depth)
-  {
-    depth_ = depth;
-  }
+void setDepth (int depth)
+{
+	depth_ = depth;
+}
 ```
 An issue is whether the underscore should be added as a prefix or as a suffix. Both practices are commonly used, but the latter is recommended because it seem to best preserve the readability of the name.
 
@@ -102,8 +103,8 @@ void connect(Database* database) // NOT: void connect(Database* db)
 
 Non-generic variables have a role. These variables can often be named by combining role and type:
 ```C++
-  Point  startingPoint, centerPoint;
-  Name   loginName;
+Point  startingPoint, centerPoint;
+Name   loginName;
 ```
 ### 1.1.12 All names should be written in English.
 ```C++
@@ -156,17 +157,19 @@ nPoints, nLines
 
 ### 1.2.5 Iterator variables should be called i, j, k if the loop is rather small (less than 10 lines):
 ```C++
-for (int i = 0; i < nTables); ++i) {
-  :
+for (int i = 0; i < nTables); ++i) 
+{
+	:
 }
 ```
 The notation is taken from mathematics where it is an established convention for indicating iterators. Variables named j, k etc. should be used for nested loops only.
 
 Iterators should be called it
 ```C++
-for (vector<MyClass>::iterator it = list.begin(); it != list.end(); ++it) {
-  Element element = *it;
-  ...
+for (vector<MyClass>::iterator it = list.begin(); it != list.end(); ++it) 
+{
+	Element element = *it;
+	...
 }
 ```
 ### 1.2.6 The prefix is should be used for boolean variables and methods.
@@ -177,9 +180,9 @@ isSet, isVisible, isFinished, isFound, isOpen
 
 There are a few alternatives to the is prefix that fit better in some situations. These are the has, can and should prefixes:
 ```C++
-  bool hasLicense();
-  bool canEvaluate();
-  bool shouldSort();
+bool hasLicense();
+bool canEvaluate();
+bool shouldSort();
 ```
 ### 1.2.7 Complement names must be used for complement operations.
 
@@ -207,10 +210,11 @@ The problem arises when such a name is used in conjunction with the logical nega
 
 ### 1.2.10 Enumeration constants can be prefixed by a common type name.
 ```C++
-enum Color {
-  COLOR_RED,
-  COLOR_GREEN,
-  COLOR_BLUE
+enum Color 
+{
+	COLOR_RED,
+	COLOR_GREEN,
+	COLOR_BLUE
 };
 ```
 
@@ -220,18 +224,19 @@ An alternative approach is to always refer to the constants through their common
 
 The C++11 enum class specifier can be used. The values cannot be implicitly converted to int anymore enforcing additional type-safety.
 ```C++
-enum class Enumeration {
-    Val1,
-    Val2,
-    Val3 = 100,
-    Val4 // = 101
+enum class Enumeration 
+{
+	Val1,
+	Val2,
+	Val3 = 100,
+	Val4 // = 101
 };
 ```
 ### 1.2.11 Exception classes should be suffixed with Exception.
 ```C++
 class AccessException
 {
-  :
+	:
 }
 ```
 
@@ -263,11 +268,11 @@ A non-templated class in MyClass.hpp:
 class MyClass
 {
 public:
-  int getValue () const {return value_;}  // NO, unless inlining required.
-  ...
+	int getValue () const {return value_;}  // NO, unless inlining required.
+	...
 
 private:
-  int value_;
+	int value_;
 };
 ```
 
@@ -278,14 +283,14 @@ template<typename T>
 class MyTemplatedClass
 {
 public:
-  virtual ~MyTemplatedClass(){} // Okay because trivial and templated.
-  int getValue () const {return value_;} // Okay because trivial and templated.
+	virtual ~MyTemplatedClass(){} // Okay because trivial and templated.
+	int getValue () const {return value_;} // Okay because trivial and templated.
 
-  int calcComplicated(); // Only declaration in this header file because its definition is nontrivial.
-  ...
+	int calcComplicated(); // Only declaration in this header file because its definition is nontrivial.
+	...
 
 private:
-  int value_;
+	int value_;
 };
 ```
 
@@ -357,8 +362,8 @@ By this, the programmer indicates that he is aware of the different types involv
 
 This ensures that variables are valid at any time. Sometimes it is impossible to initialize a variable to a valid value where it is declared:
 ```C++
-  int x, y, z;
-  getCenter(&x, &y, &z);
+int x, y, z;
+getCenter(&x, &y, &z);
 ```
 
 > In these cases it should be left uninitialized rather than initialized to some phony value.
@@ -414,7 +419,7 @@ Keeping the operations on a variable within a small scope, it is easier to contr
 ```C++
 sum = 0;                       // NOT: for (i = 0, sum = 0; i < 100; i++)
 for (i = 0; i < 100; i++)                sum += value[i];
-  sum += value[i];
+	sum += value[i];
 ```
 Increase maintainability and readability. Make a clear distinction of what controls and what is contained in the loop. 
 
@@ -428,17 +433,17 @@ Any do-while loop can easily be rewritten into a while loop or a for loop. Reduc
 ```C++
 while (true) 
 {
-  :
+	:
 }
 
 for (;;) // AVOID!
 {  
-  :
+	:
 }
 
 while (1) // NO! 
 { 
-  :
+	:
 }
 ```
 ## 2.4 Conditionals
@@ -449,14 +454,14 @@ bool isFinished = (elementNo < 0) || (elementNo > maxElement);
 bool isRepeatedEntry = elementNo == lastElement;
 if (isFinished || isRepeatedEntry) 
 {
-  :
+	:
 }
 
 // NOT:
 if ((elementNo < 0) || (elementNo > maxElement)||
      elementNo == lastElement) 
 {
-  :
+	:
 }
 ```
 
@@ -467,11 +472,11 @@ if ((elementNo < 0) || (elementNo > maxElement)||
 bool isOk = readFile (fileName);
 if (isOk) 
 {
-  :
+	:
 }
 else 
 {
-  :
+	:
 }
 ```
 
@@ -480,11 +485,11 @@ else
 ### 2.4.3 The conditional should be put on a separate line. While not being necessary, the use of curly brackets around the statement is encouraged.
 ```C++
 if (isDone)       // NOT: if (isDone) doCleanup();
-  doCleanup();
+	doCleanup();
 
 if (isDone)		  // NOT: if (isDone) doCleanup();
 {       
-  doCleanup();
+	doCleanup();
 }
 ```
 
@@ -495,12 +500,13 @@ if (isDone)		  // NOT: if (isDone) doCleanup();
 File* fileHandle = open(fileName, "w");
 if (!fileHandle) 
 {
-  :
+	:
 }
 
 // NOT:
-if (!(fileHandle = open(fileName, "w"))) {
-  :
+if (!(fileHandle = open(fileName, "w"))) 
+{
+	:
 }
 ```
 
@@ -533,9 +539,26 @@ double total = 0.5;  // NOT:  double total = .5;
 ```C++
 int getValue()   // NOT: getValue()
 {
-  :
+	:
 }
 ```
 If not explicitly listed, C++ implies int return value for functions. A programmer must never rely on this feature, since this might be confusing for programmers not aware of this artifact. 
 
 - goto should not be used. Goto statements violate the idea of structured code. Only in some very few cases (for instance breaking out of deeply nested structures) should goto be considered, and only if the alternative structured counterpart is proven to be less readable.
+
+- The condition braces must not be on the same line as the condition
+```C++
+if(isOk)   // NOT: if(isOk) {
+{
+	:
+}
+```
+
+- The indentation must be four spaces wide
+```C++
+int getValue()   // NOT: getValue()
+{
+	:	// OK
+  :		// NOT
+}
+```

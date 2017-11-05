@@ -6,4 +6,4 @@
 - [ ] Add images to advise  
 - [ ] Add images for sensors  
 - [ ] Create protocol  
-- [ ] Fix debug area resize
+- [x] Fix debug area resize

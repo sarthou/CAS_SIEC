@@ -12,6 +12,7 @@ namespace CAS
 {
     public partial class Form1 : Form
     {
+        private bool is_moving = false;
         private void richTextBox_TextChanged(object sender, EventArgs e)
         {
             debug_text.SelectionStart = debug_text.Text.Length;
@@ -33,6 +34,7 @@ namespace CAS
             if (MouseIsInTopEdge)
             {
                 Cursor.Current = Cursors.SizeNS;
+                is_moving = true;
             }
             else
                 Cursor.Current = Cursors.Arrow;
@@ -44,7 +46,7 @@ namespace CAS
             if (MouseIsInTopEdge)
                 Cursor.Current = Cursors.SizeNS;
 
-            //if (is_moving)
+            if (is_moving)
             {
                 int last_bott = this.debug_text.Bottom;
                 if ((this.PointToClient(Cursor.Position).Y < last_bott - debug_text.MinimumSize.Height) && (this.PointToClient(Cursor.Position).Y > 50))
@@ -60,7 +62,7 @@ namespace CAS
 
         private void debug_text_release(object sender, MouseEventArgs e)
         {
-            //is_moving = false;
+            is_moving = false;
             Cursor.Current = Cursors.Arrow;
         }
 

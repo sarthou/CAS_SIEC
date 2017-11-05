@@ -143,21 +143,6 @@ namespace CAS
         {
             this.debug_text.AppendTextError("ERROR\r\n");
         }
-
-
-        private void stop_button_Click(object sender, EventArgs e)
-        {
-            if (is_connected)
-            {
-            }
-        }
-
-        private void toolStripStop_Click(object sender, EventArgs e)
-        {
-            if (is_connected)
-            {
-            }
-        }
     }
 
     public static class RichTextBoxExtensions

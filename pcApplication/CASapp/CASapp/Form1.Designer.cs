@@ -42,7 +42,6 @@
             this.baudrate_selecter = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.Connecting_button = new System.Windows.Forms.Button();
-            this.stop_button = new System.Windows.Forms.Button();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.send_text_button = new System.Windows.Forms.Button();
             this.debug_text = new System.Windows.Forms.RichTextBox();
@@ -127,18 +126,6 @@
             this.Connecting_button.Text = "Connect";
             this.Connecting_button.UseVisualStyleBackColor = false;
             this.Connecting_button.Click += new System.EventHandler(this.Connecting_button_Click);
-            // 
-            // stop_button
-            // 
-            this.stop_button.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.stop_button.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.stop_button.Location = new System.Drawing.Point(34, 34);
-            this.stop_button.Name = "stop_button";
-            this.stop_button.Size = new System.Drawing.Size(75, 75);
-            this.stop_button.TabIndex = 5;
-            this.stop_button.Text = "STOP";
-            this.stop_button.UseVisualStyleBackColor = false;
-            this.stop_button.Click += new System.EventHandler(this.stop_button_Click);
             // 
             // textBox2
             // 
@@ -415,7 +402,6 @@
             this.Controls.Add(this.debug_text);
             this.Controls.Add(this.send_text_button);
             this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.stop_button);
             this.Controls.Add(this.Connecting_button);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.baudrate_selecter);
@@ -503,7 +489,6 @@
         private System.Windows.Forms.ComboBox baudrate_selecter;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button Connecting_button;
-        private System.Windows.Forms.Button stop_button;
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.Button send_text_button;
         private System.Windows.Forms.RichTextBox debug_text;

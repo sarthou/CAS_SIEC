@@ -48,6 +48,8 @@
             this.debug_text = new System.Windows.Forms.RichTextBox();
             this.tab_control = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.speed_label = new System.Windows.Forms.Label();
+            this.speed_bar = new System.Windows.Forms.TrackBar();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.dir_back = new System.Windows.Forms.Button();
             this.dir_front = new System.Windows.Forms.Button();
@@ -65,6 +67,7 @@
             this.progressBarLabel = new System.Windows.Forms.ToolStripLabel();
             this.tab_control.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.speed_bar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.tabPage3.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -201,6 +204,8 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.speed_label);
+            this.tabPage1.Controls.Add(this.speed_bar);
             this.tabPage1.Controls.Add(this.pictureBox1);
             this.tabPage1.Controls.Add(this.dir_back);
             this.tabPage1.Controls.Add(this.dir_front);
@@ -213,6 +218,29 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Control";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // speed_label
+            // 
+            this.speed_label.AutoSize = true;
+            this.speed_label.Location = new System.Drawing.Point(48, 34);
+            this.speed_label.Name = "speed_label";
+            this.speed_label.Size = new System.Drawing.Size(61, 17);
+            this.speed_label.TabIndex = 15;
+            this.speed_label.Tag = "Speed : ";
+            this.speed_label.Text = "Speed : ";
+            // 
+            // speed_bar
+            // 
+            this.speed_bar.LargeChange = 10;
+            this.speed_bar.Location = new System.Drawing.Point(47, 57);
+            this.speed_bar.Maximum = 100;
+            this.speed_bar.Name = "speed_bar";
+            this.speed_bar.Orientation = System.Windows.Forms.Orientation.Vertical;
+            this.speed_bar.Size = new System.Drawing.Size(56, 196);
+            this.speed_bar.TabIndex = 14;
+            this.speed_bar.Value = 70;
+            this.speed_bar.ValueChanged += new System.EventHandler(this.speed_bar_ValueChanged);
+            this.speed_bar.KeyDown += new System.Windows.Forms.KeyEventHandler(this.speed_bar_keyPress);
             // 
             // pictureBox1
             // 
@@ -320,12 +348,16 @@
             this.logTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.logTextBox.Enabled = false;
+            this.logTextBox.HideSelection = false;
             this.logTextBox.Location = new System.Drawing.Point(4, 50);
             this.logTextBox.Name = "logTextBox";
             this.logTextBox.ReadOnly = true;
+            this.logTextBox.ShortcutsEnabled = false;
             this.logTextBox.Size = new System.Drawing.Size(659, 350);
             this.logTextBox.TabIndex = 0;
             this.logTextBox.Text = "";
+            this.logTextBox.VisibleChanged += new System.EventHandler(this.logVisibleChange);
             // 
             // toolStrip1
             // 
@@ -398,6 +430,8 @@
             this.Resize += new System.EventHandler(this.Form1_Resize);
             this.tab_control.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
+            this.tabPage1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.speed_bar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.tabPage3.ResumeLayout(false);
             this.toolStrip1.ResumeLayout(false);
@@ -490,6 +524,8 @@
         private System.Windows.Forms.ToolStripLabel progressBarLabel;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.TrackBar speed_bar;
+        private System.Windows.Forms.Label speed_label;
     }
 }
 

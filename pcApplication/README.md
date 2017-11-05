@@ -2,7 +2,8 @@
 
 - [x] Bluetooth connection  
 - [x] Keyboard control  
-- [ ] Speed selection  
+- [x] Speed selection  
 - [ ] Add images to advise  
 - [ ] Add images for sensors  
-- [ ] Creat protocol  
+- [ ] Create protocol  
+- [ ] Fix debug area resize

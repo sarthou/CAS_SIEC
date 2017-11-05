@@ -65,5 +65,14 @@ namespace CAS
                 debug_text.Invoke(new System.Action(writeInLog));
             }
         }
+        
+        private void logVisibleChange(object sender, EventArgs e)
+        {
+            if (logTextBox.Visible)
+            {
+                logTextBox.SelectionStart = logTextBox.TextLength;
+                logTextBox.ScrollToCaret();
+            }
+        }
     }
 }

@@ -20,6 +20,8 @@
 #include "ADC.h"                                  /* LCD function prototypes  */
 #include "CAN.h"                                  /* STM32 CAN adaption layer */
 #include "CAN_Abstraction.h" /*Our Abstration*/
+#include "system_time.h"
+#include "CAN_Application.h"
 
 char text[17];
 
@@ -31,6 +33,7 @@ volatile uint32_t msTicks;                        /* counts 1ms timeTicks     */
  *----------------------------------------------------------------------------*/
 void SysTick_Handler(void) {
   msTicks++;                        /* increment counter necessary in Delay() */
+	CAN_Callback(msTicks);
 }
 
 /*----------------------------------------------------------------------------
@@ -58,6 +61,48 @@ void val_display (void) {
   Delay (10);                                     /* dlay for 10ms            */
 }
 
+data_paquet var1;
+data_paquet var2;
+data_paquet var3;
+
+periode_t my_periode;
+
+void init_my_can()
+{
+	subperiode_t sub1;
+	{
+		variable_paquet_t paquet1;
+		paquet1.id = 3;
+		paquet1.data = &var1;
+		variable_paquet_t paquet2;
+		paquet2.id = 2;
+		paquet2.data = &var2;
+		
+		sub1.variables[0] = paquet1;
+		sub1.variables[1] = paquet2;
+		sub1.nb_variables = 2;
+	}
+	
+	subperiode_t sub2;
+	{
+		variable_paquet_t paquet1;
+		paquet1.id = 3;
+		paquet1.data = &var3;
+		variable_paquet_t paquet2;
+		paquet2.id = 2;
+		paquet2.data = &var2;
+		
+		sub2.variables[0] = paquet1;
+		sub2.variables[1] = paquet2;
+		sub2.nb_variables = 2;
+	}
+	my_periode.subperiodes[0] = sub1;
+	my_periode.subperiodes[1] = sub2;
+	my_periode.nb_subperiodes = 2;
+	init_CAN_periodic(1000, &my_periode);
+}
+
+
 /*----------------------------------------------------------------------------
   MAIN function
  *----------------------------------------------------------------------------*/
@@ -66,7 +111,13 @@ int main (void)  {
   ADC_Init ();                                    /* initialize A/D converter */
 
   SysTick_Config(SystemCoreClock / 1000);         /* SysTick 1 msec IRQ       */
-
+	
+	var1.stringMessage[0] = 1;
+	var2.stringMessage[0] = 2;
+	var3.stringMessage[0] = 7;
+	
+	init_my_can();
+	
 #ifdef __USE_LCD
   lcd_init  ();                                   /* initialise LCD           */
   lcd_clear ();
@@ -79,16 +130,15 @@ int main (void)  {
   lcd_print ("CAN at 500kbit/s");
 #endif
 
-	int ids[] = {33};
+	int ids[] = {25};
   can_Init (ids, 1);                                  /* initialize CAN interface */
 
   while (1) {
     ADC_StartCnv();                               /* start A/D conversion     */
-    val_Tx = ((ADC_GetCnv() >> 4) & 0xFF);        /* use upper 8 bits of ADC  */
+    //val_Tx = ((ADC_GetCnv() >> 4) & 0xFF);        /* use upper 8 bits of ADC  */
     ADC_StopCnv();                                /* stop A/D conversion      */
 
-
-		sendMessageChar(34, val_Tx);
+		//sendMessageChar(3, val_Tx);
 		
 		val_display (); 
     Delay (10);                                   /* delay for 10ms           */

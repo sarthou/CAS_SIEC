@@ -19,6 +19,7 @@ typedef struct{
 
 void can_Init (int* ids, unsigned int size);
 
+void sendMessage(int16_t id, data_paquet data);
 void sendMessageFloat(int16_t id, float data1, float data2);
 void sendMessageChar(int16_t id, char data);
 int receiveMessage(can_paquet* received);

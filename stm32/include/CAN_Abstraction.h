@@ -17,11 +17,12 @@ typedef struct{
 	int16_t id;
 }can_paquet;
 
-void can_Init (int* ids, unsigned int size);
+void can_subscribe(int id, data_paquet* data);
+void can_Init(void);
 
-void sendMessage(int16_t id, data_paquet data);
-void sendMessageFloat(int16_t id, float data1, float data2);
-void sendMessageChar(int16_t id, char data);
-int receiveMessage(can_paquet* received);
+int sendMessage(int16_t id, data_paquet data);
+int sendMessageFloat(int16_t id, float data1, float data2);
+int sendMessageChar(int16_t id, char data);
+int receiveMessage(void);
 
 #endif

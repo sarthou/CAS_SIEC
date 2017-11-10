@@ -1,5 +1,6 @@
 #include "CAN_Periodic.h"
 
+//Interbal variables
 periode_t* periode;
 uint16_t current_periode = 0;
 uint16_t current_variable = 0;
@@ -10,7 +11,6 @@ uint16_t periode_ms_ = 0;
 void init_CAN_periodic(uint16_t periode_ms, periode_t* periodes)
 {
 	periode=periodes;
-	//Start timer
 	periodic_enable = 1;
 	current_variable = 0;
 	periode_ms_ = periode_ms;

@@ -61,12 +61,12 @@ void val_display (void) {
 
 #ifdef __USE_LCD
 	//sprintf(text, "Tx %s", varACCO.stringMessage);
-	sprintf(text, "Tx %s ", varACCO.stringMessage);
+	sprintf(text, "Rx %s ", recACCO.stringMessage);
 	set_cursor (0, 0);
 	lcd_print  (text); 
 	
   //sprintf(text, "Rx %d ", rec42.byteMessage[0]);
-	sprintf(text, "Tx %s", varAPP0.stringMessage);
+	sprintf(text, "Rx %s", recAPP0.stringMessage);
   set_cursor (0, 1);
   lcd_print  (text);                              /* print string to LCD      */
 #endif
@@ -99,7 +99,7 @@ void init_my_can()
 	my_periode.subperiodes[0] = sub1;
 	my_periode.subperiodes[1] = sub2;
 	my_periode.nb_subperiodes = 2;
-	initCanPeriodic(1000, &my_periode);
+	initCanPeriodic(100, &my_periode);
 }
 
 
@@ -125,7 +125,7 @@ int main (void)  {
 	varAPP0.stringMessage[4] = '\0';
 
 	
-	init_my_can();
+	//init_my_can();
 	
 #ifdef __USE_LCD
   lcd_init  ();                                   /* initialise LCD           */
@@ -139,15 +139,16 @@ int main (void)  {
   //lcd_print ("CAN at 500kbit/s");
 #endif
 
-	//canSubscribe(2, &rec42);
+	canSubscribe(1, &recACCO);
+	canSubscribe(2, &recAPP0);
   canInit ();                                  /* initialize CAN interface */
 
   while (1) 
 	{
-		runCanPeriodic();
+		//runCanPeriodic();
 		Delay(5);
 
-		//if(!receiveMessage())
+		if(!receiveMessage())
 			val_display (); 
   }
 }

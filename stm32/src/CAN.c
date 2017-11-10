@@ -54,8 +54,8 @@ void CAN_setup (void)  {
   NVIC_EnableIRQ(USB_HP_CAN1_TX_IRQn);    /* enable CAN TX interrupt          */
   NVIC_EnableIRQ(USB_LP_CAN1_RX0_IRQn);   /* enable CAN RX interrupt          */
 
-  CAN1->MCR = (CAN_MCR_INRQ   |           /* initialisation request           */
-               CAN_MCR_NART    );         /* no automatic retransmission      */
+  CAN1->MCR = (CAN_MCR_INRQ   /*| */          /* initialisation request           */
+               /*CAN_MCR_NART */   );         /* no automatic retransmission      */
                                           /* only FIFO 0, tx mailbox 0 used!  */
   CAN1->IER = (CAN_IER_FMPIE0 |           /* enable FIFO 0 msg pending IRQ    */
                CAN_IER_TMEIE    );        /* enable Transmit mbx empty IRQ    */

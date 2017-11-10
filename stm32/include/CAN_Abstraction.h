@@ -16,23 +16,23 @@ typedef union
 	int8_t byteMessage[8];
 	int16_t intMessage[4];
 	float floatMessage[2];
-}data_paquet;
+}data_paquet_t;
 
 //Represents a CAN frame with data and its id
 typedef struct{
-	data_paquet data;
+	data_paquet_t data;
 	int16_t id;
-}can_paquet;
+}can_paquet_t;
 
 //Subscribes to an id and set the memory place for the data
-void can_subscribe(int id, data_paquet* data);
+void canSubscribe(int id, data_paquet_t* data);
 
 //Inits CAN bus
 //Subscriptions must be done before this function
-void can_Init(void);
+void canInit(void);
 
 //Generic functions for sending and receiving messages 
-int sendMessage(int16_t id, data_paquet data);
+int sendMessage(int16_t id, data_paquet_t data);
 int sendMessageFloat(int16_t id, float data1, float data2);
 int sendMessageChar(int16_t id, char data);
 int receiveMessage(void);

@@ -27,10 +27,10 @@ char text[17];
 
 unsigned int val_Tx = 0, val_Rx = 0;              /* Globals used for display */
 
-data_paquet varACCO;
-data_paquet var42;
-data_paquet recACCO;
-data_paquet rec42;
+data_paquet_t varACCO;
+data_paquet_t var42;
+data_paquet_t recACCO;
+data_paquet_t rec42;
 
 periode_t my_periode;
 
@@ -90,7 +90,7 @@ void init_my_can()
 	
 	my_periode.subperiodes[0] = sub1;
 	my_periode.nb_subperiodes = 1;
-	init_CAN_periodic(1000, &my_periode);
+	initCanPeriodic(1000, &my_periode);
 }
 
 
@@ -125,8 +125,8 @@ int main (void)  {
 #endif
 
 	//can_subscribe(2, &rec42);
-	can_subscribe(1, &recACCO);
-  can_Init ();                                  /* initialize CAN interface */
+	canSubscribe(1, &recACCO);
+  canInit ();                                  /* initialize CAN interface */
 
   while (1) 
 	{

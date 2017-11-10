@@ -11,7 +11,7 @@ This abstraction gives some functions to manipulate periodic operating mode on C
 //Similar to a CAN frame, but the data is given thanks to a pointer
 typedef struct
 {
-	data_paquet* data;
+	data_paquet_t* data;
 	int16_t id;
 } variable_paquet_t;
 
@@ -31,10 +31,10 @@ typedef struct
 
 //Activates the periodicity, the duration of the subperiode (in ms) is given in argument
 //Can not replace a CAN_Init
-void init_CAN_periodic(uint16_t periode_ms, periode_t* periodes);
+void initCanPeriodic(uint16_t periode_ms, periode_t* periodes);
 
 //Interruption, must be called into the timer callback
-void CAN_Callback(uint64_t time_ms);
+void CanCallback(uint64_t time_ms);
 
 //Must be called in the main loop of the program
 void runCanPeriodic(void);

@@ -33,7 +33,7 @@ volatile uint32_t msTicks;                        /* counts 1ms timeTicks     */
  *----------------------------------------------------------------------------*/
 void SysTick_Handler(void) {
   msTicks++;                        /* increment counter necessary in Delay() */
-	CAN_Callback(msTicks);
+	CanCallback(msTicks);
 }
 
 /*----------------------------------------------------------------------------
@@ -61,9 +61,9 @@ void val_display (void) {
   Delay (10);                                     /* dlay for 10ms            */
 }
 
-data_paquet var1;
-data_paquet var2;
-data_paquet var3;
+data_paquet_t var1;
+data_paquet_t var2;
+data_paquet_t var3;
 
 periode_t my_periode;
 
@@ -99,7 +99,7 @@ void init_my_can()
 	my_periode.subperiodes[0] = sub1;
 	my_periode.subperiodes[1] = sub2;
 	my_periode.nb_subperiodes = 2;
-	init_CAN_periodic(1000, &my_periode);
+	initCanPeriodic(1000, &my_periode);
 }
 
 
@@ -115,7 +115,7 @@ int main (void)  {
 	var1.stringMessage[0] = 1;
 	var2.stringMessage[0] = 2;
 	var3.stringMessage[0] = 7;
-	
+
 	init_my_can();
 	
 #ifdef __USE_LCD
@@ -131,7 +131,7 @@ int main (void)  {
 #endif
 
 	int ids[] = {25};
-  can_Init (ids, 1);                                  /* initialize CAN interface */
+  canInit (ids, 1);                                  /* initialize CAN interface */
 
   while (1) {
     ADC_StartCnv();                               /* start A/D conversion     */

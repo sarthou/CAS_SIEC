@@ -1,30 +1,30 @@
 #include "CAN_Periodic.h"
 
 //Interbal variables
-periode_t* periode;
-uint16_t current_periode = 0;
-uint16_t current_variable = 0;
-uint8_t periodic_enable =0;
-uint8_t do_periodic = 0;
+periode_t* periode_;
+uint16_t current_periode_ = 0;
+uint16_t current_variable_ = 0;
+uint8_t periodic_enable_ =0;
+uint8_t do_periodic_ = 0;
 uint16_t periode_ms_ = 0;
 
-void init_CAN_periodic(uint16_t periode_ms, periode_t* periodes)
+void initCanPeriodic(uint16_t periode_ms, periode_t* periodes)
 {
-	periode=periodes;
-	periodic_enable = 1;
-	current_variable = 0;
+	periode_ = periodes;
+	periodic_enable_ = 1;
+	current_variable_ = 0;
 	periode_ms_ = periode_ms;
 }
 
 int sendSubPeriode(void)
 {
-	if(sendMessage(periode->subperiodes[current_periode].variables[current_variable].id, *periode->subperiodes[current_periode].variables[current_variable].data) == 0)
+	if(sendMessage(periode_->subperiodes[current_periode_].variables[current_variable_].id, *periode_->subperiodes[current_periode_].variables[current_variable_].data) == 0)
 	{
-		current_variable = current_variable + 1;
-		if(current_variable >= periode->subperiodes[current_periode].nb_variables)
+		current_variable_ = current_variable_ + 1;
+		if(current_variable_ >= periode_->subperiodes[current_periode_].nb_variables)
 		{
-			do_periodic = 0;
-			current_variable = 0;
+			do_periodic_ = 0;
+			current_variable_ = 0;
 			return 0; //end of all variables in this subperiode
 		}
 	}
@@ -32,24 +32,24 @@ int sendSubPeriode(void)
 	return -1; //NOT the end of all variables in this subperiode
 }
 
-void CAN_Callback(uint64_t time_ms)
+void CanCallback(uint64_t time_ms)
 {
-	if(periodic_enable)
+	if(periodic_enable_)
 	{
-		if(time_ms %periode_ms_==0)
-			do_periodic = 1;
+		if(time_ms % periode_ms_==0)
+			do_periodic_ = 1;
 	}
 }
 
 void runCanPeriodic(void)
 {
-	if(do_periodic)
+	if(do_periodic_)
 	{
 		if(sendSubPeriode() == 0)
 		{
-			current_periode = current_periode + 1;
-			if(current_periode >= periode->nb_subperiodes)
-				current_periode = 0;
+			current_periode_ = current_periode_ + 1;
+			if(current_periode_ >= periode_->nb_subperiodes)
+				current_periode_ = 0;
 		}
 	}
 }

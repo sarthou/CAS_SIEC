@@ -27,13 +27,13 @@ char text[17];
 
 unsigned int val_Tx = 0, val_Rx = 0;              /* Globals used for display */
 
-data_paquet var1;
-data_paquet var2;
-data_paquet var3;
+data_paquet_t var1;
+data_paquet_t var2;
+data_paquet_t var3;
 
-data_paquet rec1;
-data_paquet rec2;
-data_paquet rec3;
+data_paquet_t rec1;
+data_paquet_t rec2;
+data_paquet_t rec3;
 
 periode_t my_periode;
 
@@ -43,7 +43,7 @@ volatile uint32_t msTicks;                        /* counts 1ms timeTicks     */
  *----------------------------------------------------------------------------*/
 void SysTick_Handler(void) {
   msTicks++;                        /* increment counter necessary in Delay() */
-	CAN_Callback(msTicks);
+	CanCallback(msTicks);
 }
 
 /*----------------------------------------------------------------------------
@@ -107,7 +107,7 @@ void init_my_can()
 	my_periode.subperiodes[0] = sub1;
 	my_periode.subperiodes[1] = sub2;
 	my_periode.nb_subperiodes = 2;
-	init_CAN_periodic(1000, &my_periode);
+	initCanPeriodic(1000, &my_periode);
 }
 
 
@@ -138,10 +138,10 @@ int main (void)  {
   lcd_print ("CAN at 500kbit/s");
 #endif
 
-	can_subscribe(2, &rec1);
-	can_subscribe(4, &rec2);
-	can_subscribe(6, &rec3);
-  can_Init ();                                  /* initialize CAN interface */
+	canSubscribe(2, &rec1);
+	canSubscribe(4, &rec2);
+	canSubscribe(6, &rec3);
+  canInit ();                                  /* initialize CAN interface */
 
   while (1) 
 	{

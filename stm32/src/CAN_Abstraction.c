@@ -57,6 +57,7 @@ int sendMessage(int16_t id, data_paquet data)
 	paquet.id=id;
 	paquet.data=data;
 	
+	//CAN_waitReady (); 
 	if (CAN_TxRdy) {                              /* tx msg on CAN Ctrl       */
 		CAN_TxRdy = 0;
 		
@@ -90,16 +91,17 @@ int sendMessageFloat(int16_t id, float data1, float data2)
 
 int sendMessageChar(int16_t id, char dataChar)
 {
-	data_paquet data;
-	data.stringMessage[0] = dataChar;
-	
-	can_paquet paquet;
-	paquet.id=id;
-	paquet.data=data;
-	
 	if (CAN_TxRdy) 
 	{                              /* tx msg on CAN Ctrl       */
 		CAN_TxRdy = 0;
+		
+		data_paquet data;
+		data.stringMessage[0] = dataChar;
+
+		can_paquet paquet;
+		paquet.id=id;
+		paquet.data=data;
+		
 		CAN_msg message = createPaquet(paquet);
 		CAN_wrMsg(&message);                     /* transmit message         */
 		return 0;

@@ -4,9 +4,9 @@
 |--------------------|--------|----|-------|------|-----------|---------|-----|--------|
 |pos steering wheel  |char    |1   |100ms  |Nucleo|Raspi      |-        |100ms|-       |
 |pose wheels L+R     |float   |8   |100ms  |Nucleo|Raspi      |-        |100ms|-       |
-|US front/back       |float   |8   |100ms  |Nucleo|Raspi      |+++      |100ms|+++     |
-|US Left             |float   |8   |100ms  |Nucleo|Raspi      |+++      |100ms|+++     |
-|US right            |float   |8   |100ms  |Nucleo|Raspi      |+++      |100ms|+++     |
+|US front/back       |float   |8   |50ms   |Nucleo|Raspi      |+++      |50ms |+++     |
+|US Left             |float   |8   |50ms   |Nucleo|Raspi      |+++      |50ms |+++     |
+|US right            |float   |8   |50ms   |Nucleo|Raspi      |+++      |50ms |+++     |
 |motors order        |float   |8   |50ms   |Raspi |Nucleo     |++       |50ms |+       |
 |steering wheel order|float   |1   |50ms   |Raspi |Nucleo     |++       |50ms |+       |
 |battery             |char    |1   |aper   |Nucleo|Raspi      |--       |500ms|--      |

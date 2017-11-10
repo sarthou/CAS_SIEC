@@ -5,6 +5,7 @@ uint16_t current_periode = 0;
 uint16_t current_variable = 0;
 uint8_t periodic_enable =0;
 uint8_t do_periodic = 0;
+uint16_t periode_ms_ = 0;
 
 void init_CAN_periodic(uint16_t periode_ms, periode_t* periodes)
 {
@@ -12,6 +13,7 @@ void init_CAN_periodic(uint16_t periode_ms, periode_t* periodes)
 	//Start timer
 	periodic_enable = 1;
 	current_variable = 0;
+	periode_ms_ = periode_ms;
 }
 
 int sendSubPeriode(void)
@@ -34,7 +36,7 @@ void CAN_Callback(uint64_t time_ms)
 {
 	if(periodic_enable)
 	{
-		if(time_ms %1000==0)
+		if(time_ms %periode_ms_==0)
 			do_periodic = 1;
 	}
 }

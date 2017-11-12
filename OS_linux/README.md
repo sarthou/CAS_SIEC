@@ -1,1 +1,1 @@
-# <img src="logo/logo.bmp" width="150"> Linux OS
+# <img src="../logo/logo.bmp" width="150"> Linux OS

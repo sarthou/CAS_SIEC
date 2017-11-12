@@ -1,0 +1,11 @@
+[Match]
+Name=@@interface@@
+
+[Network]
+DHCP=no
+LinkLocalAddressing=no
+IPv6AcceptRouterAdvertisements=no
+Address=192.168.1.20
+
+
+

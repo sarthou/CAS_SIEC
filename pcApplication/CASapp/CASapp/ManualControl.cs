@@ -16,36 +16,46 @@ namespace CAS
         private bool keyBack = false;
         private bool keyLeft = false;
         private bool keyRight = false;
-        private int speed = 70;
+        private int speed_order = 70;
+        private int current_speed = 0;
 
         private void keyPress(object sender, System.Windows.Forms.KeyEventArgs e)
         {
             Keys test = e.KeyCode;
 
-            if (e.KeyCode == Keys.Left || e.KeyCode == Keys.Right)
-            {
-                e.Handled = true;
-            }
-
             if ((e.KeyCode == Keys.Down) || (e.KeyCode == Keys.Up) ||
                 (e.KeyCode == Keys.Right) || (e.KeyCode == Keys.Left))
             {
+                e.Handled = true;
+
                 if (e.KeyCode == Keys.Down)
                     keyBack = true;
-                else if (e.KeyCode == Keys.Up)
+                if (e.KeyCode == Keys.Up)
                     keyFront = true;
-                else if (e.KeyCode == Keys.Right)
+                if (e.KeyCode == Keys.Right)
                     keyRight = true;
-                else if (e.KeyCode == Keys.Left)
+                if (e.KeyCode == Keys.Left)
                     keyLeft = true;
 
                 if (keyBack ^ keyFront)
                 {
                     if (keyBack)
-                        sendToCar("back " + speed.ToString() + "%");
+                    {
+                        current_speed -= 3;
+                        if (current_speed < -speed_order)
+                            current_speed = -speed_order;
+                        sendToCar("back " + current_speed.ToString() + "%");
+                    }
                     else
-                        sendToCar("front " + speed.ToString() + "%");
+                    {
+                        current_speed += 3;
+                        if (current_speed > speed_order)
+                            current_speed = speed_order;
+                        sendToCar("front " + current_speed.ToString() + "%");
+                    }
                 }
+                else
+                    current_speed = 0;
 
                 if (keyRight ^ keyLeft)
                 {
@@ -59,18 +69,18 @@ namespace CAS
             {
                 if (e.KeyCode == Keys.Add)
                 {
-                    speed = speed + 1;
-                    if (speed > 100)
-                        speed = 100;
+                    speed_order = speed_order + 1;
+                    if (speed_order > 100)
+                        speed_order = 100;
                 }
                 else if (e.KeyCode == Keys.Subtract)
                 {
-                    speed = speed - 1;
-                    if (speed < 0)
-                        speed = 0;
+                    speed_order = speed_order - 1;
+                    if (speed_order < 0)
+                        speed_order = 0;
                 }
 
-                speed_bar.Value = speed;
+                speed_bar.Value = speed_order;
             }
         }
 
@@ -78,18 +88,21 @@ namespace CAS
         {
             if (e.KeyCode == Keys.Down)
                 keyBack = false;
-            else if (e.KeyCode == Keys.Up)
+            if (e.KeyCode == Keys.Up)
                 keyFront = false;
-            else if (e.KeyCode == Keys.Right)
+            if (e.KeyCode == Keys.Right)
                 keyRight = false;
-            else if (e.KeyCode == Keys.Left)
+            if (e.KeyCode == Keys.Left)
                 keyLeft = false;
+
+            if(!keyBack && !keyFront)
+                current_speed = 0;
         }
 
         private void speed_bar_ValueChanged(object sender, EventArgs e)
         {
-            speed = speed_bar.Value;
-            speed_label.Text = speed_label.Tag + speed.ToString() + "%";
+            speed_order = speed_bar.Value;
+            speed_label.Text = speed_label.Tag + speed_order.ToString() + "%";
         }
 
         private void speed_bar_keyPress(object sender, System.Windows.Forms.KeyEventArgs e)

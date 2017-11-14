@@ -74,9 +74,16 @@ namespace CAS
         {
             if (is_connected)
             {
-                serialPort1.Write(data);
-                this.debug_text.AppendTextSent(data + "\r\n");
-                this.logTextBox.AppendText("[SEND] " + data + "\r\n");
+                try
+                {
+                    serialPort1.Write(data);
+                    this.debug_text.AppendTextSent(data + "\r\n");
+                    this.logTextBox.AppendText("[SEND] " + data + "\r\n");
+                }
+                catch(System.TimeoutException e)
+                {
+                    this.logTextBox.AppendText("[TIMEOUT] " + e.Message + "\r\n");
+                }
             }
             else
                 this.logTextBox.AppendText("[ERROR] car disconnect. Fail to send '" + data + "'\r\n");

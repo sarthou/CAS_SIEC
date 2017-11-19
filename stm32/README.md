@@ -24,3 +24,29 @@
 |motors order        |0x0      |0x1        |0x0      |0x010 |
 |steering wheel order|0x0      |0x1        |0x1      |0x011 |
 
+***
+
+### systick_callback
+ - can_callback
+ - RearMotor_Callback
+ 
+### Manager_Init
+ - canInit();
+ - FrontMotor_QuickInit();
+ - RearMotors_QuickInit();
+ 
+***
+
+- [x] Front motors
+- [ ] front motor backloop
+- [ ] Front motor interface
+- [ ] speed feedback
+- [x] RearMotors
+- [x] rear motor backloop
+- [ ] RearMotor interface
+- [ ] dir feedback
+- [ ] Battery
+- [ ] Battery interface
+- [ ] US
+- [ ] US interface
+

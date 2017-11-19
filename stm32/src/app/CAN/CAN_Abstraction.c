@@ -1,4 +1,4 @@
-#include "CAN_Abstraction.h"
+#include "app/CAN/CAN_Abstraction.h"
 #include <string.h>
 
 //Internal variables
@@ -20,7 +20,7 @@ void canInit(void)
 	for(i=0;i<can_size_;i++){
 		CAN_wrFilter (can_ids_[i], STANDARD_FORMAT);
 	}
-	
+
   /* ! COMMENT LINE BELOW TO ENABLE DEVICE TO PARTICIPATE IN CAN NETWORK !    */
   //CAN_testmode(CAN_BTR_SILM | CAN_BTR_LBKM);      // Loopback, Silent Mode (self-test)
 
@@ -75,7 +75,7 @@ int sendMessageFloat(int16_t id, float data1, float data2)
 	paquet.id=id;
 	paquet.data=data;
 	
-	if (CAN_TxRdy) 
+	if (CAN_TxRdy)
 	{
 		CAN_TxRdy = 0; //Reset TxRdy flag
 		
@@ -88,7 +88,7 @@ int sendMessageFloat(int16_t id, float data1, float data2)
 
 int sendMessageChar(int16_t id, char dataChar)
 {
-	if (CAN_TxRdy) 
+	if (CAN_TxRdy)
 	{ 
 		CAN_TxRdy = 0; //Reset TxRdy flag
 		
@@ -122,19 +122,18 @@ int findIndexOfId(int id)
 int receiveMessage(void)
 {
 	if(CAN_RxRdy)
-	{      
+	{
 		CAN_RxRdy = 0; //Reset RxRdy flag
 		CAN_msg can_msg = CAN_RxMsg;
 		can_paquet_t received = decode(can_msg);
 		int index = findIndexOfId(received.id);
-		
+
 		if(index >= 0) //if index is negative, the id is unknown
 			*can_data_[index] = received.data;
-		
-		return 0;
+
+		return received.id;
 	}
-	
+
 	return -1;
 
 }
-

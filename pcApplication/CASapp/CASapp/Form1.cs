@@ -143,7 +143,6 @@ namespace CAS
 
             string indata = sp.ReadExisting();
             this.debug_text.AppendTextReceive(indata);
-            
         }
 
         private void serialPort1_ErrorReceived(object sender, System.IO.Ports.SerialErrorReceivedEventArgs e)

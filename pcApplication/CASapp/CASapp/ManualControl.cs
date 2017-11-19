@@ -19,6 +19,21 @@ namespace CAS
         private int speed_order = 70;
         private int current_speed = 0;
 
+        private void PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.Down:
+                case Keys.Right:
+                case Keys.Left:
+                case Keys.Add:
+                case Keys.Subtract:
+                case Keys.Up:
+                    e.IsInputKey = true;
+                    break;
+            }
+        }
+
         private void keyPress(object sender, System.Windows.Forms.KeyEventArgs e)
         {
             Keys test = e.KeyCode;
@@ -29,13 +44,25 @@ namespace CAS
                 e.Handled = true;
 
                 if (e.KeyCode == Keys.Down)
+                {
                     keyBack = true;
+                    dir_back.BackColor = Color.PaleTurquoise;
+                }
                 if (e.KeyCode == Keys.Up)
+                {
                     keyFront = true;
+                    dir_front.BackColor = Color.PaleTurquoise;
+                }
                 if (e.KeyCode == Keys.Right)
+                {
                     keyRight = true;
+                    dir_right.BackColor = Color.PaleTurquoise;
+                }
                 if (e.KeyCode == Keys.Left)
+                {
                     keyLeft = true;
+                    dir_left.BackColor = Color.PaleTurquoise;
+                }
 
                 if (keyBack ^ keyFront)
                 {
@@ -87,13 +114,25 @@ namespace CAS
         private void keyEnd(object sender, System.Windows.Forms.KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Down)
+            {
                 keyBack = false;
+                dir_back.BackColor = Color.LightGray;
+            }
             if (e.KeyCode == Keys.Up)
+            {
                 keyFront = false;
+                dir_front.BackColor = Color.LightGray;
+            }
             if (e.KeyCode == Keys.Right)
+            {
                 keyRight = false;
+                dir_right.BackColor = Color.LightGray;
+            }
             if (e.KeyCode == Keys.Left)
+            {
                 keyLeft = false;
+                dir_left.BackColor = Color.LightGray;
+            }
 
             if(!keyBack && !keyFront)
                 current_speed = 0;

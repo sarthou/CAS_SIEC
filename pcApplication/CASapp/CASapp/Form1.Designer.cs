@@ -188,6 +188,7 @@
             this.tab_control.TabIndex = 11;
             this.tab_control.KeyDown += new System.Windows.Forms.KeyEventHandler(this.keyPress);
             this.tab_control.KeyUp += new System.Windows.Forms.KeyEventHandler(this.keyEnd);
+            this.tab_control.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.PreviewKeyDown);
             // 
             // tabPage1
             // 
@@ -242,47 +243,55 @@
             // 
             // dir_back
             // 
+            this.dir_back.BackColor = System.Drawing.Color.LightGray;
             this.dir_back.Enabled = false;
+            this.dir_back.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.dir_back.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dir_back.Location = new System.Drawing.Point(109, 259);
             this.dir_back.Name = "dir_back";
             this.dir_back.Size = new System.Drawing.Size(55, 55);
             this.dir_back.TabIndex = 3;
             this.dir_back.Text = "↓";
-            this.dir_back.UseVisualStyleBackColor = true;
+            this.dir_back.UseVisualStyleBackColor = false;
             // 
             // dir_front
             // 
+            this.dir_front.BackColor = System.Drawing.Color.LightGray;
             this.dir_front.Enabled = false;
+            this.dir_front.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.dir_front.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dir_front.Location = new System.Drawing.Point(109, 198);
             this.dir_front.Name = "dir_front";
             this.dir_front.Size = new System.Drawing.Size(55, 55);
             this.dir_front.TabIndex = 2;
             this.dir_front.Text = "↑";
-            this.dir_front.UseVisualStyleBackColor = true;
+            this.dir_front.UseVisualStyleBackColor = false;
             // 
             // dir_right
             // 
+            this.dir_right.BackColor = System.Drawing.Color.LightGray;
             this.dir_right.Enabled = false;
+            this.dir_right.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.dir_right.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dir_right.Location = new System.Drawing.Point(170, 259);
             this.dir_right.Name = "dir_right";
             this.dir_right.Size = new System.Drawing.Size(55, 55);
             this.dir_right.TabIndex = 1;
             this.dir_right.Text = "→";
-            this.dir_right.UseVisualStyleBackColor = true;
+            this.dir_right.UseVisualStyleBackColor = false;
             // 
             // dir_left
             // 
+            this.dir_left.BackColor = System.Drawing.Color.LightGray;
             this.dir_left.Enabled = false;
+            this.dir_left.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.dir_left.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dir_left.Location = new System.Drawing.Point(48, 259);
             this.dir_left.Name = "dir_left";
             this.dir_left.Size = new System.Drawing.Size(55, 55);
             this.dir_left.TabIndex = 0;
             this.dir_left.Text = "←";
-            this.dir_left.UseVisualStyleBackColor = true;
+            this.dir_left.UseVisualStyleBackColor = false;
             // 
             // tabPage2
             // 

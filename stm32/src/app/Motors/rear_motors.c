@@ -11,6 +11,7 @@
 #include "app/Motors/motors.h"
 
 #include "system_time.h"
+#include "drivers/common_def.h"
 
 #include "app/Sensors/speed_sensors.h"
 #include "app/Sensors/hall_sensors.h"
@@ -48,7 +49,8 @@ volatile static int16_t car_speed_R = 0;
 /**
  * @brief   Expected speed on the wheel
 */
-volatile int16_t speed_cmd = 0;
+int16_t speed_cmd_L = 0;
+int16_t speed_cmd_R = 0;
 
 /**
  * @brief   Duty cycle applied on left motor
@@ -75,6 +77,9 @@ void RearMotor_controlL(int16_t speed_cmd);
 void RearMotor_controlR(int16_t speed_cmd);
 
 /* Public functions ----------------------------------------------------------*/
+//create this function into your communication interface
+__weak void GetRearMotors(int16_t* speed_L, int16_t* speed_R) {}
+
 /**
  * @brief   Initializes rear motors
  * @retval  None
@@ -116,16 +121,18 @@ void RearMotors_Callback(uint64_t time_ms)
 {
     if(time_ms%10 == 0) // MOTORS_COMMAND_TIME_BETWEEN_TWO_UPDATES
     {
+    	GetRearMotors(&speed_cmd_L, &speed_cmd_R);
 		if(REAR_CONTROL)
 		{
-			 RearMotor_controlL(speed_cmd);
-			 RearMotor_controlR(speed_cmd);
+			 RearMotor_controlL(speed_cmd_L);
+			 RearMotor_controlR(speed_cmd_R);
 		}
 		else
 		{
-			int16_t motor_speed = (float)(speed_cmd/10.0); //reduce speed in case of non-control
-			Motor_setSpeed(REAR_MOTOR_R, motor_speed);
-			Motor_setSpeed(REAR_MOTOR_L, motor_speed);
+			int16_t motor_speed_L = (float)(speed_cmd_L/10.0); //reduce speed in case of non-control
+			int16_t motor_speed_R = (float)(speed_cmd_R/10.0); //reduce speed in case of non-control
+			Motor_setSpeed(REAR_MOTOR_R, motor_speed_L);
+			Motor_setSpeed(REAR_MOTOR_L, motor_speed_R);
 		}
     }
 }
@@ -135,9 +142,10 @@ void RearMotors_Callback(uint64_t time_ms)
  * @param   speed Expected speed (in cm/s)
  * @retval	None
 */
-void RearMotors_setSpeed(int16_t speed)
+void RearMotors_setSpeed(int16_t speed_L, int16_t speed_R)
 {
-    speed_cmd = speed; 
+    speed_cmd_L = speed_L;
+    speed_cmd_R = speed_R;
 }
 /* Private functions ---------------------------------------------------------*/
 /**
@@ -318,7 +326,7 @@ float PI_Controller_R (int32_t in)
  * @param   speed_cmdL The speed command
  * @retval	None
 */
-void RearMotor_controlL(int16_t speed_cmdL)
+void RearMotor_controlL(int16_t speed_cmd)
 {
     float motor_speed_L;
     
@@ -328,7 +336,7 @@ void RearMotor_controlL(int16_t speed_cmdL)
 
     // ... so we need to compute the command for next send.
     car_speed_L = SpeedSensor_get(SPEED_CM_S, SENSOR_L);     
-    duty_cycle_L = ComputeMotorCommand_L(speed_cmdL, current, car_speed_L);
+    duty_cycle_L = ComputeMotorCommand_L(speed_cmd, current, car_speed_L);
 }
 
 /**
@@ -336,7 +344,7 @@ void RearMotor_controlL(int16_t speed_cmdL)
  * @param   speed_cmdR The speed command
  * @retval	None
 */
-void RearMotor_controlR(int16_t speed_cmdR)
+void RearMotor_controlR(int16_t speed_cmd)
 {
     float motor_speed_R;
     
@@ -346,6 +354,6 @@ void RearMotor_controlR(int16_t speed_cmdR)
 
     // ... so we need to compute the command for next sending.
     car_speed_R = SpeedSensor_get(SPEED_CM_S, SENSOR_R);     
-    duty_cycle_R = ComputeMotorCommand_R(speed_cmdR, current, car_speed_R);
+    duty_cycle_R = ComputeMotorCommand_R(speed_cmd, current, car_speed_R);
 }
 

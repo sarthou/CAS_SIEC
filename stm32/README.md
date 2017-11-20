@@ -7,7 +7,7 @@
 |US front/back       |float   |8   |50ms   |Nucleo|Raspi      |+++      |50ms |+++     |
 |US Left             |float   |8   |50ms   |Nucleo|Raspi      |+++      |50ms |+++     |
 |US right            |float   |8   |50ms   |Nucleo|Raspi      |+++      |50ms |+++     |
-|motors order        |float   |8   |50ms   |Raspi |Nucleo     |++       |50ms |+       |
+|motors order        |int16   |4   |50ms   |Raspi |Nucleo     |++       |50ms |+       |
 |steering wheel order|float   |1   |50ms   |Raspi |Nucleo     |++       |50ms |+       |
 |battery             |char    |1   |aper   |Nucleo|Raspi      |--       |500ms|--      |
 
@@ -23,6 +23,11 @@
 |US right            |0x0      |0x0        |0x2      |0x002 |
 |motors order        |0x0      |0x1        |0x0      |0x010 |
 |steering wheel order|0x0      |0x1        |0x1      |0x011 |
+
+### Data format
+
+motors order[int16 : 0] = rear motor left   
+motors order[int16 : 1] = rear motor right   
 
 ***
 

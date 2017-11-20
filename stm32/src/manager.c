@@ -13,14 +13,17 @@
 #include "app/CAN/CAN_Abstraction.h"
 #include "app/CAN/CAN_Periodic.h"
 
-//#include "system_time.h"
+#include "app/Motors/front_motor.h"
+#include "app/Motors/rear_motors.h"
+#include "app/can_interfaces/RearInterface.h"
+
+#include "system_time.h"
 
 //#include "position_sensors.h"
 //#include "speed_sensors.h"
 
 //#include "motors.h"
-//#include "front_motor.h"
-//#include "rear_motors.h"
+
 
 //#include "us_sensors.h"
 //#include "direction.h"
@@ -48,14 +51,6 @@ uint16_t speedG;
 */
 uint32_t Manager_remainingTimeInCommandPeriod = MANAGER_TIME_BETWEEN_TWO_UPDATES;
 
-data_paquet_t var1;
-data_paquet_t var2;
-data_paquet_t var3;
-
-data_paquet_t rec1;
-data_paquet_t rec2;
-data_paquet_t rec3;
-
 periode_t my_periode;
 
 /** 
@@ -65,6 +60,8 @@ periode_t my_periode;
 
 void Manager_Init(void)
 {
+	canSubscribe(0x010, linkRear2Can());
+
 	canInit();
 
     FrontMotor_QuickInit();

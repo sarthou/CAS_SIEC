@@ -22,9 +22,7 @@
 #define MOTORS_COMMAND_TIME_BETWEEN_TWO_UPDATES 10
 
 /* Exported macro ------------------------------------------------------------*/
-
 /* Exported variables --------------------------------------------------------*/
-extern volatile int16_t speed_cmd;
 
 #ifdef __cplusplus
  extern "C" {
@@ -34,7 +32,7 @@ extern volatile int16_t speed_cmd;
 void RearMotors_QuickInit(void);
 void RearMotors_Enable(void);
 void RearMotors_Disable(void);
-void RearMotors_setSpeed(int16_t speed);
+void RearMotors_setSpeed(int16_t speed_L, int16_t speed_R);
 
 void RearMotors_Callback(uint64_t time_ms);
 

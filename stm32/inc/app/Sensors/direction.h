@@ -1,18 +1,17 @@
 /**
- * @file    front_motor.h
- * @author  Curtis Team
- * @brief   Headers of functions to handle front motor  
+ * @file    direction.h
+ * @author  L.S
+ * @brief   Headers of functions to handle Direction value
  */
  
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef _FRONT_MOTOR_H
-#define _FRONT_MOTOR_H
+#ifndef _DIRECTION_H
+#define _DIRECTION_H
 
 /* Includes ------------------------------------------------------------------*/
 #include <stdint.h>
 #include <stddef.h>
 #include "stm32f10x.h"
-#include "car_types.h"
 
 /* Exported types ------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/
@@ -23,13 +22,11 @@
 #endif
 
 /* Exported functions ------------------------------------------------------- */
-void FrontMotor_QuickInit(void);
-void FrontMotor_turn(side_TypeDef direction);
-
-//void RearMotors_Callback(uint64_t time_ms);
+void Direction_QuickInit(void);
+uint8_t Direction_get(void);
 
 #ifdef __cplusplus
  }
 #endif
 
-#endif // _FRONT_MOTOR_H
+#endif // _DIRECTION_H

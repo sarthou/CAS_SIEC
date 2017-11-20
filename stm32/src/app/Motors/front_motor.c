@@ -7,12 +7,15 @@
 /* Includes ------------------------------------------------------------------*/
 #include "app/Motors/front_motor.h"
 #include "app/Motors/motors.h"
+#include "app/Sensors/direction.h"
 
 #include "car_types.h"
 
 #include "drivers/exti.h"
 
 /* Private typedef -----------------------------------------------------------*/
+#define FRONT_CONTROL 1 //1 for true; 0 for false
+
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
 /**
@@ -43,6 +46,7 @@ void turn_stop(void);
 void FrontMotor_QuickInit(void)
 {
     Motor_QuickInit(FRONT_MOTOR);
+    Direction_QuickInit();
 }
 
 /**
@@ -73,26 +77,35 @@ void FrontMotor_turn(side_TypeDef direction)
 		turn_stop();
 }
 
-/**
- * @brief   Callback service for front motor: Once the Exti rised for one direction(left or right), set the speed equals to zero and get the current position(direction)
- * @param   direction Direction of front motor
- * @retval  None
-*/
-void FrontMotor_Handler(side_TypeDef direction)
+/*void RearMotors_Callback(uint64_t time_ms)
 {
-	if (direction ==  LEFT)
+	if(time_ms%10 == 0) // MOTORS_COMMAND_TIME_BETWEEN_TWO_UPDATES
 	{
-		FrontMotor_order = NONE;
-		FrontMotor_position = LEFT;
-        turn_stop();
+		if(FRONT_CONTROL)
+		{
+			 RearMotor_controlL(speed_cmd);
+			 RearMotor_controlR(speed_cmd);
+		}
+		else
+		{
+			int16_t motor_speed = (float)(speed_cmd/10.0); //reduce speed in case of non-control
+			Motor_setSpeed(REAR_MOTOR_R, motor_speed);
+			Motor_setSpeed(REAR_MOTOR_L, motor_speed);
+		}
 	}
-	else if (direction ==  RIGHT)
-	{
-		FrontMotor_order = NONE;
-		FrontMotor_position = RIGHT;
-        turn_stop();
-	}
+}*/
+/*if (direction ==  LEFT)
+{
+	FrontMotor_order = NONE;
+	FrontMotor_position = LEFT;
+	turn_stop();
 }
+else if (direction ==  RIGHT)
+{
+	FrontMotor_order = NONE;
+	FrontMotor_position = RIGHT;
+	turn_stop();
+}*/
 
 /* Private functions ---------------------------------------------------------*/
 /**

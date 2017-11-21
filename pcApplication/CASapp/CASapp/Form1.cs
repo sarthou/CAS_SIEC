@@ -82,11 +82,11 @@ namespace CAS
                 }
                 catch(System.TimeoutException e)
                 {
-                    this.logTextBox.AppendText("[TIMEOUT] " + e.Message + "\r\n");
+                    this.logTextBox.AppendText("[TIMEOUT] " + e.Message + "\r\n", Color.Red);
                 }
             }
             else
-                this.logTextBox.AppendText("[ERROR] car disconnect. Fail to send '" + data + "'\r\n");
+                this.logTextBox.AppendText("[ERR] car disconnect. Fail to send '" + data + "'\r\n", Color.Red);
         }
 
         private void sendToCar(Byte[] data)
@@ -143,6 +143,17 @@ namespace CAS
 
             string indata = sp.ReadExisting();
             this.debug_text.AppendTextReceive(indata);
+            if(indata[0] == '[')
+            {
+                if (indata.Contains("[ERR]"))
+                    this.logTextBox.AppendText(indata, Color.Red);
+                else if (indata.Contains("[WRN]"))
+                    this.logTextBox.AppendText(indata, Color.Orange);
+                else if(indata.Contains("[DBG]"))
+                    this.logTextBox.AppendText(indata, Color.Blue);
+                else if (indata.Contains("[CMD]"))
+                    this.logTextBox.AppendText(indata, Color.Black);
+            }
         }
 
         private void serialPort1_ErrorReceived(object sender, System.IO.Ports.SerialErrorReceivedEventArgs e)

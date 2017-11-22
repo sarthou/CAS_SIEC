@@ -18,6 +18,8 @@
 #include "app/Motors/rear_motors.h"
 #include "app/can_interfaces/RearInterface.h"
 
+#include "app/can_interfaces/SteeringWheelInterface.h"
+
 #include "system_time.h"
 
 //#include "position_sensors.h"
@@ -41,6 +43,7 @@ uint16_t speedD;
 uint16_t speedG;
 
 /* Private function prototypes -----------------------------------------------*/
+void init_my_can();
 /* Public functions ----------------------------------------------------------*/
 
 /**
@@ -60,6 +63,7 @@ void Manager_Init(void)
 	canSubscribe(0x010, linkRear2Can());
 	canSubscribe(0x011, linkDirection2Can());
 
+	init_my_can(); //init periodic sending
 	canInit();
 
     RearMotors_QuickInit();
@@ -74,10 +78,8 @@ void Manager_Init(void)
     Mirroring_Init();
     //Mirroring_Start();
 	
-	  US_QuickInit();
-		US_StartAcq();
-			
-	  Direction_QuickInit();*/
+	US_QuickInit();
+	US_StartAcq();*/
 	
     uint16_t received_id = -1;
 	while(1)
@@ -119,4 +121,27 @@ void Manager_Callback(void) {
        // pDataITF_STM->motor_current_L = ;
         Manager_remainingTimeInCommandPeriod = MANAGER_TIME_BETWEEN_TWO_UPDATES;  
     }*/
+}
+
+void init_my_can()
+{
+	subperiode_t sub1;
+	{
+		variable_paquet_t paquet1;
+		paquet1.id = 0x101;
+		paquet1.data = linkSteeringWheel2Can();
+
+		sub1.variables[0] = paquet1;
+		sub1.nb_variables = 1;
+	}
+
+	subperiode_t sub2;
+	{
+		sub2.nb_variables = 0;
+	}
+
+	my_periode.subperiodes[0] = sub1;
+	my_periode.subperiodes[1] = sub2;
+	my_periode.nb_subperiodes = 2;
+	initCanPeriodic(50, &my_periode);
 }

@@ -31,6 +31,8 @@ motors order[int16 : 1] = rear motor right
 
 direction order[int8 : 0] = direction motor  
 
+SteeringWheel[uint8 : 0] = direction sensor  
+
 ***
 
 ### systick_callback
@@ -39,6 +41,7 @@ direction order[int8 : 0] = direction motor
  - DirectionMotor_Callback
  
 ### Manager_Init
+ - InitCanPeriodic();
  - canInit();
  - FrontMotor_QuickInit();
  - RearMotors_QuickInit();
@@ -52,7 +55,8 @@ direction order[int8 : 0] = direction motor
 - [x] RearMotors
 - [x] rear motor backloop
 - [x] RearMotor interface
-- [ ] dir feedback
+- [x] direction
+- [x] direction interface
 - [ ] Battery
 - [ ] Battery interface
 - [ ] US

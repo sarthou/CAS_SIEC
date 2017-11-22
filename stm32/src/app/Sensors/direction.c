@@ -16,23 +16,27 @@
 /* Public variables ----------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
 /* Private function prototypes -----------------------------------------------*/
+//create this function into your communication interface
+__weak void SetSteeringWheel(uint8_t angle) {}
+
 /* Public functions ----------------------------------------------------------*/
 /**
  * @brief   Inits the direction. 
  * @retval  None
 */
-void Direction_QuickInit(void) {
+void Direction_QuickInit(void)
+{
     ADC_QuickInit(DIRECTION_ADC, DIRECTION_GPIO, DIRECTION_PIN, DIRECTION_RANK, DIRECTION_SAMPLING);
 }
 
 /**
  * @brief   Returns the direction value in degree
- * @retval  Charge of the battery (in percentage)
+ * @retval  direction
 */
 uint8_t Direction_get(void) {
     uint16_t DirectionValue = ADC_QuickGet(DIRECTION_ADC, DIRECTION_RANK);
-    //return PERCENTAGE*(BatteryValue - BATTERY_ADC_SCALE)/BATTERY_ADC_SCALE;
-		return (DirectionValue>>4);
+    SetSteeringWheel(DirectionValue>>4);
+	return (DirectionValue>>4);
 }
 
 /* Private functions ---------------------------------------------------------*/

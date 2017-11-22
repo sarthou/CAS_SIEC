@@ -17,8 +17,8 @@ extern "C"{
 
 data_paquet_t* linkRear2Can(void);
 
-//this is a weak function first declared in rear_motors.h
-//void GetRearMotors(int16_t* speed_L, int16_t* speed_R);
+//this is a weak function first declared in rear_motors
+void GetRearMotors(int16_t* speed_L, int16_t* speed_R);
 
 #ifdef __cplusplus
 }

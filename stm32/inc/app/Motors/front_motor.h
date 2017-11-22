@@ -26,7 +26,7 @@
 void FrontMotor_QuickInit(void);
 void FrontMotor_turn(side_TypeDef direction);
 
-//void RearMotors_Callback(uint64_t time_ms);
+void DirectionMotor_Callback(uint64_t time_ms);
 
 #ifdef __cplusplus
  }

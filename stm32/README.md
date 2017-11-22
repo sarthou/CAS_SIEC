@@ -29,11 +29,14 @@
 motors order[int16 : 0] = rear motor left   
 motors order[int16 : 1] = rear motor right   
 
+direction order[int8 : 0] = direction motor  
+
 ***
 
 ### systick_callback
  - can_callback
  - RearMotor_Callback
+ - DirectionMotor_Callback
  
 ### Manager_Init
  - canInit();
@@ -43,12 +46,12 @@ motors order[int16 : 1] = rear motor right
 ***
 
 - [x] Front motors
-- [ ] front motor backloop
-- [ ] Front motor interface
+- [x] front motor backloop
+- [x] Front motor interface
 - [ ] speed feedback
 - [x] RearMotors
 - [x] rear motor backloop
-- [ ] RearMotor interface
+- [x] RearMotor interface
 - [ ] dir feedback
 - [ ] Battery
 - [ ] Battery interface

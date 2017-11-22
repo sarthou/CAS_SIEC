@@ -14,29 +14,35 @@
 #include "drivers/exti.h"
 
 /* Private typedef -----------------------------------------------------------*/
-#define FRONT_CONTROL 1 //1 for true; 0 for false
-
 /* Private define ------------------------------------------------------------*/
+#define FRONT_CONTROL 	1 //1 for true; 0 for false
+
+#define LEFT_ANGLE 		0xA7
+#define CENTER_ANGLE 	0x8D
+#define RIGHT_ANGLE		0x72
+
 /* Private macro -------------------------------------------------------------*/
-/**
- * @brief   Front motor speed when turning left
-*/
-#define FRONT_MOTOR_SPEED_L               0.8
-
-/**
- * @brief   Front motor speed when turning right
-*/
-#define FRONT_MOTOR_SPEED_R               -FRONT_MOTOR_SPEED_L
-
 /* Public variables ----------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
-side_TypeDef FrontMotor_position = NONE;
-side_TypeDef FrontMotor_order = NONE;
+int8_t angle_cmd = 0;
+
+// PI controller
+#define Kp 0.05f
+#define Ki 0.0f
+
+uint8_t delta_angle = 0;
+
+/**
+ * @brief   Duty cycle applied on direction motor
+*/
+float duty_cycle = MOTORS_PWM_ZERO;
 
 /* Private function prototypes -----------------------------------------------*/
-void turn_left(void);
-void turn_right(void);
-void turn_stop(void);
+void DirectionMotor_control(int8_t angle_cmd);
+float ComputeMotorCommand(uint8_t commande, uint8_t real_angle);
+
+//create this function into your communication interface
+__weak void GetDirectionMotor(int8_t* angle) {}
 
 /* Public functions ----------------------------------------------------------*/
 /**
@@ -47,93 +53,53 @@ void FrontMotor_QuickInit(void)
 {
     Motor_QuickInit(FRONT_MOTOR);
     Direction_QuickInit();
+    if((LEFT_ANGLE - CENTER_ANGLE) < (CENTER_ANGLE - RIGHT_ANGLE))
+    	delta_angle = LEFT_ANGLE - CENTER_ANGLE;
+    else
+    	delta_angle = CENTER_ANGLE - RIGHT_ANGLE;
+    Motor_Enable(FRONT_MOTOR);
 }
 
-/**
- * @brief   Check the front motor's position before set an order to front motor to turn right or left
- * @param   direction Direction of front motor
-*/
-void FrontMotor_turn(side_TypeDef direction)
-{
-	if (direction == LEFT)
-	{
-		if (FrontMotor_position != LEFT)
-		{
-            turn_left();
-            FrontMotor_order = LEFT;
-			FrontMotor_position = NONE;           
-		}
-	}
-	else if (direction == RIGHT)
-	{
-		if (FrontMotor_position != RIGHT)
-		{
-			turn_right();
-			FrontMotor_order = RIGHT;
-			FrontMotor_position = NONE;
-		}
-	}
-	else
-		turn_stop();
-}
-
-/*void RearMotors_Callback(uint64_t time_ms)
+void DirectionMotor_Callback(uint64_t time_ms)
 {
 	if(time_ms%10 == 0) // MOTORS_COMMAND_TIME_BETWEEN_TWO_UPDATES
 	{
+		GetDirectionMotor(&angle_cmd);
 		if(FRONT_CONTROL)
 		{
-			 RearMotor_controlL(speed_cmd);
-			 RearMotor_controlR(speed_cmd);
+			 DirectionMotor_control(angle_cmd);
 		}
 		else
-		{
-			int16_t motor_speed = (float)(speed_cmd/10.0); //reduce speed in case of non-control
-			Motor_setSpeed(REAR_MOTOR_R, motor_speed);
-			Motor_setSpeed(REAR_MOTOR_L, motor_speed);
-		}
+			Motor_setSpeed(FRONT_MOTOR, 0);
 	}
-}*/
-/*if (direction ==  LEFT)
-{
-	FrontMotor_order = NONE;
-	FrontMotor_position = LEFT;
-	turn_stop();
 }
-else if (direction ==  RIGHT)
-{
-	FrontMotor_order = NONE;
-	FrontMotor_position = RIGHT;
-	turn_stop();
-}*/
 
 /* Private functions ---------------------------------------------------------*/
-/**
- * @brief   Gives an order to front motor to turn left
- * @param   None
-*/
-void turn_left(void)
+void DirectionMotor_control(int8_t cmd_angle)
 {
-	Motor_setSpeed(FRONT_MOTOR, FRONT_MOTOR_SPEED_L);
-    Motor_Enable(FRONT_MOTOR);
+	float motor_speed;
+
+	// Command must be send without jitter...
+	//motor_speed = (duty_cycle - MOTORS_PWM_ZERO) / ((MOTORS_PWM_DELTA_MAX)/(MOTORS_SPEED_DELTA));
+	Motor_setSpeed(FRONT_MOTOR, duty_cycle);
+
+	// ... so we need to compute the command for next send.
+	uint8_t real_angle = Direction_get();
+	uint8_t commande = (uint8_t)((float)(cmd_angle*delta_angle/100.0f) + CENTER_ANGLE);
+	duty_cycle = ComputeMotorCommand(commande, real_angle);
 }
 
-/**
- * @brief   Gives an order to front motor to turn right
- * @param   None
-*/
-void turn_right(void)
+float ComputeMotorCommand(uint8_t commande, uint8_t real_angle)
 {
-	Motor_setSpeed(FRONT_MOTOR, FRONT_MOTOR_SPEED_R);
-    Motor_Enable(FRONT_MOTOR);
-}
+	 float dc;         //out duty cycle;
 
-/**
- * @brief   Stops the front motor
- * @param   None
-*/
-void turn_stop(void)
-{
-    Motor_setSpeed(FRONT_MOTOR, (float) NONE);
-    Motor_Disable(FRONT_MOTOR);
+	 if (commande != 0)
+	 {
+		 float error = (float)(commande - real_angle);
+		 dc = error * Kp;
+	 }
+	 else
+		 dc = (float)MOTORS_PWM_ZERO;
+
+	 return dc;
 }

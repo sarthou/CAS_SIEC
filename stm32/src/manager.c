@@ -14,6 +14,7 @@
 #include "app/CAN/CAN_Periodic.h"
 
 #include "app/Motors/front_motor.h"
+#include "app/can_interfaces/DirectionInterface.h"
 #include "app/Motors/rear_motors.h"
 #include "app/can_interfaces/RearInterface.h"
 
@@ -22,11 +23,7 @@
 //#include "position_sensors.h"
 //#include "speed_sensors.h"
 
-//#include "motors.h"
-
-
 //#include "us_sensors.h"
-//#include "direction.h"
 
 //#include "data_interface.h"
 //#include "mirroring.h"
@@ -61,20 +58,19 @@ periode_t my_periode;
 void Manager_Init(void)
 {
 	canSubscribe(0x010, linkRear2Can());
+	canSubscribe(0x011, linkDirection2Can());
 
 	canInit();
 
-    FrontMotor_QuickInit();
     RearMotors_QuickInit();
     RearMotors_Enable();
     
+    FrontMotor_QuickInit();
+
     /*
     PositionSensor_QuickInit(SENSOR_L);
     PositionSensor_QuickInit(SENSOR_R);
-    
-    SpeedSensor_QuickInit(SENSOR_L);
-    SpeedSensor_QuickInit(SENSOR_R);
-		
+
     Mirroring_Init();
     //Mirroring_Start();
 	

@@ -74,6 +74,11 @@ void SpeedSensor_QuickInit(Sensor_Enum SpeedSensor_identifier)
 		SAMPLE_TO_USE  = SPEED_SENSOR_SAMPLES_USED - 1;
 	else
 		SAMPLE_TO_USE  = HALLSENSOR_MAX_SAVED_POP - 1;
+
+	/*if(SpeedSensor_identifier == SENSOR_L)
+		HallSensor_QuickInit(SENSOR_L);
+	else if(SpeedSensor_identifier == SENSOR_R)
+		HallSensor_QuickInit(SENSOR_R);*/
 }
 
 /**

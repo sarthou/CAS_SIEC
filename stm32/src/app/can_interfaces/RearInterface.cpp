@@ -16,8 +16,8 @@ data_paquet_t* linkRear2Can(void)
 
 void GetRearMotors(int16_t* speed_L, int16_t* speed_R)
 {
-	*speed_L = rear_data_paquet.intMessage[0];
-	*speed_R = rear_data_paquet.intMessage[1];
+	*speed_L = 3;//rear_data_paquet.intMessage[0];
+	*speed_R = 3;//rear_data_paquet.intMessage[1];
 }
 
 

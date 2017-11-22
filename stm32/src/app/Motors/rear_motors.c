@@ -19,7 +19,7 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
-#define REAR_CONTROL 1 //1 for true; 0 for false
+#define REAR_CONTROL 0 //1 for true; 0 for false
 
 // PI controller
 #define Kp_R 0.00005f
@@ -129,8 +129,8 @@ void RearMotors_Callback(uint64_t time_ms)
 		}
 		else
 		{
-			int16_t motor_speed_L = (float)(speed_cmd_L/10.0); //reduce speed in case of non-control
-			int16_t motor_speed_R = (float)(speed_cmd_R/10.0); //reduce speed in case of non-control
+			float motor_speed_L = (float)(speed_cmd_L/10.0); //reduce speed in case of non-control
+			float motor_speed_R = (float)(speed_cmd_R/10.0); //reduce speed in case of non-control
 			Motor_setSpeed(REAR_MOTOR_R, motor_speed_L);
 			Motor_setSpeed(REAR_MOTOR_L, motor_speed_R);
 		}

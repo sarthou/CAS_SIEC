@@ -74,12 +74,14 @@ uint32_t SENSOR_RemainingTimeInHallPeriod = HALLSENSOR_TIME_BETWEEN_TWO_UPDATES;
 */
 int8_t adder = COUNT_ADDER;
 
+
 /* Private function prototypes -----------------------------------------------*/
 void SENSOR_Reset (Sensor_Enum hall_identifier);
 void HallSensor_newEdge(Sensor_Enum hall_identifier);
 void SENSOR_ResetTimeToNextHallPeriod(void);
 void HallSensor_countPeridodTicks(void);
 void HallSensor_setCountDecount(uint8_t Motor_number, direction_TypeDef Direction);
+void HallSensor_InitCount(Sensor_Enum hall_identifier);
 void HallSensor_count(Sensor_Enum hall_identifier);
 void HallSensor_decount(Sensor_Enum hall_identifier);
 
@@ -89,9 +91,10 @@ void HallSensor_decount(Sensor_Enum hall_identifier);
  * @param       hall_identifier Number of the hall sensor to consider. 
  * @retval      None
 */
-void HallSensor_QuickInit(Sensor_Enum hall_identifier) {
+void HallSensor_QuickInit(Sensor_Enum hall_identifier)
+{
 	SENSOR_Reset(hall_identifier);
-	HallSensor_count(hall_identifier);
+	HallSensor_InitCount(hall_identifier);
 }
 
 /**
@@ -255,6 +258,26 @@ void HallSensor_setCountDecount(uint8_t MotorIdentifier, direction_TypeDef Direc
     else HallSensor_decount(hall_identifier);
 }
 
+void HallSensor_InitCount(Sensor_Enum hall_identifier)
+{
+	GPIO_TypeDef *GPIO;
+	uint16_t pin;
+
+	if (hall_identifier == SENSOR_L) {
+		GPIO = SENSOR_L_GPIO;
+		pin = SENSOR_L_PIN;
+	}
+	else if (hall_identifier == SENSOR_R) {
+		GPIO = SENSOR_R_GPIO;
+		pin = SENSOR_R_PIN;
+	}
+	else {return;}
+
+	EXTI_QuickInit(GPIO, pin, HALLSENSOR_TRIGG_FW, HALLSENSOR_PRIO);
+
+	adder = COUNT_ADDER;
+}
+
 /**
  * @brief       Parameterizes hall sensor as counter
  * @param       hall_identifier Number of the hall sensor to consider. 
@@ -274,7 +297,7 @@ void HallSensor_count(Sensor_Enum hall_identifier) {
 	}
 	else {return;}	
 	
-	EXTI_QuickInit(GPIO, pin, HALLSENSOR_TRIGG_FW, HALLSENSOR_PRIO);
+	EXTI_ReInit(GPIO, pin, HALLSENSOR_TRIGG_FW, HALLSENSOR_PRIO);
     
     adder = COUNT_ADDER;
 }
@@ -298,7 +321,7 @@ void HallSensor_decount(Sensor_Enum hall_identifier) {
 	}
 	else {return;}	
 	
-	EXTI_QuickInit(GPIO, pin, HALLSENSOR_TRIGG_BW, HALLSENSOR_PRIO);
+	EXTI_ReInit(GPIO, pin, HALLSENSOR_TRIGG_BW, HALLSENSOR_PRIO);
     
     adder = DECOUNT_ADDER;
 }

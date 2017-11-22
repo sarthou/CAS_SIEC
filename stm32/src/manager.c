@@ -20,6 +20,8 @@
 
 #include "app/can_interfaces/SteeringWheelInterface.h"
 
+#include "app/Sensors/battery.h"
+
 #include "system_time.h"
 
 //#include "position_sensors.h"
@@ -70,6 +72,8 @@ void Manager_Init(void)
     RearMotors_Enable();
     
     FrontMotor_QuickInit();
+
+    Battery_QuickInit();
 
     /*
     PositionSensor_QuickInit(SENSOR_L);

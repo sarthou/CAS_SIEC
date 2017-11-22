@@ -23,6 +23,7 @@
 |US right            |0x0      |0x0        |0x2      |0x002 |
 |motors order        |0x0      |0x1        |0x0      |0x010 |
 |steering wheel order|0x0      |0x1        |0x1      |0x011 |
+|Battery level       |0x2      |0x0        |0x0      |0x200 |
 
 ### Data format
 
@@ -32,6 +33,8 @@ motors order[int16 : 1] = rear motor right
 direction order[int8 : 0] = direction motor  
 
 SteeringWheel[uint8 : 0] = direction sensor  
+
+Battery[uint8 : 0] = battery level
 
 ***
 
@@ -45,6 +48,7 @@ SteeringWheel[uint8 : 0] = direction sensor
  - canInit();
  - FrontMotor_QuickInit();
  - RearMotors_QuickInit();
+ - Battery_QuickInit();
  
 ***
 
@@ -57,8 +61,7 @@ SteeringWheel[uint8 : 0] = direction sensor
 - [x] RearMotor interface
 - [x] direction
 - [x] direction interface
-- [ ] Battery
-- [ ] Battery interface
+- [x] Battery
 - [ ] US
 - [ ] US interface
 

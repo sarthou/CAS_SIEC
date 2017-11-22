@@ -10,12 +10,6 @@
 #include "drivers/systick.h"
 #include "app/CAN/CAN_Periodic.h"
 
-/*#include "battery.h"
-#include "direction.h"
-#include "data_interface.h"
-#include "adc.h"
-#include "modules_definitions.h"*/
-
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
@@ -25,15 +19,16 @@
  * @brief   Current STM32 time (expressed in milliseconds)
 */
 uint64_t time_millis; // added by L.S
-uint8_t cpt_envoie = 0;
 /* Private function prototypes -----------------------------------------------*/
 /* Public functions ----------------------------------------------------------*/
 
 __weak void HallSensor_TimeCallback(void) {}
 __weak void Manager_Callback(void) {}
+
 __weak void RearMotors_Callback(uint64_t time_ms) {}
 __weak void DirectionMotor_Callback(uint64_t time_ms) {}
-    
+
+__weak void Battery_Callback(uint64_t time_ms) {}
     
 /**
  * @brief   Makes the initialization of time for the whole system 
@@ -62,6 +57,8 @@ void SysTick_Callback(void) {
 	RearMotors_Callback(time_millis);
 
 	DirectionMotor_Callback(time_millis);
+
+	Battery_Callback(time_millis);
 
 	//Manager_Callback();
 }

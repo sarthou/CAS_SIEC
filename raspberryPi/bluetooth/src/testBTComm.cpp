@@ -8,6 +8,7 @@ int main(){
 	while (i< 30){
 		std::cout << "Reception Number :" << i+1 << std::endl;
 		std::cout << bt.receiveMsg() << std::endl;
+		bt.sendMsg("This message has been received");
 		i++;
 	}
 }

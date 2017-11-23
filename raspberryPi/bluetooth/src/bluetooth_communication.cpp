@@ -23,7 +23,8 @@ int BluetoothServer::acceptConnection(){
 
 void BluetoothServer::sendMsg(const std::string & msg){
   int bytes_send;
-  bytes_send = write(clientSocket, msg.c_str() , sizeof(msg.c_str()));
+  std::cout << "Message test " << std::endl << msg << std::endl << msg.c_str() << msg.size()<< std::endl;
+  bytes_send = write(clientSocket, msg.c_str() , msg.size());
   std::cout << bytes_send << std::endl;
 }
 

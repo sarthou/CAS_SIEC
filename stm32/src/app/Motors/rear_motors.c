@@ -5,9 +5,9 @@
  */
  
  /* Includes ------------------------------------------------------------------*/
-#include "app/Motors/rear_motors.h"
 #include "stm32f10x_conf.h"
 #include <math.h>
+#include "app/Motors/rear_motors.h"
 #include "app/Motors/motors.h"
 
 #include "system_time.h"
@@ -25,24 +25,19 @@
 #define Kp_R 0.1f//0.015f
 
 #define Kp_L 0.1f//0.015f
-
-#define T 0.01f                // 100hz control loop frequency
 /* Private macro -------------------------------------------------------------*/
 /* Public variables ----------------------------------------------------------*/
-/**
- * @brief   Measured Current in the motor
-*/
-int16_t current = 0; 
-
 /**
  * @brief   Last measured car speed on left wheel
 */
 volatile static float car_total_distance_L = 0;
+float offset_distance_L = 0;
 
 /**
  * @brief   Last measured car speed on right wheel
 */
 volatile static float car_total_distance_R = 0;
+float offset_distance_R = 0;
 
 /**
  * @brief   Expected speed on the wheel
@@ -53,12 +48,12 @@ int16_t speed_cmd_R = 0;
 /**
  * @brief   Duty cycle applied on left motor
 */
-volatile static float duty_cycle_L = MOTORS_PWM_ZERO;
+volatile static float duty_cycle_L = 0;
 
 /**
  * @brief   Duty cycle applied on right motor
 */
-volatile static float duty_cycle_R = MOTORS_PWM_ZERO;
+volatile static float duty_cycle_R = 0;
 
 /**
  * @brief   Formal output of the system
@@ -71,8 +66,8 @@ uint8_t is_init = 0;
 int16_t car_model(float in);
 float ComputeMotorCommand_L(float speed_cmd, float position);
 float ComputeMotorCommand_R(float speed_cmd, float position);
-void RearMotor_controlL(int16_t speed_cmd);
-void RearMotor_controlR(int16_t speed_cmd);
+void RearMotor_controlL(float speed_cmd);
+void RearMotor_controlR(float speed_cmd);
 
 /* Public functions ----------------------------------------------------------*/
 //create this function into your communication interface
@@ -92,6 +87,9 @@ void RearMotors_QuickInit(void)
 
     PositionSensor_QuickInit(SENSOR_L);
     PositionSensor_QuickInit(SENSOR_R);
+
+    offset_distance_L = PositionSensor_get(POSITION_CM, SENSOR_L);
+    offset_distance_R = PositionSensor_get(POSITION_CM, SENSOR_R);
 
     is_init = 1;
 }
@@ -188,7 +186,6 @@ float ComputeMotorCommand_L (float speed_cmd, float position)
     return dc;
 }
 
-
 /**
  * @brief   Computes the next iteration Motor Duty-Cycle command (right wheel)
  * @param   speed_cmd The speed input command for the control loop (cm/s)
@@ -213,7 +210,7 @@ float ComputeMotorCommand_R (float speed_cmd, float position)
  * @param   speed_cmdL The speed command
  * @retval	None
 */
-void RearMotor_controlL(int16_t speed_cmd)
+void RearMotor_controlL(float speed_cmd)
 {
     // Command must be send without jitter...
     Motor_setSpeed(REAR_MOTOR_L, duty_cycle_L);
@@ -221,6 +218,7 @@ void RearMotor_controlL(int16_t speed_cmd)
     // ... so we need to compute the command for next send.
     float car_speed_L = SpeedSensor_get(SPEED_CM_S, SENSOR_L);
     float car_position_L = PositionSensor_get(POSITION_CM, SENSOR_L);
+    car_position_L -= offset_distance_L;
 
     duty_cycle_L = ComputeMotorCommand_L(speed_cmd, car_position_L);
 
@@ -232,7 +230,7 @@ void RearMotor_controlL(int16_t speed_cmd)
  * @param   speed_cmdR The speed command
  * @retval	None
 */
-void RearMotor_controlR(int16_t speed_cmd)
+void RearMotor_controlR(float speed_cmd)
 {
 	// Command must be send without jitter...
 	Motor_setSpeed(REAR_MOTOR_R, duty_cycle_R);
@@ -240,6 +238,7 @@ void RearMotor_controlR(int16_t speed_cmd)
 	// ... so we need to compute the command for next send.
 	float car_speed_R = SpeedSensor_get(SPEED_CM_S, SENSOR_R);
 	float car_position_R = PositionSensor_get(POSITION_CM, SENSOR_R);
+	car_position_R -= offset_distance_R;
 
 	duty_cycle_R = ComputeMotorCommand_R(speed_cmd, car_position_R);
 

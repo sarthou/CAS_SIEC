@@ -2,8 +2,9 @@
 
 |Name                | Type   |Size|Profil |Source|Destination|Fiability|Delay|Priority|
 |--------------------|--------|----|-------|------|-----------|---------|-----|--------|
-|pos steering wheel  |char    |1   |100ms  |Nucleo|Raspi      |-        |100ms|-       |
+|pose steering wheel |char    |1   |100ms  |Nucleo|Raspi      |-        |100ms|-       |
 |pose wheels L+R     |float   |8   |100ms  |Nucleo|Raspi      |-        |100ms|-       |
+|speed wheels L+R    |float   |8   |100ms  |Nucleo|Raspi      |-        |100ms|-       |
 |US front/back       |float   |8   |50ms   |Nucleo|Raspi      |+++      |50ms |+++     |
 |US Left             |float   |8   |50ms   |Nucleo|Raspi      |+++      |50ms |+++     |
 |US right            |float   |8   |50ms   |Nucleo|Raspi      |+++      |50ms |+++     |
@@ -18,6 +19,7 @@
 |                    |3bits    |4bits      |4bits    |11bits|
 |pos steering wheel  |0x1      |0x0        |0x1      |0x101 |
 |pose wheels L+R     |0x1      |0x0        |0x0      |0x100 |
+|speed wheels L+R    |0x1      |0x0        |0x2      |0x102 |
 |US front/back       |0x0      |0x0        |0x0      |0x000 |
 |US Left             |0x0      |0x0        |0x1      |0x001 |
 |US right            |0x0      |0x0        |0x2      |0x002 |
@@ -35,6 +37,12 @@ direction order[int8 : 0] = direction motor  : [-100 : 100] (%)
 SteeringWheel[uint8 : 0] = direction sensor 
 
 Battery[uint8 : 0] = battery level
+
+Position[float : 0] = left position 	: (cm)
+Position[float : 1] = right position 	: (cm)
+
+Speed[float : 0] = left Speed 	: (cm/s)
+Speed[float : 1] = right Speed 	: (cm/s)
 
 ***
 
@@ -57,7 +65,8 @@ Battery[uint8 : 0] = battery level
 - [x] Front motors
 - [x] front motor backloop
 - [x] Front motor interface
-- [ ] speed feedback
+- [x] speed feedback
+- [x] Position feedback
 - [x] RearMotors
 - [x] rear motor backloop
 - [x] RearMotor interface

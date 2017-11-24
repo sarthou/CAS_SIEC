@@ -151,7 +151,9 @@ void HallSensor_TimeCallback(void) {
 
     for (i=0;i<HALLSENSORS_NUMBER;i++)
     {
-        if (Motors_Dir[i] != Motors_Direction[i]) {
+    	//    /!\ if you push the car with the hand, the direction is not good
+        if (Motors_Dir[i] != Motors_Direction[i])
+        {
             Motors_Dir[i] = Motors_Direction[i];
             HallSensor_setCountDecount(i, Motors_Dir[i]);
         }

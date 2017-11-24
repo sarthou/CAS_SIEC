@@ -106,8 +106,10 @@ void Motor_setSpeed(Motors_Enum Motor, float speed) {
     }
     else return;
     
-            if(speed >  MOTORS_SPEED_MAX) speed =  MOTORS_SPEED_MAX;
-    else    if(speed < -MOTORS_SPEED_MAX) speed = -MOTORS_SPEED_MAX;
+    if(speed >  MOTORS_SPEED_MAX)
+    	speed = MOTORS_SPEED_MAX;
+    else if(speed < -MOTORS_SPEED_MAX)
+    	speed = -MOTORS_SPEED_MAX;
 
     duty_cycle = (MOTORS_PWM_DELTA_MAX)/(MOTORS_SPEED_DELTA) * speed + MOTORS_PWM_ZERO;
     

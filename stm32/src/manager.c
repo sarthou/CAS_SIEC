@@ -19,6 +19,8 @@
 #include "app/can_interfaces/RearInterface.h"
 
 #include "app/can_interfaces/SteeringWheelInterface.h"
+#include "app/can_interfaces/PositionInterface.h"
+#include "app/can_interfaces/SpeedInterface.h"
 
 #include "app/Sensors/battery.h"
 
@@ -26,9 +28,6 @@
 
 #include "app/Motors/motors.h"
 #include "app/Sensors/hall_sensors.h"
-
-//#include "position_sensors.h"
-//#include "speed_sensors.h"
 
 //#include "us_sensors.h"
 
@@ -68,8 +67,8 @@ void Manager_Init(void)
 	canSubscribe(0x010, linkRear2Can());
 	canSubscribe(0x011, linkDirection2Can());
 
-	/*init_my_can(); //init periodic sending
-	canInit();*/
+	init_my_can(); //init periodic sending
+	canInit();
 
     RearMotors_QuickInit();
     RearMotors_Enable();
@@ -79,12 +78,9 @@ void Manager_Init(void)
     Battery_QuickInit();
 
 
-	System_Time_QuickInit(); //ok
+	System_Time_QuickInit();
 
     /*
-    PositionSensor_QuickInit(SENSOR_L);
-    PositionSensor_QuickInit(SENSOR_R);
-
     Mirroring_Init();
     //Mirroring_Start();
 	
@@ -147,7 +143,17 @@ void init_my_can()
 
 	subperiode_t sub2;
 	{
-		sub2.nb_variables = 0;
+		variable_paquet_t paquet1;
+		paquet1.id = 0x100;
+		paquet1.data = linkPosition2Can();
+
+		variable_paquet_t paquet2;
+		paquet2.id = 0x102;
+		paquet2.data = linkSpeed2Can();
+
+		sub2.variables[0] = paquet1;
+		sub2.variables[1] = paquet2;
+		sub2.nb_variables = 2;
 	}
 
 	my_periode.subperiodes[0] = sub1;

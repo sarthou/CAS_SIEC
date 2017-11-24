@@ -13,7 +13,8 @@
 
 #include "config/common_constants.h"
 
-
+#include "app/can_interfaces/SpeedInterface.h"
+#include "drivers/common_def.h"
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
@@ -61,6 +62,8 @@ void SpeedSensor_tickBasedMethod(Sensor_Enum SpeedSensor_identifier);
 void SpeedSensor_timeBasedMethod(Sensor_Enum SpeedSensor_identifier);
 
 /* Public functions ----------------------------------------------------------*/
+__weak void SetCarSpeedL(float speed) {}
+__weak void SetCarSpeedR(float speed) {}
 /**
  * @brief   Initializes specified speed sensor.
  * @param   SpeedSensor_identifier Speed sensor to be considered. 
@@ -90,7 +93,14 @@ void SpeedSensor_QuickInit(Sensor_Enum SpeedSensor_identifier)
 float SpeedSensor_get(float unit, Sensor_Enum SpeedSensor_identifier)
 {
 	SpeedSensor_compute(SpeedSensor_identifier);
-	return speed[SpeedSensor_identifier] * unit;
+	float this_speed = speed[SpeedSensor_identifier] * unit;
+
+	if (SpeedSensor_identifier == SENSOR_L)
+		SetCarPositionL(this_speed);
+	else if (SpeedSensor_identifier == SENSOR_R)
+		SetCarPositionR(this_speed);
+
+	return this_speed;
 }
 
 /* Private functions ---------------------------------------------------------*/

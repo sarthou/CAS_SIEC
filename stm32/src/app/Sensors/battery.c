@@ -10,6 +10,8 @@
 #include "config/common_constants.h"
 #include "drivers/adc.h"
 
+#include <math.h>
+
 #include "app/CAN/CAN_Abstraction.h"
 
 /* Private typedef -----------------------------------------------------------*/
@@ -44,12 +46,7 @@ void Battery_Callback(uint64_t time_ms)
 	if((time_ms % 500) == 0)
 	{
 		uint8_t current_bat = Battery_get();
-		if((last_battery - current_bat) > 5)
-		{
-			if(sendMessageChar(0x200, current_bat) == 0)
-				last_battery = current_bat;
-		}
-		else if((last_battery - current_bat) < 5)
+		if(fabs(last_battery - current_bat) > 5)
 		{
 			if(sendMessageChar(0x200, current_bat) == 0)
 				last_battery = current_bat;

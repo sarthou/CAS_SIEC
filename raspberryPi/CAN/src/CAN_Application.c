@@ -59,10 +59,10 @@ volatile uint32_t msTicks;
 void launchCANServices (void)  {
 	
 	//Set value of variables contained in subperiod;
-	linkMotorsOrder()->intMessage[0]=25300;
-	linkMotorsOrder()->intMessage[1]=20000;
+	linkMotorsOrder()->intMessage[0]=0;
+	linkMotorsOrder()->intMessage[1]=0;
 	
-	linkSteeringWheelOrder()->byteMessage[0]=132;
+	linkSteeringWheelOrder()->byteMessage[0]=0;
 
 	init_my_can();
 	

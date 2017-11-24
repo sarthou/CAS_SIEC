@@ -98,6 +98,7 @@ int sendMessage(int16_t id, data_paquet_t data)
 		timestamp_usec=((long long int) timer_usec.tv_sec)*1000000ll + (long long int)timer_usec.tv_usec;
 	}
 	
+/*
 	switch(paquet.id){
 		
 		case 0x010 : 
@@ -106,7 +107,7 @@ int sendMessage(int16_t id, data_paquet_t data)
 		case 0x011 : 
 			printf("[%lld][SENDING][STEERING WHEEL ORDER] %d\n",timestamp_usec,paquet.data.byteMessage[0]);
 			break;
-	}
+	}*/
 	/*
 	//Socket declaration
     int s = socket(PF_CAN, SOCK_RAW, CAN_RAW);
@@ -182,7 +183,7 @@ int receiveMessage(void)
 	if(!gettimeofday(&timer_usec,NULL)){
 		timestamp_usec=((long long int) timer_usec.tv_sec)*1000000ll + (long long int)timer_usec.tv_usec;
 	}
-		
+		/*
 		switch (received.id){
 			case 0x101 :
 				printf("[%lld][REICEIVING][POS STEERING WHEEL] %d\n",timestamp_usec,received.data.byteMessage[0]);
@@ -202,7 +203,7 @@ int receiveMessage(void)
 			case 0x200 : 
 				printf("[%lld][REICEIVING][BATTERY] %d\n",timestamp_usec, received.data.intMessage[0]);
 				break;
-		}
+		}*/
 		return 0;
 	}
 	

@@ -33,7 +33,7 @@ namespace CAS
             serialPort1.ReadTimeout = 500;
             serialPort1.WriteTimeout = 500;
             serialPort1.ReadBufferSize = 50000;
-            serialPort1.Encoding = Encoding.GetEncoding(1252);
+            serialPort1.Encoding = Encoding.GetEncoding(20127);//1252);
 
             try
             {

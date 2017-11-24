@@ -134,8 +134,14 @@ namespace CAS
                 dir_left.BackColor = Color.LightGray;
             }
 
-            if(!keyBack && !keyFront)
+            if ((e.KeyCode == Keys.Down || e.KeyCode == Keys.Up) && !keyBack && !keyFront)
+            {
                 current_speed = 0;
+                sendToCar("front " + current_speed.ToString() + "%");
+            }
+
+            if ((e.KeyCode == Keys.Left || e.KeyCode == Keys.Right) && !keyLeft && !keyRight)
+                sendToCar("center");
         }
 
         private void speed_bar_ValueChanged(object sender, EventArgs e)

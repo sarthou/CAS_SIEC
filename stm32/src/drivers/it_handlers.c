@@ -280,7 +280,9 @@ void SPI2_IRQHandler(void) {
   * @param  None
   * @retval None
   */
-void NMI_Handler(void) {}
+void NMI_Handler(void) {
+	while(1) {}
+}
 
 /**
   * @brief  Handles Hard Fault exception.
@@ -327,21 +329,30 @@ void UsageFault_Handler(void) {
   * @param  None
   * @retval None
   */
-void SVC_Handler(void) {}
+void SVC_Handler(void)
+{
+	while(1) {}
+}
 
 /**
   * @brief  Handles Debug Monitor exception.
   * @param  None
   * @retval None
   */
-void DebugMon_Handler(void) {}
+void DebugMon_Handler(void)
+{
+	while(1) {}
+}
 
 /**
   * @brief  Handles PendSV_Handler exception.
   * @param  None
   * @retval None
   */
-void PendSV_Handler(void) {}
+void PendSV_Handler(void)
+{
+	while(1) {}
+}
 
 /**
   * @brief  Handles SysTick Handler.

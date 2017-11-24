@@ -5,15 +5,12 @@
  */
  
 /* Includes ------------------------------------------------------------------*/
-#include "system_time.h"
-#include "drivers/exti.h"
-
 #include "app/Sensors/hall_sensors.h"
+#include "drivers/exti.h"
+#include "system_time.h"
 #include "app/Callbacks/Ext_callbacks.h"
-
 #include "config/common_constants.h"
 #include "car_types.h"
-
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
@@ -74,14 +71,12 @@ uint32_t SENSOR_RemainingTimeInHallPeriod = HALLSENSOR_TIME_BETWEEN_TWO_UPDATES;
 */
 int8_t adder = COUNT_ADDER;
 
-
 /* Private function prototypes -----------------------------------------------*/
 void SENSOR_Reset (Sensor_Enum hall_identifier);
 void HallSensor_newEdge(Sensor_Enum hall_identifier);
 void SENSOR_ResetTimeToNextHallPeriod(void);
 void HallSensor_countPeridodTicks(void);
 void HallSensor_setCountDecount(uint8_t Motor_number, direction_TypeDef Direction);
-void HallSensor_InitCount(Sensor_Enum hall_identifier);
 void HallSensor_count(Sensor_Enum hall_identifier);
 void HallSensor_decount(Sensor_Enum hall_identifier);
 
@@ -91,18 +86,16 @@ void HallSensor_decount(Sensor_Enum hall_identifier);
  * @param       hall_identifier Number of the hall sensor to consider. 
  * @retval      None
 */
-void HallSensor_QuickInit(Sensor_Enum hall_identifier)
-{
+void HallSensor_QuickInit(Sensor_Enum hall_identifier) {
 	SENSOR_Reset(hall_identifier);
-	HallSensor_InitCount(hall_identifier);
+	HallSensor_count(hall_identifier);
 }
 
 /**
  * @brief       Called function on external interrupt (EXTI). Must not be call by user. 
  * @param       hall_identifier : hall sensor on wich edge was detected. 
 */
-void HallSensor_Handler(Sensor_Enum hall_identifier)
-{
+void HallSensor_Handler(Sensor_Enum hall_identifier) {
 	HallSensor_newEdge(hall_identifier);
 }
 
@@ -134,11 +127,9 @@ int32_t HallSensor_getLap(Sensor_Enum hall_identifier) {
 uint64_t HallSensor_getLastPop(uint8_t n, Sensor_Enum hall_identifier) {
 	int position_to_read = HallSensor_numberOfPop[hall_identifier] - n;
 	
-	if (n > HALLSENSOR_MAX_SAVED_POP)
-		return ERROR_VALUE_NOT_FOUND;
+	if (n > HALLSENSOR_MAX_SAVED_POP) return ERROR_VALUE_NOT_FOUND;  else {};
 
-	if (position_to_read < 0)
-		position_to_read = position_to_read + HALLSENSOR_MAX_SAVED_POP; // TODO : verifier ce calcul et le commenter
+	if (position_to_read < 0) position_to_read = position_to_read + HALLSENSOR_MAX_SAVED_POP; // TODO : verifier ce calcul et le commenter
 		
 	return SENSOR_LastPops[position_to_read][hall_identifier];
 }
@@ -154,21 +145,20 @@ int8_t HallSensor_getNumberTicksInPeriod(Sensor_Enum hall_identifier) {
 
 
 void HallSensor_TimeCallback(void) {
-    int i; 
-    
-    SENSOR_RemainingTimeInHallPeriod --; 
-    
-    for (i=0;i<HALLSENSORS_NUMBER;i++) 
+    int i;
+
+    SENSOR_RemainingTimeInHallPeriod --;
+
+    for (i=0;i<HALLSENSORS_NUMBER;i++)
     {
-        if (Motors_Dir[i] != Motors_Direction[i])
-        {
+        if (Motors_Dir[i] != Motors_Direction[i]) {
             Motors_Dir[i] = Motors_Direction[i];
             HallSensor_setCountDecount(i, Motors_Dir[i]);
         }
+        else {}
     }
-    
-	if (SENSOR_RemainingTimeInHallPeriod == 0)
-	{
+
+	if (SENSOR_RemainingTimeInHallPeriod == 0) {
 		HallSensor_countPeridodTicks();
 		SENSOR_ResetTimeToNextHallPeriod();
 	}
@@ -198,26 +188,24 @@ void SENSOR_Reset (Sensor_Enum hall_identifier) {
  * @param       hall_identifier Number of the hall sensor to consider.
  * @retval      None
 */
-void HallSensor_newEdge(Sensor_Enum hall_identifier)
-{
+void HallSensor_newEdge(Sensor_Enum hall_identifier) {
 	SENSOR_LastPops[HallSensor_numberOfPop[hall_identifier]][hall_identifier] = millis();
 	
 	HallSensor_numberOfPop[hall_identifier] ++;
-	if (HallSensor_numberOfPop[hall_identifier] >= HALLSENSOR_MAX_SAVED_POP)
-		HallSensor_numberOfPop[hall_identifier] = 0;
+	if (HallSensor_numberOfPop[hall_identifier] >= HALLSENSOR_MAX_SAVED_POP) HallSensor_numberOfPop[hall_identifier] = 0; else {}
 	
 	HallSensor_sector[hall_identifier] = HallSensor_sector[hall_identifier] + adder;
 	
-	if (HallSensor_sector[hall_identifier] == (uint16_t)(-1))
-	{
+	if (HallSensor_sector[hall_identifier] == (uint16_t)(-1)) {
 		HallSensor_sector[hall_identifier] = HALLSENSOR_NUMBER_OF_SECTORS - 1; 
 		SENSOR_Lap[hall_identifier] --;
 	}
-	else if (HallSensor_sector[hall_identifier] >= HALLSENSOR_NUMBER_OF_SECTORS)
-	{
+
+	else if (HallSensor_sector[hall_identifier] >= HALLSENSOR_NUMBER_OF_SECTORS) {
 		HallSensor_sector[hall_identifier] = 0; 
 		SENSOR_Lap[hall_identifier] ++;
 	}
+	else {}
 	HallSensor_currentPeriodeTicks[hall_identifier] = HallSensor_currentPeriodeTicks[hall_identifier] + adder;
 }
 
@@ -247,35 +235,16 @@ void HallSensor_countPeridodTicks(void) {
  * @param       Direction Direction of the motor.
  * @retval      None
 */
-void HallSensor_setCountDecount(uint8_t MotorIdentifier, direction_TypeDef Direction){
+void HallSensor_setCountDecount(uint8_t MotorIdentifier, direction_TypeDef Direction)
+{
     Sensor_Enum hall_identifier; 
             if (MotorIdentifier == FRONT_MOTOR_IDENTIFIER)  return;
-    else     if (MotorIdentifier == REAR_MOTOR_L_IDENTIFIER) hall_identifier = SENSOR_L; 
-    else     if (MotorIdentifier == REAR_MOTOR_R_IDENTIFIER) hall_identifier = SENSOR_R; 
+    else     if (MotorIdentifier == REAR_MOTOR_L_IDENTIFIER) hall_identifier = SENSOR_L;
+    else     if (MotorIdentifier == REAR_MOTOR_R_IDENTIFIER) hall_identifier = SENSOR_R;
     else return;
 
     if (Direction != BACKWARD) HallSensor_count(hall_identifier);
     else HallSensor_decount(hall_identifier);
-}
-
-void HallSensor_InitCount(Sensor_Enum hall_identifier)
-{
-	GPIO_TypeDef *GPIO;
-	uint16_t pin;
-
-	if (hall_identifier == SENSOR_L) {
-		GPIO = SENSOR_L_GPIO;
-		pin = SENSOR_L_PIN;
-	}
-	else if (hall_identifier == SENSOR_R) {
-		GPIO = SENSOR_R_GPIO;
-		pin = SENSOR_R_PIN;
-	}
-	else {return;}
-
-	EXTI_QuickInit(GPIO, pin, HALLSENSOR_TRIGG_FW, HALLSENSOR_PRIO);
-
-	adder = COUNT_ADDER;
 }
 
 /**
@@ -297,7 +266,7 @@ void HallSensor_count(Sensor_Enum hall_identifier) {
 	}
 	else {return;}	
 	
-	EXTI_ReInit(GPIO, pin, HALLSENSOR_TRIGG_FW, HALLSENSOR_PRIO);
+	EXTI_QuickInit(GPIO, pin, HALLSENSOR_TRIGG_FW, HALLSENSOR_PRIO);
     
     adder = COUNT_ADDER;
 }
@@ -321,7 +290,7 @@ void HallSensor_decount(Sensor_Enum hall_identifier) {
 	}
 	else {return;}	
 	
-	EXTI_ReInit(GPIO, pin, HALLSENSOR_TRIGG_BW, HALLSENSOR_PRIO);
+	EXTI_QuickInit(GPIO, pin, HALLSENSOR_TRIGG_BW, HALLSENSOR_PRIO);
     
     adder = DECOUNT_ADDER;
 }

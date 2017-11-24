@@ -42,7 +42,6 @@ uint8_t Line_to_IRQn(uint32_t Line);
 uint8_t GPIO_TypeDef_to_GPIO_PortSource (GPIO_TypeDef *GPIO);
 uint16_t GPIO_Pin_to_GPIO_PinSource (uint16_t GPIO_Pin);
 
-EXTI_InitTypeDef EXTI_InitStruct;
 
 /* Public functions ----------------------------------------------------------*/
 /**
@@ -54,8 +53,11 @@ EXTI_InitTypeDef EXTI_InitStruct;
  * @retval    int (error detected while computing initialization)
  * @return    If everything went right EXTI_NO_ERROR, if not EXTI_ERROR_INVALID_LINE, EXTI_ERROR_INVALID_CHANNEL, EXTI_ERROR_INVALID_PORT_SOURCE or EXTI_ERROR_INVALID_PIN_SOURCE.
  */
-int EXTI_QuickInit(GPIO_TypeDef *GPIOx, uint16_t pin, EXTITrigger_TypeDef trigger, uint8_t priority)
-{
+int EXTI_QuickInit(GPIO_TypeDef *GPIOx, uint16_t pin, EXTITrigger_TypeDef trigger, uint8_t priority) {
+
+    EXTI_InitTypeDef EXTI_InitStruct;
+    EXTI_InitTypeDef* ptr = &EXTI_InitStruct;
+
     uint32_t Line_Number = GPIO_Pin_to_EXTI_Line(pin); 
     uint8_t IRQChannel = Line_to_IRQn(Line_Number);
     uint8_t GPIO_PortSource = GPIO_TypeDef_to_GPIO_PortSource(GPIOx);
@@ -76,7 +78,6 @@ int EXTI_QuickInit(GPIO_TypeDef *GPIOx, uint16_t pin, EXTITrigger_TypeDef trigge
     GPIO_EXTILineConfig(GPIO_PortSource, GPIO_PinSource);
     
     // Configure the particular EXTI 
-    EXTI_StructInit(&EXTI_InitStruct);
     EXTI_InitStruct.EXTI_Line = Line_Number;
     EXTI_InitStruct.EXTI_Mode = EXTI_Mode_Interrupt;
     EXTI_InitStruct.EXTI_Trigger = trigger;
@@ -87,24 +88,6 @@ int EXTI_QuickInit(GPIO_TypeDef *GPIOx, uint16_t pin, EXTITrigger_TypeDef trigge
     NVIC_QuickInit(IRQChannel, priority);
 
     return EXTI_NO_ERROR; 
-}
-
-int EXTI_ReInit(GPIO_TypeDef *GPIOx, uint16_t pin, EXTITrigger_TypeDef trigger, uint8_t priority)
-{
-	uint32_t Line_Number = GPIO_Pin_to_EXTI_Line(pin);
-	uint8_t IRQChannel = Line_to_IRQn(Line_Number);
-	uint8_t GPIO_PortSource = GPIO_TypeDef_to_GPIO_PortSource(GPIOx);
-	uint16_t GPIO_PinSource = GPIO_Pin_to_GPIO_PinSource(pin);
-
-	// Configure the particular EXTI
-	EXTI_StructInit(&EXTI_InitStruct);
-	EXTI_InitStruct.EXTI_Line = Line_Number;
-	EXTI_InitStruct.EXTI_Mode = EXTI_Mode_Interrupt;
-	EXTI_InitStruct.EXTI_Trigger = trigger;
-	EXTI_InitStruct.EXTI_LineCmd = ENABLE;
-	EXTI_Init(&EXTI_InitStruct);
-
-	return EXTI_NO_ERROR;
 }
 
 __weak void EXTI_Callback(uint32_t EXTI_Line) {}

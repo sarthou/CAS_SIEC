@@ -36,8 +36,8 @@ __weak void Battery_Callback(uint64_t time_ms) {}
 */
 void System_Time_QuickInit(void) {
     time_millis = 0;
-    SystemCoreClock = 64000000;
-    SystemCoreClockUpdate();
+    //SystemCoreClock = 64000000;
+    //SystemCoreClockUpdate();
     SysTick_QuickInit();
 }
 

@@ -24,6 +24,9 @@
 
 #include "system_time.h"
 
+#include "app/Motors/motors.h"
+#include "app/Sensors/hall_sensors.h"
+
 //#include "position_sensors.h"
 //#include "speed_sensors.h"
 
@@ -65,8 +68,8 @@ void Manager_Init(void)
 	canSubscribe(0x010, linkRear2Can());
 	canSubscribe(0x011, linkDirection2Can());
 
-	init_my_can(); //init periodic sending
-	canInit();
+	/*init_my_can(); //init periodic sending
+	canInit();*/
 
     RearMotors_QuickInit();
     RearMotors_Enable();
@@ -74,6 +77,9 @@ void Manager_Init(void)
     FrontMotor_QuickInit();
 
     Battery_QuickInit();
+
+
+	System_Time_QuickInit(); //ok
 
     /*
     PositionSensor_QuickInit(SENSOR_L);
@@ -84,7 +90,7 @@ void Manager_Init(void)
 	
 	US_QuickInit();
 	US_StartAcq();*/
-	
+
     uint16_t received_id = -1;
 	while(1)
 	{

@@ -30,7 +30,7 @@
 /**
  * @brief   Time corresponding to a hall sensor period : meaning time between two changes of speed 
 */
-#define SPEED_SENSOR_TIME_BETWEEN_TWO_UPDATES 1000
+#define SPEED_SENSOR_TIME_BETWEEN_TWO_UPDATES 1000.0f
 
 /* Private macro -------------------------------------------------------------*/
 /* Public variables ----------------------------------------------------------*/
@@ -75,10 +75,10 @@ void SpeedSensor_QuickInit(Sensor_Enum SpeedSensor_identifier)
 	else
 		SAMPLE_TO_USE  = HALLSENSOR_MAX_SAVED_POP - 1;
 
-	/*if(SpeedSensor_identifier == SENSOR_L)
+	if(SpeedSensor_identifier == SENSOR_L)
 		HallSensor_QuickInit(SENSOR_L);
 	else if(SpeedSensor_identifier == SENSOR_R)
-		HallSensor_QuickInit(SENSOR_R);*/
+		HallSensor_QuickInit(SENSOR_R);
 }
 
 /**
@@ -126,7 +126,7 @@ void SpeedSensor_compute(Sensor_Enum SpeedSensor_identifier)
     }
 
     // Store value of speed
-    if (speed_time[SpeedSensor_identifier] < 0) 
+    if (time_based < 0)
         speed[SpeedSensor_identifier] = coeff*(-tick_based)+(1-coeff)*(time_based);  // N'entre pas dans ce if
     else                                        
         speed[SpeedSensor_identifier]  = (coeff*(tick_based)+(1-coeff)*(time_based));
@@ -138,7 +138,8 @@ void SpeedSensor_compute(Sensor_Enum SpeedSensor_identifier)
  * @param   SpeedSensor_identifier Number of the speed sensor to consider.
  * @retval  None
 */
-void SpeedSensor_tickBasedMethod(Sensor_Enum SpeedSensor_identifier) {
+void SpeedSensor_tickBasedMethod(Sensor_Enum SpeedSensor_identifier)
+{
     uint64_t tf = millis();
 	uint64_t t0 = HallSensor_getLastPop(SAMPLE_TO_USE, SpeedSensor_identifier);
 	

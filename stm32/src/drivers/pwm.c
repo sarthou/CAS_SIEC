@@ -115,7 +115,8 @@ int PWM_QuickInit_Complementary(TIM_TypeDef *TIMx, uint16_t Channelx) {
  * @param   dutyCycle Duty cycle value. dutyCycle must be between 0.0 and 1.0
  * @retval  none
 */
-void PWM_SetDutyCycle(TIM_TypeDef *TIMx, uint16_t Channelx, float dutyCycle) {
+void PWM_SetDutyCycle(TIM_TypeDef *TIMx, uint16_t Channelx, float dutyCycle)
+{
     volatile uint16_t pulse_length = 0; // nbre entier non signé de 16 bits
     uint16_t resolution;
 

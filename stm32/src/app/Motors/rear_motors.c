@@ -13,20 +13,18 @@
 #include "system_time.h"
 #include "drivers/common_def.h"
 
+#include "app/Sensors/position_sensors.h"
 #include "app/Sensors/speed_sensors.h"
 #include "app/Sensors/hall_sensors.h"
-//#include "data_interface.h"
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
-#define REAR_CONTROL 0 //1 for true; 0 for false
+#define REAR_CONTROL 1 //1 for true; 0 for false
 
 // PI controller
-#define Kp_R 0.00005f
-#define Ki_R 0.0f
+#define Kp_R 0.1f//0.015f
 
-#define Kp_L 0.00005
-#define Ki_L 0.0f
+#define Kp_L 0.1f//0.015f
 
 #define T 0.01f                // 100hz control loop frequency
 /* Private macro -------------------------------------------------------------*/
@@ -39,12 +37,12 @@ int16_t current = 0;
 /**
  * @brief   Last measured car speed on left wheel
 */
-volatile static int16_t car_speed_L = 0;
+volatile static float car_total_distance_L = 0;
 
 /**
  * @brief   Last measured car speed on right wheel
 */
-volatile static int16_t car_speed_R = 0;
+volatile static float car_total_distance_R = 0;
 
 /**
  * @brief   Expected speed on the wheel
@@ -67,12 +65,12 @@ volatile static float duty_cycle_R = MOTORS_PWM_ZERO;
 */
 static float out_prec = 0;
 
+uint8_t is_init = 0;
+
 /* Private function prototypes -----------------------------------------------*/
 int16_t car_model(float in);
-float PI_Controller_L (int32_t in);
-float PI_Controller_R (int32_t in);
-float ComputeMotorCommand_L(int16_t speed_cmd, int16_t current, int16_t speed);
-float ComputeMotorCommand_R(int16_t speed_cmd, int16_t current, int16_t speed);
+float ComputeMotorCommand_L(float speed_cmd, float position);
+float ComputeMotorCommand_R(float speed_cmd, float position);
 void RearMotor_controlL(int16_t speed_cmd);
 void RearMotor_controlR(int16_t speed_cmd);
 
@@ -91,6 +89,11 @@ void RearMotors_QuickInit(void)
     
     SpeedSensor_QuickInit(SENSOR_L);
     SpeedSensor_QuickInit(SENSOR_R);
+
+    PositionSensor_QuickInit(SENSOR_L);
+    PositionSensor_QuickInit(SENSOR_R);
+
+    is_init = 1;
 }
 
 /**
@@ -119,22 +122,25 @@ void RearMotors_Disable(void)
 */
 void RearMotors_Callback(uint64_t time_ms)
 {
-    if(time_ms%10 == 0) // MOTORS_COMMAND_TIME_BETWEEN_TWO_UPDATES
-    {
-    	GetRearMotors(&speed_cmd_L, &speed_cmd_R);
-		if(REAR_CONTROL)
+	if(is_init)
+	{
+		if(time_ms%10 == 0) // MOTORS_COMMAND_TIME_BETWEEN_TWO_UPDATES
 		{
-			 RearMotor_controlL(speed_cmd_L);
-			 RearMotor_controlR(speed_cmd_R);
+			GetRearMotors(&speed_cmd_L, &speed_cmd_R);
+			if(REAR_CONTROL)
+			{
+				 RearMotor_controlL(speed_cmd_L);
+				 RearMotor_controlR(speed_cmd_R);
+			}
+			else
+			{
+				float motor_speed_L = (float)(speed_cmd_L/10.0); //reduce speed in case of non-control
+				float motor_speed_R = (float)(speed_cmd_R/10.0); //reduce speed in case of non-control
+				Motor_setSpeed(REAR_MOTOR_R, motor_speed_L);
+				Motor_setSpeed(REAR_MOTOR_L, motor_speed_R);
+			}
 		}
-		else
-		{
-			float motor_speed_L = (float)(speed_cmd_L/10.0); //reduce speed in case of non-control
-			float motor_speed_R = (float)(speed_cmd_R/10.0); //reduce speed in case of non-control
-			Motor_setSpeed(REAR_MOTOR_R, motor_speed_L);
-			Motor_setSpeed(REAR_MOTOR_L, motor_speed_R);
-		}
-    }
+	}
 }
 
 /**
@@ -170,28 +176,14 @@ int16_t car_model(float in)
  * @param   speed The car speed (cm/s)
  * @retval	The duty-cycle command for the motor
 */
-float ComputeMotorCommand_L (int16_t speed_cmd, int16_t current, int16_t speed){
-    
+float ComputeMotorCommand_L (float speed_cmd, float position)
+{
     float dc;         //out duty cycle;
-    volatile int32_t in_PI;
-    float current_f = (float)current;
-    volatile float coef_in_PI;   // to adjust PI input depending on how close from MAX_CURRENT we are
     
-    if (speed_cmd != 0)
-    {
-        // duty cycle is 50 if current reaches MAX_CURRENT
-        if (fabs(current_f) > MAX_CURRENT)
-            dc = (uint8_t)MOTORS_PWM_ZERO;
-        else // If MAX_CURRENT is not reached
-        {
-            // PI controller input depends on how close from MAX_CURRENT is the current
-            coef_in_PI = (MAX_CURRENT - fabs(current_f)) / MAX_CURRENT;
-            in_PI = (int32_t)((float)((int32_t)speed_cmd - (int32_t)speed) * coef_in_PI);
-            dc = PI_Controller_L(in_PI) ; 
-        }
-    }
-    else
-        dc = (float)MOTORS_PWM_ZERO;
+    car_total_distance_L += speed_cmd*0.01f;
+
+	float error = (float)(car_total_distance_L - position);
+	dc = error * Kp_L;
     
     return dc;
 }
@@ -204,121 +196,16 @@ float ComputeMotorCommand_L (int16_t speed_cmd, int16_t current, int16_t speed){
  * @param   speed The car speed (cm/s)
  * @retval	The duty-cycle command for the motor
 */
-float ComputeMotorCommand_R (int16_t speed_cmd, int16_t current, int16_t speed){
-    
+float ComputeMotorCommand_R (float speed_cmd, float position)
+{
     float dc;         //out duty cycle;
-    volatile int32_t in_PI;
-    float current_f = (float)current;
-    volatile float coef_in_PI;   // to adjust PI input depending on how close from MAX_CURRENT we are
     
-    if (speed_cmd != 0)
-    {
-        // duty cycle is 50 if current reaches MAX_CURRENT
-        if (fabs(current_f) > MAX_CURRENT)
-            dc = (float)MOTORS_PWM_ZERO;
-        else // If MAX_CURRENT is not reached
-        {
-            // PI controller input depends on how close from MAX_CURRENT is the current
-            coef_in_PI = (MAX_CURRENT - fabs(current_f)) / MAX_CURRENT;
-            in_PI = (int32_t)((float)((int32_t)speed_cmd - (int32_t)speed) * coef_in_PI);
-            dc = PI_Controller_R(in_PI) ; 
-        }
-    }
-    else
-        dc = (float)MOTORS_PWM_ZERO;
+    car_total_distance_R += speed_cmd*0.01f;
+
+	float error = (float)(car_total_distance_R - position);
+	dc = error * Kp_R;
 
     return dc;
-}
-
-
-/**
- * @brief   Applies a PI controller to the input (left wheel)
- * @param   in PI controller input
- * @return  PI controller output
-*/
-float PI_Controller_L (int32_t in)
-{
-    //volatile static const float a1_PI =  T*Ki/2.0 - Kp ;      // coef. formula PI controller
-    //volatile static const float a2_PI =  T*Ki/2.0 + Kp; 
-
-    static float outPI_prec_no_offset = 0.0, unsat_PI_output_f = MOTORS_PWM_ZERO;            // buffer previous in & out
-
-    float in_f; 
-    float PI_output_f;
-    float K_AW = 0.6;
-    float AW_f = 0.0;
-
-    in_f = (float)(in);        
-
-    // Simple Anti-windup
-    if (unsat_PI_output_f > MOTORS_PWM_MAX)
-       AW_f =  K_AW*(unsat_PI_output_f  - MOTORS_PWM_MAX); 
-    else if (unsat_PI_output_f  < MOTORS_PWM_MIN)
-       AW_f = K_AW*(unsat_PI_output_f  - MOTORS_PWM_MIN);
-    else 
-       AW_f = 0.0;        
-
-    // Compute PI output - do not forget the 50% offset
-    unsat_PI_output_f = outPI_prec_no_offset + Kp_L*in_f - AW_f;
-    unsat_PI_output_f += MOTORS_PWM_ZERO;
-
-    // Saturate PI output between Min and Max duty-cycles
-    if (unsat_PI_output_f > MOTORS_PWM_MAX)
-        PI_output_f = MOTORS_PWM_MAX;
-    else if (unsat_PI_output_f < MOTORS_PWM_MIN)
-        PI_output_f = MOTORS_PWM_MIN;
-    else
-        PI_output_f = unsat_PI_output_f;
-
-    // Update variables for next iteration
-    outPI_prec_no_offset = PI_output_f - MOTORS_PWM_ZERO;
-    return PI_output_f;
-}
-
-/**
- * @brief   Applies a PI controller to the input (right wheel)
- * @param   in PI controller input
- * @return  PI controller output
-*/
-float PI_Controller_R (int32_t in)
-{
-    //volatile static const float a1_PI = Kp + T*Ki/2.0 ;      // coef. formula PI controller
-    //volatile static const float a2_PI = Kp - T*Ki/2.0 ; 
-    static const float a1_PI = T*Ki_R/2.0 - Kp_R ;      // coef. formula PI controller
-    static const float a2_PI = T*Ki_R/2.0 + Kp_R;
-
-    static float outPI_prec_no_offset = 0.0, unsat_PI_output_f = MOTORS_PWM_ZERO;            // buffer previous in & out
-
-    float in_f; 
-    float PI_output_f;
-    float K_AW = 0.6;
-    float AW_f = 0.0;
-
-    in_f = (float)(in);        
-
-    // Simple Anti-windup
-    if (unsat_PI_output_f > MOTORS_PWM_MAX)
-       AW_f =  K_AW*(unsat_PI_output_f  - MOTORS_PWM_MAX); 
-    else if (unsat_PI_output_f  < MOTORS_PWM_MIN)
-       AW_f = K_AW*(unsat_PI_output_f  - MOTORS_PWM_MIN);
-    else 
-       AW_f = 0.0;        
-
-    // Compute PI output - do not forget the 50% offset
-    unsat_PI_output_f = outPI_prec_no_offset + Kp_R*in_f - AW_f;
-    unsat_PI_output_f += MOTORS_PWM_ZERO;
-
-    // Saturate PI output between Min and Max duty-cycles
-    if (unsat_PI_output_f > MOTORS_PWM_MAX)
-        PI_output_f = MOTORS_PWM_MAX;
-    else if (unsat_PI_output_f < MOTORS_PWM_MIN)
-        PI_output_f = MOTORS_PWM_MIN;
-    else
-        PI_output_f = unsat_PI_output_f;
-
-    // Update variables for next iteration
-    outPI_prec_no_offset = PI_output_f - MOTORS_PWM_ZERO;
-    return PI_output_f;
 }
 
 /**
@@ -328,15 +215,16 @@ float PI_Controller_R (int32_t in)
 */
 void RearMotor_controlL(int16_t speed_cmd)
 {
-    float motor_speed_L;
-    
     // Command must be send without jitter...
-    motor_speed_L = (duty_cycle_L - MOTORS_PWM_ZERO) / ((MOTORS_PWM_DELTA_MAX)/(MOTORS_SPEED_DELTA));
-    Motor_setSpeed(REAR_MOTOR_L, motor_speed_L);
+    Motor_setSpeed(REAR_MOTOR_L, duty_cycle_L);
 
     // ... so we need to compute the command for next send.
-    car_speed_L = SpeedSensor_get(SPEED_CM_S, SENSOR_L);     
-    duty_cycle_L = ComputeMotorCommand_L(speed_cmd, current, car_speed_L);
+    float car_speed_L = SpeedSensor_get(SPEED_CM_S, SENSOR_L);
+    float car_position_L = PositionSensor_get(POSITION_CM, SENSOR_L);
+
+    duty_cycle_L = ComputeMotorCommand_L(speed_cmd, car_position_L);
+
+    float error = car_speed_L - speed_cmd;
 }
 
 /**
@@ -346,14 +234,15 @@ void RearMotor_controlL(int16_t speed_cmd)
 */
 void RearMotor_controlR(int16_t speed_cmd)
 {
-    float motor_speed_R;
-    
-    // Command must be send without jitter...
-    motor_speed_R = (duty_cycle_R - MOTORS_PWM_ZERO) / ((MOTORS_PWM_DELTA_MAX)/(MOTORS_SPEED_DELTA));  //from duty cycle to [-1, 1]
-    Motor_setSpeed(REAR_MOTOR_R, motor_speed_R);
+	// Command must be send without jitter...
+	Motor_setSpeed(REAR_MOTOR_R, duty_cycle_R);
 
-    // ... so we need to compute the command for next sending.
-    car_speed_R = SpeedSensor_get(SPEED_CM_S, SENSOR_R);     
-    duty_cycle_R = ComputeMotorCommand_R(speed_cmd, current, car_speed_R);
+	// ... so we need to compute the command for next send.
+	float car_speed_R = SpeedSensor_get(SPEED_CM_S, SENSOR_R);
+	float car_position_R = PositionSensor_get(POSITION_CM, SENSOR_R);
+
+	duty_cycle_R = ComputeMotorCommand_R(speed_cmd, car_position_R);
+
+	float error = car_speed_R - speed_cmd;
 }
 

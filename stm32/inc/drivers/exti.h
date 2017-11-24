@@ -10,8 +10,8 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "drivers/common_def.h"
-#include "gpio.h"
-#include "nvic.h"
+#include "drivers/gpio.h"
+#include "drivers/nvic.h"
 
 /* Exported types ------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/
@@ -51,6 +51,7 @@
 /* Exported functions ------------------------------------------------------- */
 int EXTI_QuickInit(GPIO_TypeDef *GPIOx, uint16_t pin, EXTITrigger_TypeDef trigger, uint8_t priority);
 int EXTI_ReInit(GPIO_TypeDef *GPIOx, uint16_t pin, EXTITrigger_TypeDef trigger, uint8_t priority);
+
 void EXTI_Callback(uint32_t EXTI_Line);
 
 #ifdef __cplusplus

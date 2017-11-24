@@ -8,7 +8,6 @@
 
 int main(void)
 {
-	System_Time_QuickInit();
 	Manager_Init();
 	while (1){}
 }

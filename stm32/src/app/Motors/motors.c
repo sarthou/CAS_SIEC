@@ -111,9 +111,12 @@ void Motor_setSpeed(Motors_Enum Motor, float speed) {
 
     duty_cycle = (MOTORS_PWM_DELTA_MAX)/(MOTORS_SPEED_DELTA) * speed + MOTORS_PWM_ZERO;
     
-            if (duty_cycle == MOTORS_PWM_ZERO) Motors_Direction[Motor_Identifier] = NEUTRAL;
-    else    if (duty_cycle >  MOTORS_PWM_ZERO) Motors_Direction[Motor_Identifier] = FORWARD;
-    else    if (duty_cycle <  MOTORS_PWM_ZERO) Motors_Direction[Motor_Identifier] = BACKWARD;
+    if (duty_cycle == MOTORS_PWM_ZERO)
+    	Motors_Direction[Motor_Identifier] = NEUTRAL;
+    else if (duty_cycle >  MOTORS_PWM_ZERO)
+    	Motors_Direction[Motor_Identifier] = FORWARD;
+    else if (duty_cycle <  MOTORS_PWM_ZERO)
+    	Motors_Direction[Motor_Identifier] = BACKWARD;
     
     PWM_SetDutyCycle(TIMx, Channelx, duty_cycle);
 }

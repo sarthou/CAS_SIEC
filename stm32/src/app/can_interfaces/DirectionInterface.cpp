@@ -11,6 +11,7 @@ data_paquet_t direction_data_paquet;
 
 data_paquet_t* linkDirection2Can(void)
 {
+	direction_data_paquet.byteMessage[0] = 0;
 	return &direction_data_paquet;
 }
 

@@ -27,21 +27,23 @@
 
 ### Data format
 
-motors order[int16 : 0] = rear motor left   
-motors order[int16 : 1] = rear motor right   
+motors order[int16 : 0] = rear motor left    : [-1000 : 1000] (mm/s)
+motors order[int16 : 1] = rear motor right   : [-1000 : 1000] (mm/s)
 
-direction order[int8 : 0] = direction motor  
+direction order[int8 : 0] = direction motor  : [-100 : 100] (%)
 
-SteeringWheel[uint8 : 0] = direction sensor  
+SteeringWheel[uint8 : 0] = direction sensor 
 
 Battery[uint8 : 0] = battery level
 
 ***
 
 ### systick_callback
- - can_callback
- - RearMotor_Callback
+ - CanCallback
+ - RearMotors_Callback
  - DirectionMotor_Callback
+ - HallSensor_TimeCallback
+ - Battery_Callback
  
 ### Manager_Init
  - InitCanPeriodic();

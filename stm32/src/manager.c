@@ -90,6 +90,8 @@ void Manager_Init(void)
     uint16_t received_id = -1;
 	while(1)
 	{
+		runCanPeriodic();
+
 		received_id = receiveMessage();
 	}
 

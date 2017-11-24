@@ -18,14 +18,18 @@ BluetoothServer::~BluetoothServer(void){
 
 int BluetoothServer::acceptConnection(){
   clientSocket=accept(mainSocket,(struct sockaddr *)&rem_addr, &opt );
+  connected = 1 ;
   std::cout << "Connection accepted" << std::endl;
 }
 
 void BluetoothServer::sendMsg(const std::string & msg){
   int bytes_send;
-  std::cout << "Message test " << std::endl << msg << std::endl << msg.c_str() << msg.size()<< std::endl;
+  //std::cout << "Message test " << std::endl << msg << std::endl << msg.c_str() << msg.size()<< std::endl;
   bytes_send = write(clientSocket, msg.c_str() , msg.size());
-  std::cout << bytes_send << std::endl;
+  if (bytes_send < 0){
+    connected = 0;
+  }
+  std::cout << bytes_send << " bytes have been sent"<< std::endl;
 }
 
 std::string BluetoothServer::receiveMsg(){
@@ -34,4 +38,8 @@ std::string BluetoothServer::receiveMsg(){
   //std::string msg;
   bytes_read = read(clientSocket, buf, sizeof(buf));
   return buf;
+}
+
+int BluetoothServer::isConnected(){
+  return connected;
 }

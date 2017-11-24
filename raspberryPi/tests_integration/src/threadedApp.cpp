@@ -7,8 +7,6 @@
 
 std::mutex mtx;
 
-
-
 void reception(BluetoothServer *bt)
 {
   while (bt->isConnected()){

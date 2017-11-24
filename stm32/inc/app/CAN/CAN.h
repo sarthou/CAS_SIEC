@@ -30,6 +30,11 @@ typedef struct  {
   unsigned char  type;               // 0 - DATA FRAME, 1 - REMOTE FRAME
 } CAN_msg;
 
+#ifdef __cplusplus
+extern "C"{
+#endif
+
+
 /* Functions defined in module CAN.c */
 void CAN_setup         (void);
 void CAN_init          (void);
@@ -45,6 +50,11 @@ extern CAN_msg       CAN_TxMsg;      // CAN messge for sending
 extern CAN_msg       CAN_RxMsg;      // CAN message for receiving                                
 extern unsigned int  CAN_TxRdy;      // CAN HW ready to transmit a message
 extern unsigned int  CAN_RxRdy;      // CAN HW received a message
+
+#ifdef __cplusplus
+}
+#endif
+
 
 #endif // __CAN_H
 

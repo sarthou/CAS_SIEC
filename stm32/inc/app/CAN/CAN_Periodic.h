@@ -1,7 +1,7 @@
 #ifndef CAN_PERIODIC_H
 #define CAN_PERIODIC_H
 
-#include "CAN_Abstraction.h"
+#include "app/CAN/CAN_Abstraction.h"
 
 /*
 Second abstraction concerning CAN bus
@@ -29,6 +29,10 @@ typedef struct
 	uint16_t nb_subperiodes;
 }periode_t;
 
+#ifdef __cplusplus
+ extern "C" {
+#endif
+
 //Activates the periodicity, the duration of the subperiode (in ms) is given in argument
 //Can not replace a CAN_Init
 void initCanPeriodic(uint16_t periode_ms, periode_t* periodes);
@@ -38,5 +42,9 @@ void CanCallback(uint64_t time_ms);
 
 //Must be called in the main loop of the program
 void runCanPeriodic(void);
+
+#ifdef __cplusplus
+ }
+#endif
 
 #endif

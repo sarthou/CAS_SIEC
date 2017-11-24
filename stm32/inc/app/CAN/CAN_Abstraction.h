@@ -1,8 +1,8 @@
 #ifndef __CAN_ABSTRACTION_H
 #define __CAN_ABSTRACTION_H
 
-#include "STM32F10x.h"
-#include "CAN.h"
+#include "stm32f10x.h"
+#include "app/CAN/CAN.h"
 
 /*
 First abstraction concerning CAN API
@@ -24,6 +24,10 @@ typedef struct{
 	int16_t id;
 }can_paquet_t;
 
+#ifdef __cplusplus
+ extern "C" {
+#endif
+
 //Subscribes to an id and set the memory place for the data
 void canSubscribe(int id, data_paquet_t* data);
 
@@ -36,5 +40,9 @@ int sendMessage(int16_t id, data_paquet_t data);
 int sendMessageFloat(int16_t id, float data1, float data2);
 int sendMessageChar(int16_t id, char data);
 int receiveMessage(void);
+
+#ifdef __cplusplus
+ }
+#endif
 
 #endif

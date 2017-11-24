@@ -1,4 +1,4 @@
-#include "CAN_Periodic.h"
+#include "app/CAN/CAN_Periodic.h"
 
 //Interbal variables
 periode_t* periode_;

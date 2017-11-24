@@ -14,17 +14,9 @@
  *----------------------------------------------------------------------------*/
 
 #include "STM32F10x.h"
-#include "CAN.h"
+#include "app/CAN/CAN.h"
 
-/* CAN identifier type */
-#define CAN_ID_STD            ((uint32_t)0x00000000)  /* Standard Id          */
-#define CAN_ID_EXT            ((uint32_t)0x00000004)  /* Extended Id          */
-
-/* CAN remote transmission request */
-#define CAN_RTR_DATA          ((uint32_t)0x00000000)  /* Data frame           */
-#define CAN_RTR_REMOTE        ((uint32_t)0x00000002)  /* Remote frame         */
-
-CAN_msg       CAN_TxMsg;                  /* CAN messge for sending           */
+CAN_msg       CAN_TxMsg;                  /* CAN message for sending           */
 CAN_msg       CAN_RxMsg;                  /* CAN message for receiving        */                        
 
 unsigned int  CAN_TxRdy = 0;              /* CAN HW ready to transmit message */
@@ -34,57 +26,58 @@ unsigned int  CAN_RxRdy = 0;              /* CAN HW received a message        */
 /*----------------------------------------------------------------------------
   setup CAN interface
  *----------------------------------------------------------------------------*/
-void CAN_setup (void)  {
+void CAN_setup (void)
+{
   unsigned int brp;
 
   RCC->APB1ENR |= ( 1UL << 25);           /* enable clock for CAN             */
 
-  /* Note: MCBSTM32 uses PB8 and PB9 for CAN                                  */
+  /* Note: Nucleo uses PA11 and PA12 for CAN                                  */
   RCC->APB2ENR |=  ( 1UL <<  0);          /* enable clock for AF              */
-  AFIO->MAPR   &=  0xFFFF9FFF;            /* reset CAN remap                  */
-  AFIO->MAPR   |=  0x00004000;            /*   set CAN remap, use PB8, PB9    */
+  AFIO->MAPR   &=  0xFFFF9FFF;            /* reset CAN remap use PA11 and PA12                  */
 
-  RCC->APB2ENR |=  ( 1UL <<  3);          /* enable clock for GPIO B          */
-  GPIOB->CRH   &= ~(0x0F <<  0);
-  GPIOB->CRH   |=  (0x08 <<  0);          /* CAN RX PB.8 input push pull      */
+  RCC->APB2ENR |=  ( 1UL <<  2);          /* enable clock for GPIO A          */
+
+  GPIOA->CRH   &= ~(0x0F <<  12);
+  GPIOA->CRH   |=  (0x08 <<  12);          /* CAN RX PA.11 input push pull      */
   
-  GPIOB->CRH   &= ~(0x0F <<  4);
-  GPIOB->CRH   |=  (0x0B <<  4);          /* CAN TX PB.9 alt.output push pull */ 
+  GPIOA->CRH   &= ~(0x0F <<  16);
+  GPIOA->CRH   |=  (0x0B <<  16);          /* CAN TX PA.12 alt.output push pull */
 
   NVIC_EnableIRQ(USB_HP_CAN1_TX_IRQn);    /* enable CAN TX interrupt          */
   NVIC_EnableIRQ(USB_LP_CAN1_RX0_IRQn);   /* enable CAN RX interrupt          */
 
-  CAN1->MCR = (CAN_MCR_INRQ   /*| */          /* initialisation request           */
-               /*CAN_MCR_NART */   );         /* no automatic retransmission      */
-                                          /* only FIFO 0, tx mailbox 0 used!  */
+  CAN1->MCR = (CAN_MCR_INRQ   );           /* initialisation request           */
+  while ((CAN1->MSR & CAN_MSR_INAK) == 0);
+										  /* only FIFO 0, tx mailbox 0 used!  */
   CAN1->IER = (CAN_IER_FMPIE0 |           /* enable FIFO 0 msg pending IRQ    */
-               CAN_IER_TMEIE    );        /* enable Transmit mbx empty IRQ    */
+			   CAN_IER_TMEIE    );        /* enable Transmit mbx empty IRQ    */
 
   /* Note: this calculations fit for PCLK1 = 36MHz */
-  brp  = (36000000UL / 18) / 500000;      /* baudrate is set to 500k bit/s    */
-                                                                          
+  brp  = (32000000UL / 18) / 500000;      /* baudrate is set to 500k bit/s    */
+
   /* set BTR register so that sample point is at about 72% bit time from bit start */
   /* TSEG1 = 12, TSEG2 = 5, SJW = 4 => 1 CAN bit = 18 TQ, sample at 72%    */
   CAN1->BTR &= ~(((        0x03) << 24) | ((        0x07) << 20) | ((         0x0F) << 16) | (          0x1FF)); 
-  CAN1->BTR |=  ((((4-1) & 0x03) << 24) | (((5-1) & 0x07) << 20) | (((12-1) & 0x0F) << 16) | ((brp-1) & 0x1FF));
+  CAN1->BTR |=  ((((1-1) & 0x03) << 24) | (((3-1) & 0x07) << 20) | (((8-1) & 0x0F) << 16) | ((4-1) & 0x1FF)); // for 666KHz
 }
 
 
 /*----------------------------------------------------------------------------
   leave initialisation mode
  *----------------------------------------------------------------------------*/
-void CAN_start (void)  {
-
+void CAN_start (void)
+{
   CAN1->MCR &= ~CAN_MCR_INRQ;             /* normal operating mode, reset INRQ*/
-  while (CAN1->MSR & CAN_MCR_INRQ);
+  while (CAN1->MSR & CAN_MSR_INAK);
 }
 
 
 /*----------------------------------------------------------------------------
   set the testmode
  *----------------------------------------------------------------------------*/
-void CAN_testmode (unsigned int testmode) {
-
+void CAN_testmode (unsigned int testmode)
+{
   CAN1->BTR &= ~(CAN_BTR_SILM | CAN_BTR_LBKM);     /* set testmode            */
   CAN1->BTR |=  (testmode & (CAN_BTR_SILM | CAN_BTR_LBKM));
 }
@@ -92,8 +85,8 @@ void CAN_testmode (unsigned int testmode) {
 /*----------------------------------------------------------------------------
   check if transmit mailbox is empty
  *----------------------------------------------------------------------------*/
-void CAN_waitReady (void)  {
-
+void CAN_waitReady (void)
+{
   while ((CAN1->TSR & CAN_TSR_TME0) == 0);  /* Transmit mailbox 0 is empty    */
   CAN_TxRdy = 1;
 }
@@ -102,8 +95,8 @@ void CAN_waitReady (void)  {
 /*----------------------------------------------------------------------------
   write a message to CAN peripheral and transmit it
  *----------------------------------------------------------------------------*/
-void CAN_wrMsg (CAN_msg *msg)  {
-
+void CAN_wrMsg (CAN_msg *msg)
+{
   CAN1->sTxMailBox[0].TIR  = 0;           /* Reset TIR register               */
                                           /* Setup identifier information     */
   if (msg->format == STANDARD_FORMAT) {   /*    Standard ID                   */
@@ -138,8 +131,9 @@ void CAN_wrMsg (CAN_msg *msg)  {
 /*----------------------------------------------------------------------------
   read a message from CAN peripheral and release it
  *----------------------------------------------------------------------------*/
-void CAN_rdMsg (CAN_msg *msg)  {
-                                              /* Read identifier information  */
+void CAN_rdMsg (CAN_msg *msg)
+{
+	/* Read identifier information  */
   if ((CAN1->sFIFOMailBox[0].RIR & CAN_ID_EXT) == 0) {
     msg->format = STANDARD_FORMAT;
     msg->id     = 0x000007FF & (CAN1->sFIFOMailBox[0].RIR >> 21);
@@ -173,7 +167,8 @@ void CAN_rdMsg (CAN_msg *msg)  {
 /*----------------------------------------------------------------------------
   CAN write message filter
  *----------------------------------------------------------------------------*/
-void CAN_wrFilter (unsigned int id, unsigned char format)  {
+void CAN_wrFilter (unsigned int id, unsigned char format)
+{
   static unsigned short CAN_filterIdx = 0;
          unsigned int   CAN_msgId     = 0;
   
@@ -209,8 +204,8 @@ void CAN_wrFilter (unsigned int id, unsigned char format)  {
 /*----------------------------------------------------------------------------
   CAN transmit interrupt handler
  *----------------------------------------------------------------------------*/
-void USB_HP_CAN1_TX_IRQHandler (void) {
-
+void USB_HP_CAN1_TX_IRQHandler (void)
+{
   if (CAN1->TSR & CAN_TSR_RQCP0) {          /* request completed mbx 0        */
     CAN1->TSR |= CAN_TSR_RQCP0;             /* reset request complete mbx 0   */
     CAN1->IER &= ~CAN_IER_TMEIE;            /* disable  TME interrupt         */
@@ -223,8 +218,8 @@ void USB_HP_CAN1_TX_IRQHandler (void) {
 /*----------------------------------------------------------------------------
   CAN receive interrupt handler
  *----------------------------------------------------------------------------*/
-void USB_LP_CAN1_RX0_IRQHandler (void) {
-
+void USB_LP_CAN1_RX0_IRQHandler (void)
+{
   if (CAN1->RF0R & CAN_RF0R_FMP0) {			/* message pending ?              */
 	CAN_rdMsg (&CAN_RxMsg);                 /* read the message               */
 

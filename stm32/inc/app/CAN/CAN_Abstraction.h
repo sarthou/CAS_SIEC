@@ -1,3 +1,10 @@
+/*
+ * CAN_Abstraction.h
+ *
+ *  Created on: 11 nov. 2017
+ *      Author: Team Darlene : Sarthou & Benazech
+ */
+
 #ifndef __CAN_ABSTRACTION_H
 #define __CAN_ABSTRACTION_H
 

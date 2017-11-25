@@ -1,6 +1,7 @@
 /**
  * @file    hall_sensors.h
  * @author  Curtis Team
+ * @refact  Team Darlene : Sarthou
  * @brief   Headers of functions to handle hall sensors
  */
  

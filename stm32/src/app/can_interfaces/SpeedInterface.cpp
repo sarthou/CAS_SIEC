@@ -2,7 +2,7 @@
  * SpeedInterface.cpp
  *
  *  Created on: 24 nov. 2017
- *      Author: guill
+ *      Author: Team Darlene : Sarthou
  */
 
 #include "app/can_interfaces/SpeedInterface.h"

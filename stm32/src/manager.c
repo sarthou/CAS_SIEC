@@ -1,6 +1,6 @@
 /**
  * @file    nucleo_functionnalities_manager.c
- * @author  Curtis Team
+ * @author  Team Darlene : Sarthou
  * @brief   for the updates of the data structures and of the car commands
  */
 

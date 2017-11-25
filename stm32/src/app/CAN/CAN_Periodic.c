@@ -1,3 +1,10 @@
+/*
+ * CAN_Periodic.c
+ *
+ *  Created on: 11 nov. 2017
+ *      Author: Team Darlene : Sarthou & Benazech
+ */
+
 #include "app/CAN/CAN_Periodic.h"
 
 //Interbal variables

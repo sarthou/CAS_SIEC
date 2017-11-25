@@ -1,6 +1,7 @@
 /**
  * @file    direction.c
  * @author  L.Senaneuch
+ * @refact  Team Darlene : Sarthou
  * @brief   Functions to handle direction   
  */
  

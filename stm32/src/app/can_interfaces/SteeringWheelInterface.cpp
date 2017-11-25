@@ -2,7 +2,7 @@
  * SteeringWheelInterface.cpp
  *
  *  Created on: 22 nov. 2017
- *      Author: guill
+ *      Author: Team Darlene : Sarthou
  */
 
 #include "app/can_interfaces/SteeringWheelInterface.h"

@@ -1,6 +1,7 @@
 /**
  * @file    position_sensors.c
  * @author  Curtis Team
+ * @refact  Team Darlene : Sarthou
  * @brief   Functions to handle position sensors
  */
  
@@ -32,7 +33,8 @@ __weak void SetCarPositionR(float position) {}
  * @brief   Initializes specified position sensor.
  * @param   PositionSensor_identifier Position sensor to be considered. 
 */
-void PositionSensor_QuickInit(Sensor_Enum PositionSensor_identifier) {
+void PositionSensor_QuickInit(Sensor_Enum PositionSensor_identifier)
+{
     if (PositionSensor_identifier == SENSOR_L)
     	position[SENSOR_L] = 0.0;
     else if (PositionSensor_identifier == SENSOR_R)

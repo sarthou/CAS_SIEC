@@ -1,6 +1,7 @@
 /**
  * @file    system_time.c
  * @author  Curtis Team
+ * @refact  Team Darlene : Sarthou
  * @brief   Functions to manage time  
  */
  

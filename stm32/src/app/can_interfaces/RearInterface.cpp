@@ -2,7 +2,7 @@
  * RearInterface.cpp
  *
  *  Created on: 20 nov. 2017
- *      Author: guill
+ *      Author: Team Darlene : Sarthou
  */
 
 #include "app/can_interfaces/RearInterface.h"

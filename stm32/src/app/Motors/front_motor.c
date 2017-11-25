@@ -1,6 +1,7 @@
 /**
  * @file    front_motor.c
  * @author  Curtis Team
+ * @refact  Team Darlene : Sarthou
  * @brief   Functions to handle front motor  
  */
  
@@ -77,8 +78,6 @@ void DirectionMotor_Callback(uint64_t time_ms)
 /* Private functions ---------------------------------------------------------*/
 void DirectionMotor_control(int8_t cmd_angle)
 {
-	float motor_speed;
-
 	// Command must be send without jitter...
 	//motor_speed = (duty_cycle - MOTORS_PWM_ZERO) / ((MOTORS_PWM_DELTA_MAX)/(MOTORS_SPEED_DELTA));
 	Motor_setSpeed(FRONT_MOTOR, duty_cycle);

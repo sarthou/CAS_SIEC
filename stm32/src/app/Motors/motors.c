@@ -1,6 +1,7 @@
 /**
  * @file    motors.c
  * @author  Curtis Team
+ * @refact  Team Darlene : Sarthou
  * @brief   Functions to handle motors  
  */
  

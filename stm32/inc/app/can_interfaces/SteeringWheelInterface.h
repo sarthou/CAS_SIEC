@@ -2,7 +2,7 @@
  * SteeringWheelInterface.h
  *
  *  Created on: 22 nov. 2017
- *      Author: guill
+ *      Author: Team Darlene : Sarthou
  */
 
 #ifndef APP_CAN_INTERFACES_STEERINGWHEELINTERFACE_H_

@@ -133,6 +133,12 @@ namespace CAS
                 keyLeft = false;
                 dir_left.BackColor = Color.LightGray;
             }
+            if(e.KeyCode == Keys.Space)
+            {
+                current_speed = 0;
+                sendToCar("front " + current_speed.ToString() + "%");
+                sendToCar("center");
+            }
 
             if ((e.KeyCode == Keys.Down || e.KeyCode == Keys.Up) && !keyBack && !keyFront)
             {

@@ -29,29 +29,29 @@
 
 ### Data format
 
-motors order[int16 : 0] = rear motor left    : [-1000 : 1000] (mm/s)
-motors order[int16 : 1] = rear motor right   : [-1000 : 1000] (mm/s)
+motors order[int16 : 0] = rear motor left    : [-1000 : 1000] (mm/s)   
+motors order[int16 : 1] = rear motor right   : [-1000 : 1000] (mm/s)   
 
-direction order[int8 : 0] = direction motor  : [-100 : 100] (%)
+direction order[int8 : 0] = direction motor  : [-100 : 100] (%)   
 
-SteeringWheel[uint8 : 0] = direction sensor 
+SteeringWheel[uint8 : 0] = direction sensor    
 
-Battery[uint8 : 0] = battery level
+Battery[uint8 : 0] = battery level   
 
-Position[float : 0] = left position 	: (cm)
-Position[float : 1] = right position 	: (cm)
+Position[float : 0] = left position 	: (cm)   
+Position[float : 1] = right position 	: (cm)   
 
-Speed[float : 0] = left Speed 	: (cm/s)
-Speed[float : 1] = right Speed 	: (cm/s)
+Speed[float : 0] = left Speed 	: (cm/s)   
+Speed[float : 1] = right Speed 	: (cm/s)   
 
-UltrasonicFB[float : 0] = front ultrasonic
-UltrasonicFB[float : 1] = back ultrasonic
+UltrasonicFB[float : 0] = front ultrasonic   
+UltrasonicFB[float : 1] = back ultrasonic   
 
-UltrasonicL[float : 0] = front left ultrasonic
-UltrasonicL[float : 1] = back left ultrasonic
+UltrasonicL[float : 0] = front left ultrasonic   
+UltrasonicL[float : 1] = back left ultrasonic   
 
-UltrasonicR[float : 0] = front right ultrasonic
-UltrasonicR[float : 1] = back right ultrasonic
+UltrasonicR[float : 0] = front right ultrasonic   
+UltrasonicR[float : 1] = back right ultrasonic   
 
 ***
 

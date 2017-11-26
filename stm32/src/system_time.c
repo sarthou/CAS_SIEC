@@ -24,7 +24,6 @@ uint64_t time_millis; // added by L.S
 /* Public functions ----------------------------------------------------------*/
 
 __weak void HallSensor_TimeCallback(void) {}
-__weak void Manager_Callback(void) {}
 
 __weak void RearMotors_Callback(uint64_t time_ms) {}
 __weak void DirectionMotor_Callback(uint64_t time_ms) {}
@@ -60,8 +59,6 @@ void SysTick_Callback(void) {
 	DirectionMotor_Callback(time_millis);
 
 	Battery_Callback(time_millis);
-
-	//Manager_Callback();
 }
 
 /**

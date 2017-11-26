@@ -53,7 +53,6 @@ void TIM_QuickInit(TIM_TypeDef *TIMx, float PeriodUs) {
    const float frequency_ratio = fclock * PeriodUs / US_PER_S;
    float    PSC_val_f, ARR_val_f;
    uint16_t PSC_val  , ARR_val;
-   volatile float aux;
    
    TIM_TimeBaseInitTypeDef TIM_TimeBaseStructure;
    

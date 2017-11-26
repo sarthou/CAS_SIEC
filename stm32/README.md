@@ -44,6 +44,15 @@ Position[float : 1] = right position 	: (cm)
 Speed[float : 0] = left Speed 	: (cm/s)
 Speed[float : 1] = right Speed 	: (cm/s)
 
+UltrasonicFB[float : 0] = front ultrasonic
+UltrasonicFB[float : 1] = back ultrasonic
+
+UltrasonicL[float : 0] = front left ultrasonic
+UltrasonicL[float : 1] = back left ultrasonic
+
+UltrasonicR[float : 0] = front right ultrasonic
+UltrasonicR[float : 1] = back right ultrasonic
+
 ***
 
 ### systick_callback
@@ -73,6 +82,6 @@ Speed[float : 1] = right Speed 	: (cm/s)
 - [x] direction
 - [x] direction interface
 - [x] Battery
-- [ ] US
-- [ ] US interface
+- [x] US
+- [x] US interface
 

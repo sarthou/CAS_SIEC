@@ -21,6 +21,7 @@
 #include "app/can_interfaces/SteeringWheelInterface.h"
 #include "app/can_interfaces/PositionInterface.h"
 #include "app/can_interfaces/SpeedInterface.h"
+#include "app/can_interfaces/UltasonicInterface.h"
 
 #include "app/Sensors/battery.h"
 
@@ -29,9 +30,8 @@
 #include "app/Motors/motors.h"
 #include "app/Sensors/hall_sensors.h"
 
-//#include "us_sensors.h"
+#include "app/Sensors/us_sensors.h"
 
-//#include "data_interface.h"
 //#include "mirroring.h"
 
 /**
@@ -49,11 +49,6 @@ uint16_t speedG;
 /* Private function prototypes -----------------------------------------------*/
 void init_my_can();
 /* Public functions ----------------------------------------------------------*/
-
-/**
- * @brief   Counter to determine command refreshing time
-*/
-uint32_t Manager_remainingTimeInCommandPeriod = MANAGER_TIME_BETWEEN_TWO_UPDATES;
 
 periode_t my_periode;
 
@@ -75,60 +70,24 @@ void Manager_Init(void)
     
     FrontMotor_QuickInit();
 
+    US_QuickInit();
+    US_StartAcq();
+
     Battery_QuickInit();
 
 
 	System_Time_QuickInit();
-
-    /*
-    Mirroring_Init();
-    //Mirroring_Start();
 	
-	US_QuickInit();
-	US_StartAcq();*/
+	/*
+	Mirroring_Init();
+	//Mirroring_Start();*/
 
-    uint16_t received_id = -1;
 	while(1)
 	{
 		runCanPeriodic();
-
-		received_id = receiveMessage();
+		receiveMessage();
 	}
 
-}
-
-/**
- * @brief   Callback associated to the nucleo functionnalities manager whose aim is to set the adequate command and update the sensors' data
- * @retval	None
-*/
-void Manager_Callback(void) {
-    /*Manager_remainingTimeInCommandPeriod --;
-    
-    if (Manager_remainingTimeInCommandPeriod == 0) {
-    // ACTUATORS    
-        // Front motors
-        if (pDataITF_PI->motor_dir == LEFT || pDataITF_PI->motor_dir == RIGHT){
-          FrontMotor_turn (pDataITF_PI->motor_dir);
-        }
-        else if (pDataITF_PI->motor_dir != LEFT && pDataITF_PI->motor_dir != RIGHT) {
-            FrontMotor_turn(NONE);// do nothing
-        }
-        
-    // SENSORS   
-        // wheel speed    
-        pDataITF_STM->wheel_speed_R = SpeedSensor_get(SPEED_CM_S, SENSOR_R);
-        pDataITF_STM->wheel_speed_L = SpeedSensor_get(SPEED_CM_S, SENSOR_L);
-        
-        // travelled distance
-        pDataITF_STM->travelled_distance_R = PositionSensor_get(POSITION_CM, SENSOR_R);
-        pDataITF_STM->travelled_distance_L = PositionSensor_get(POSITION_CM, SENSOR_L);
-        
-        
-        //motors current
-       // pDataITF_STM->motor_current_R = ;
-       // pDataITF_STM->motor_current_L = ;
-        Manager_remainingTimeInCommandPeriod = MANAGER_TIME_BETWEEN_TWO_UPDATES;  
-    }*/
 }
 
 void init_my_can()
@@ -139,8 +98,23 @@ void init_my_can()
 		paquet1.id = 0x101;
 		paquet1.data = linkSteeringWheel2Can();
 
+		variable_paquet_t paquet2;
+		paquet1.id = 0x000;
+		paquet1.data = linkUltrasonicFB2Can();
+
+		variable_paquet_t paquet3;
+		paquet1.id = 0x001;
+		paquet1.data = linkUltrasonicL2Can();
+
+		variable_paquet_t paquet4;
+		paquet1.id = 0x002;
+		paquet1.data = linkUltrasonicR2Can();
+
 		sub1.variables[0] = paquet1;
-		sub1.nb_variables = 1;
+		sub1.variables[1] = paquet2;
+		sub1.variables[2] = paquet3;
+		sub1.variables[3] = paquet4;
+		sub1.nb_variables = 4;
 	}
 
 	subperiode_t sub2;
@@ -153,9 +127,24 @@ void init_my_can()
 		paquet2.id = 0x102;
 		paquet2.data = linkSpeed2Can();
 
+		variable_paquet_t paquet3;
+		paquet1.id = 0x000;
+		paquet1.data = linkUltrasonicFB2Can();
+
+		variable_paquet_t paquet4;
+		paquet1.id = 0x001;
+		paquet1.data = linkUltrasonicL2Can();
+
+		variable_paquet_t paquet5;
+		paquet1.id = 0x002;
+		paquet1.data = linkUltrasonicR2Can();
+
 		sub2.variables[0] = paquet1;
 		sub2.variables[1] = paquet2;
-		sub2.nb_variables = 2;
+		sub2.variables[2] = paquet3;
+		sub2.variables[3] = paquet4;
+		sub2.variables[4] = paquet5;
+		sub2.nb_variables = 5;
 	}
 
 	my_periode.subperiodes[0] = sub1;

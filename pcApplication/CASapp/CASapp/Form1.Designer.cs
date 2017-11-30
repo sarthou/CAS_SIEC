@@ -520,16 +520,23 @@
 
             while (true)
             {
-                string[] ports = System.IO.Ports.SerialPort.GetPortNames();
-
-                if (!are_same(last_ports, ports))
+                try
                 {
-                    clear_box();
+                    string[] ports = System.IO.Ports.SerialPort.GetPortNames();
 
-                    foreach (string port in ports)
-                        add_item(port);
+                    if (!are_same(last_ports, ports))
+                    {
+                        clear_box();
 
-                    last_ports = ports;
+                        foreach (string port in ports)
+                            add_item(port);
+
+                        last_ports = ports;
+                    }
+                }
+                catch(Exception e)
+                {
+
                 }
             }
         }

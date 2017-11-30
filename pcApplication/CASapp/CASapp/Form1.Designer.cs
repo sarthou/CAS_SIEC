@@ -64,6 +64,11 @@
             this.toolStripDisconnect = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.progressBarLabel = new System.Windows.Forms.ToolStripLabel();
+            this.checkBox_SEND = new System.Windows.Forms.CheckBox();
+            this.checkBox_dbg = new System.Windows.Forms.CheckBox();
+            this.checkBox_cmd = new System.Windows.Forms.CheckBox();
+            this.checkBox_warning = new System.Windows.Forms.CheckBox();
+            this.checkBox_error = new System.Windows.Forms.CheckBox();
             this.tab_control.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.speed_bar)).BeginInit();
@@ -188,6 +193,7 @@
             this.tab_control.TabIndex = 11;
             this.tab_control.KeyDown += new System.Windows.Forms.KeyEventHandler(this.keyPress);
             this.tab_control.KeyUp += new System.Windows.Forms.KeyEventHandler(this.keyEnd);
+            this.tab_control.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.PreviewKeyDown);
             // 
             // tabPage1
             // 
@@ -242,47 +248,55 @@
             // 
             // dir_back
             // 
+            this.dir_back.BackColor = System.Drawing.Color.LightGray;
             this.dir_back.Enabled = false;
+            this.dir_back.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.dir_back.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dir_back.Location = new System.Drawing.Point(109, 259);
             this.dir_back.Name = "dir_back";
             this.dir_back.Size = new System.Drawing.Size(55, 55);
             this.dir_back.TabIndex = 3;
             this.dir_back.Text = "↓";
-            this.dir_back.UseVisualStyleBackColor = true;
+            this.dir_back.UseVisualStyleBackColor = false;
             // 
             // dir_front
             // 
+            this.dir_front.BackColor = System.Drawing.Color.LightGray;
             this.dir_front.Enabled = false;
+            this.dir_front.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.dir_front.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dir_front.Location = new System.Drawing.Point(109, 198);
             this.dir_front.Name = "dir_front";
             this.dir_front.Size = new System.Drawing.Size(55, 55);
             this.dir_front.TabIndex = 2;
             this.dir_front.Text = "↑";
-            this.dir_front.UseVisualStyleBackColor = true;
+            this.dir_front.UseVisualStyleBackColor = false;
             // 
             // dir_right
             // 
+            this.dir_right.BackColor = System.Drawing.Color.LightGray;
             this.dir_right.Enabled = false;
+            this.dir_right.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.dir_right.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dir_right.Location = new System.Drawing.Point(170, 259);
             this.dir_right.Name = "dir_right";
             this.dir_right.Size = new System.Drawing.Size(55, 55);
             this.dir_right.TabIndex = 1;
             this.dir_right.Text = "→";
-            this.dir_right.UseVisualStyleBackColor = true;
+            this.dir_right.UseVisualStyleBackColor = false;
             // 
             // dir_left
             // 
+            this.dir_left.BackColor = System.Drawing.Color.LightGray;
             this.dir_left.Enabled = false;
+            this.dir_left.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.dir_left.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dir_left.Location = new System.Drawing.Point(48, 259);
             this.dir_left.Name = "dir_left";
             this.dir_left.Size = new System.Drawing.Size(55, 55);
             this.dir_left.TabIndex = 0;
             this.dir_left.Text = "←";
-            this.dir_left.UseVisualStyleBackColor = true;
+            this.dir_left.UseVisualStyleBackColor = false;
             // 
             // tabPage2
             // 
@@ -297,6 +311,11 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.checkBox_error);
+            this.tabPage3.Controls.Add(this.checkBox_warning);
+            this.tabPage3.Controls.Add(this.checkBox_cmd);
+            this.tabPage3.Controls.Add(this.checkBox_dbg);
+            this.tabPage3.Controls.Add(this.checkBox_SEND);
             this.tabPage3.Controls.Add(this.clearLogButton);
             this.tabPage3.Controls.Add(this.saveLogButton);
             this.tabPage3.Controls.Add(this.logTextBox);
@@ -392,6 +411,71 @@
             this.progressBarLabel.Size = new System.Drawing.Size(13, 24);
             this.progressBarLabel.Text = " ";
             // 
+            // checkBox_SEND
+            // 
+            this.checkBox_SEND.AutoSize = true;
+            this.checkBox_SEND.Checked = true;
+            this.checkBox_SEND.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_SEND.ForeColor = System.Drawing.Color.Blue;
+            this.checkBox_SEND.Location = new System.Drawing.Point(85, 4);
+            this.checkBox_SEND.Name = "checkBox_SEND";
+            this.checkBox_SEND.Size = new System.Drawing.Size(68, 21);
+            this.checkBox_SEND.TabIndex = 3;
+            this.checkBox_SEND.Text = "SEND";
+            this.checkBox_SEND.UseVisualStyleBackColor = true;
+            // 
+            // checkBox_dbg
+            // 
+            this.checkBox_dbg.AutoSize = true;
+            this.checkBox_dbg.Checked = true;
+            this.checkBox_dbg.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_dbg.ForeColor = System.Drawing.Color.Blue;
+            this.checkBox_dbg.Location = new System.Drawing.Point(159, 4);
+            this.checkBox_dbg.Name = "checkBox_dbg";
+            this.checkBox_dbg.Size = new System.Drawing.Size(79, 21);
+            this.checkBox_dbg.TabIndex = 4;
+            this.checkBox_dbg.Text = "DEBUG";
+            this.checkBox_dbg.UseVisualStyleBackColor = true;
+            // 
+            // checkBox_cmd
+            // 
+            this.checkBox_cmd.AutoSize = true;
+            this.checkBox_cmd.Checked = true;
+            this.checkBox_cmd.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_cmd.ForeColor = System.Drawing.Color.Lime;
+            this.checkBox_cmd.Location = new System.Drawing.Point(244, 4);
+            this.checkBox_cmd.Name = "checkBox_cmd";
+            this.checkBox_cmd.Size = new System.Drawing.Size(60, 21);
+            this.checkBox_cmd.TabIndex = 5;
+            this.checkBox_cmd.Text = "CMD";
+            this.checkBox_cmd.UseVisualStyleBackColor = true;
+            // 
+            // checkBox_warning
+            // 
+            this.checkBox_warning.AutoSize = true;
+            this.checkBox_warning.Checked = true;
+            this.checkBox_warning.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_warning.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.checkBox_warning.Location = new System.Drawing.Point(310, 4);
+            this.checkBox_warning.Name = "checkBox_warning";
+            this.checkBox_warning.Size = new System.Drawing.Size(96, 21);
+            this.checkBox_warning.TabIndex = 6;
+            this.checkBox_warning.Text = "WARNING";
+            this.checkBox_warning.UseVisualStyleBackColor = true;
+            // 
+            // checkBox_error
+            // 
+            this.checkBox_error.AutoSize = true;
+            this.checkBox_error.Checked = true;
+            this.checkBox_error.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_error.ForeColor = System.Drawing.Color.Red;
+            this.checkBox_error.Location = new System.Drawing.Point(412, 4);
+            this.checkBox_error.Name = "checkBox_error";
+            this.checkBox_error.Size = new System.Drawing.Size(80, 21);
+            this.checkBox_error.TabIndex = 7;
+            this.checkBox_error.Text = "ERROR";
+            this.checkBox_error.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -420,6 +504,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.speed_bar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.tabPage3.ResumeLayout(false);
+            this.tabPage3.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -435,16 +520,23 @@
 
             while (true)
             {
-                string[] ports = System.IO.Ports.SerialPort.GetPortNames();
-
-                if (!are_same(last_ports, ports))
+                try
                 {
-                    clear_box();
+                    string[] ports = System.IO.Ports.SerialPort.GetPortNames();
 
-                    foreach (string port in ports)
-                        add_item(port);
+                    if (!are_same(last_ports, ports))
+                    {
+                        clear_box();
 
-                    last_ports = ports;
+                        foreach (string port in ports)
+                            add_item(port);
+
+                        last_ports = ports;
+                    }
+                }
+                catch(Exception e)
+                {
+
                 }
             }
         }
@@ -511,6 +603,11 @@
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.TrackBar speed_bar;
         private System.Windows.Forms.Label speed_label;
+        private System.Windows.Forms.CheckBox checkBox_error;
+        private System.Windows.Forms.CheckBox checkBox_warning;
+        private System.Windows.Forms.CheckBox checkBox_cmd;
+        private System.Windows.Forms.CheckBox checkBox_dbg;
+        private System.Windows.Forms.CheckBox checkBox_SEND;
     }
 }
 

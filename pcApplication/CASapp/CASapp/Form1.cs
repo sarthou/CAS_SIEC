@@ -78,14 +78,16 @@ namespace CAS
                 {
                     serialPort1.Write(data);
                     this.debug_text.AppendTextSent(data + "\r\n");
-                    this.logTextBox.AppendText("[SEND] " + data + "\r\n");
+                    if (checkBox_SEND.Checked)
+                        this.logTextBox.AppendText("[SEND] " + data + "\r\n");
                 }
                 catch(System.TimeoutException e)
                 {
-                    this.logTextBox.AppendText("[TIMEOUT] " + e.Message + "\r\n", Color.Red);
+                    if (checkBox_error.Checked)
+                        this.logTextBox.AppendText("[TIMEOUT] " + e.Message + "\r\n", Color.Red);
                 }
             }
-            else
+            else if (checkBox_error.Checked)
                 this.logTextBox.AppendText("[ERR] car disconnect. Fail to send '" + data + "'\r\n", Color.Red);
         }
 
@@ -145,13 +147,13 @@ namespace CAS
             this.debug_text.AppendTextReceive(indata);
             if(indata[0] == '[')
             {
-                if (indata.Contains("[ERR]"))
+                if (indata.Contains("[ERR]") && checkBox_error.Checked)
                     this.logTextBox.AppendText(indata, Color.Red);
-                else if (indata.Contains("[WRN]"))
+                else if (indata.Contains("[WRN]") && checkBox_warning.Checked)
                     this.logTextBox.AppendText(indata, Color.Orange);
-                else if(indata.Contains("[DBG]"))
+                else if(indata.Contains("[DBG]") && checkBox_dbg.Checked)
                     this.logTextBox.AppendText(indata, Color.Blue);
-                else if (indata.Contains("[CMD]"))
+                else if (indata.Contains("[CMD]") && checkBox_cmd.Checked)
                     this.logTextBox.AppendText(indata, Color.Black);
             }
         }

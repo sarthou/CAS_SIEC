@@ -87,7 +87,6 @@ void Manager_Init(void)
 		runCanPeriodic();
 		receiveMessage();
 	}
-
 }
 
 void init_my_can()
@@ -99,16 +98,16 @@ void init_my_can()
 		paquet1.data = linkSteeringWheel2Can();
 
 		variable_paquet_t paquet2;
-		paquet1.id = 0x000;
-		paquet1.data = linkUltrasonicFB2Can();
+		paquet2.id = 0x000;
+		paquet2.data = linkUltrasonicFB2Can();
 
 		variable_paquet_t paquet3;
-		paquet1.id = 0x001;
-		paquet1.data = linkUltrasonicL2Can();
+		paquet3.id = 0x001;
+		paquet3.data = linkUltrasonicL2Can();
 
 		variable_paquet_t paquet4;
-		paquet1.id = 0x002;
-		paquet1.data = linkUltrasonicR2Can();
+		paquet4.id = 0x002;
+		paquet4.data = linkUltrasonicR2Can();
 
 		sub1.variables[0] = paquet1;
 		sub1.variables[1] = paquet2;
@@ -128,16 +127,16 @@ void init_my_can()
 		paquet2.data = linkSpeed2Can();
 
 		variable_paquet_t paquet3;
-		paquet1.id = 0x000;
-		paquet1.data = linkUltrasonicFB2Can();
+		paquet3.id = 0x000;
+		paquet3.data = linkUltrasonicFB2Can();
 
 		variable_paquet_t paquet4;
-		paquet1.id = 0x001;
-		paquet1.data = linkUltrasonicL2Can();
+		paquet4.id = 0x001;
+		paquet4.data = linkUltrasonicL2Can();
 
 		variable_paquet_t paquet5;
-		paquet1.id = 0x002;
-		paquet1.data = linkUltrasonicR2Can();
+		paquet5.id = 0x002;
+		paquet5.data = linkUltrasonicR2Can();
 
 		sub2.variables[0] = paquet1;
 		sub2.variables[1] = paquet2;

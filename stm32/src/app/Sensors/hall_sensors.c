@@ -70,7 +70,8 @@ uint32_t SENSOR_RemainingTimeInHallPeriod = HALLSENSOR_TIME_BETWEEN_TWO_UPDATES;
 /**
  * @brief Increment per edge
 */
-int8_t adder = COUNT_ADDER;
+int8_t adder_L = COUNT_ADDER;
+int8_t adder_R = COUNT_ADDER;
 
 /* Private function prototypes -----------------------------------------------*/
 void SENSOR_Reset (Sensor_Enum hall_identifier);
@@ -205,7 +206,10 @@ void HallSensor_newEdge(Sensor_Enum hall_identifier)
 		HallSensor_numberOfPop[hall_identifier] = 0;
 	else {}
 	
-	HallSensor_sector[hall_identifier] = HallSensor_sector[hall_identifier] + adder;
+	if(hall_identifier == SENSOR_L)
+		HallSensor_sector[hall_identifier] = HallSensor_sector[hall_identifier] + adder_L;
+	else
+		HallSensor_sector[hall_identifier] = HallSensor_sector[hall_identifier] + adder_R;
 	
 	if (HallSensor_sector[hall_identifier] < 0)
 	{
@@ -218,7 +222,10 @@ void HallSensor_newEdge(Sensor_Enum hall_identifier)
 		SENSOR_Lap[hall_identifier] ++;
 	}
 	else {}
-	HallSensor_currentPeriodeTicks[hall_identifier] = HallSensor_currentPeriodeTicks[hall_identifier] + adder;
+	if(hall_identifier == SENSOR_L)
+		HallSensor_currentPeriodeTicks[hall_identifier] = HallSensor_currentPeriodeTicks[hall_identifier] + adder_L;
+	else
+		HallSensor_currentPeriodeTicks[hall_identifier] = HallSensor_currentPeriodeTicks[hall_identifier] + adder_R;
 }
 
 /**
@@ -286,7 +293,11 @@ void HallSensor_count(Sensor_Enum hall_identifier) {
 	
 	EXTI_QuickInit(GPIO, pin, HALLSENSOR_TRIGG_FW, HALLSENSOR_PRIO);
     
-    adder = COUNT_ADDER;
+	if(hall_identifier == SENSOR_L)
+		adder_L = COUNT_ADDER;
+	else
+		adder_R = COUNT_ADDER;
+
 }
 
 /**
@@ -310,5 +321,8 @@ void HallSensor_decount(Sensor_Enum hall_identifier) {
 	
 	EXTI_QuickInit(GPIO, pin, HALLSENSOR_TRIGG_BW, HALLSENSOR_PRIO);
     
-    adder = DECOUNT_ADDER;
+    if(hall_identifier == SENSOR_L)
+		adder_L = DECOUNT_ADDER;
+	else
+		adder_R = DECOUNT_ADDER;
 }

@@ -86,19 +86,31 @@ void DirectionMotor_control(int8_t cmd_angle)
 	uint8_t real_angle = Direction_get();
 	uint8_t commande = (uint8_t)((float)(cmd_angle*delta_angle/100.0f) + CENTER_ANGLE);
 	duty_cycle = ComputeMotorCommand(commande, real_angle);
+
+	if(duty_cycle > 0.6)
+		duty_cycle = 0.6;
+	else if(duty_cycle < -0.6)
+		duty_cycle = -0.6;
 }
 
 float ComputeMotorCommand(uint8_t commande, uint8_t real_angle)
 {
 	 float dc;         //out duty cycle;
 
-	 if (commande != 0)
-	 {
+	 /*if (commande != 0)
+	 {*/
 		 float error = (float)(commande - real_angle);
 		 dc = error * Kp;
-	 }
+		 if(fabs(error) < 3)
+			 Motor_Disable(FRONT_MOTOR);
+		 else
+			 Motor_Enable(FRONT_MOTOR);
+	 /*}
 	 else
+	 {
+		 Motor_Disable(FRONT_MOTOR);
 		 dc = (float)MOTORS_PWM_ZERO;
+	 }*/
 
 	 return dc;
 }

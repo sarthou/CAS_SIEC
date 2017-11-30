@@ -88,7 +88,7 @@ namespace CAS
                 }
             }
             else if (checkBox_error.Checked)
-                this.logTextBox.AppendText("[ERR] car disconnect. Fail to send '" + data + "'\r\n", Color.Red);
+                this.logTextBox.AppendText("[ERR] car disconnect. Fail to send " + data + "\r\n", Color.Red);
         }
 
         private void sendToCar(Byte[] data)
@@ -98,8 +98,14 @@ namespace CAS
                 try
                 {
                     serialPort1.Write(data, 0, data.Length);
-
                     this.debug_text.AppendTextSent(getToHex(data));
+                    if (checkBox_SEND.Checked)
+                        this.logTextBox.AppendText("[SEND] " + getControlText(data) + "\r\n");
+                }
+                catch (System.TimeoutException e)
+                {
+                    if (checkBox_error.Checked)
+                        this.logTextBox.AppendText("[TIMEOUT] " + e.Message + "\r\n", Color.Red);
                 }
                 catch (Exception e)
                 {
@@ -109,6 +115,8 @@ namespace CAS
                     MessageBox.Show("Error of communication : " + e.Message, "Connection error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+            else if (checkBox_error.Checked)
+                this.logTextBox.AppendText("[ERR] car disconnect. Fail to send " + getControlText(data) + "\r\n", Color.Red);
         }
 
         private void sendToCar(TextBox box)

@@ -1,6 +1,7 @@
 /**
  * @file    rear_motors.h
  * @author  Curtis team
+ * @refact  Team Darlene : Sarthou
  * @brief   Headers of functions to handle rear motors
  */
 

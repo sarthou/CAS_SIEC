@@ -1,24 +1,16 @@
 /**
  * @file    Ext_callbacks.h
- * @author  Curtis Team
+ * @author  Team Darlene : Sarthou
  * @brief   Headers of functions to manage callbacks for Drivers_Car layer 
  */
  
-/* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef _DRIVER_CALLBACKS_H
-#define _DRIVER_CALLBACKS_H
+#ifndef EXT_CALLBACKS_H
+#define EXT_CALLBACKS_H
 
-/* Includes ------------------------------------------------------------------*/
 #include <stdint.h>
 #include <stddef.h>
 #include <stm32f10x.h>
-#include "config/common_constants.h"
 #include "config/modules_definitions.h"
-
-/* Exported types ------------------------------------------------------------*/
-/* Exported constants --------------------------------------------------------*/
-/* Exported macro ------------------------------------------------------------*/
-/* Exported functions ------------------------------------------------------- */
 
 #ifdef __cplusplus
  extern "C" {
@@ -30,4 +22,4 @@ void HallSensor_Handler(Sensor_Enum hall_identifier);
  }
 #endif
 
-#endif // _DRIVER_CALLBACKS_H
+#endif // EXT_CALLBACKS_H

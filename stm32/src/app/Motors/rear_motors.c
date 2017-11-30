@@ -1,6 +1,7 @@
 /**
  * @file    rear_motors.c
  * @author  Curtis Team
+ * @refact  Team Darlene : Sarthou
  * @brief   Functions to handle rear motors
  */
  
@@ -201,6 +202,11 @@ float ComputeMotorCommand_R (float speed_cmd, float position)
 
 	float error = (float)(car_total_distance_R - position);
 	dc = error * Kp_R;
+
+	if(dc < -1.0f)
+		dc = -1.0f;
+	else if(dc > 1.0f)
+		dc = 1.0f;
 
     return dc;
 }

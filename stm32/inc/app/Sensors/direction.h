@@ -1,6 +1,7 @@
 /**
  * @file    direction.h
  * @author  L.S
+ * @refact  Team Darlene : Sarthou
  * @brief   Headers of functions to handle Direction value
  */
  

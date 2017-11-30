@@ -1,6 +1,6 @@
 /**
  * @file	manager.h
- * @author	Curtis Team
+ * @author	Team Darlene : Sarthou
  * @brief	Header template for all the files of the project  
  */
 

@@ -2,7 +2,7 @@
  * DirectionInterface.cpp
  *
  *  Created on: 21 nov. 2017
- *      Author: guill
+ *      Author: Team Darlene : Sarthou
  */
 
 #include "app/can_interfaces/DirectionInterface.h"

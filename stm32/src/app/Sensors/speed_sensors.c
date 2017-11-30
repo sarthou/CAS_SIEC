@@ -1,6 +1,7 @@
 /**
  * @file    speed_sensors.c
  * @author  Curtis Team
+ * @refact  Team Darlene : Sarthou
  * @brief   Functions to handle speed sensors  
  */
  
@@ -96,9 +97,9 @@ float SpeedSensor_get(float unit, Sensor_Enum SpeedSensor_identifier)
 	float this_speed = speed[SpeedSensor_identifier] * unit;
 
 	if (SpeedSensor_identifier == SENSOR_L)
-		SetCarPositionL(this_speed);
+		SetCarSpeedL(this_speed);
 	else if (SpeedSensor_identifier == SENSOR_R)
-		SetCarPositionR(this_speed);
+		SetCarSpeedL(this_speed);
 
 	return this_speed;
 }

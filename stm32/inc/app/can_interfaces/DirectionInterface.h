@@ -2,7 +2,7 @@
  * DirectionInterface.h
  *
  *  Created on: 21 nov. 2017
- *      Author: guill
+ *      Author: Team Darlene : Sarthou
  */
 
 #ifndef APP_CAN_INTERFACES_DIRECTIONINTERFACE_H_

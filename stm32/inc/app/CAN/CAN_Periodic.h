@@ -1,3 +1,10 @@
+/*
+ * CAN_Periodic.h
+ *
+ *  Created on: 11 nov. 2017
+ *      Author: Team Darlene : Sarthou & Benazech
+ */
+
 #ifndef CAN_PERIODIC_H
 #define CAN_PERIODIC_H
 

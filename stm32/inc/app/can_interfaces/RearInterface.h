@@ -2,7 +2,7 @@
  * RearInterface.h
  *
  *  Created on: 20 nov. 2017
- *      Author: guill
+ *      Author: Team Darlene : Sarthou
  */
 
 #ifndef APP_CAN_INTERFACES_REARINTERFACE_H_

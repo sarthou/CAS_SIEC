@@ -2,7 +2,7 @@
  * car_types.h
  *
  *  Created on: 19 nov. 2017
- *      Author: guill
+ *      Author: Team Darlene : Sarthou
  */
 
 #ifndef CAR_TYPES_H_

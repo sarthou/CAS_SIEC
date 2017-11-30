@@ -130,59 +130,6 @@
 */
 #define US_NUM             			6
 
-// Ultrasonic ID
-/**
-* @brief    US_FR : id of front right ultrasonic sensor
-*/
-#define US_FR                       0x00
-
-/**
-* @brief    US_FM : id of front middle ultrasonic sensor
-*/
-#define US_FM                       0x01
-
-/**
-* @brief    US_FL : id of front left ultrasonic sensor
-*/
-#define US_FL                       0x02
-
-/**
-* @brief    US_BR : id of back right ultrasonic sensor
-*/
-#define US_BR                       0x03
-
-/**
-* @brief    US_BM : id of back middle ultrasonic sensor
-*/
-#define US_BM                       0x04
-    
-/**
-* @brief    US_BL : id of back left ultrasonic sensor
-*/
-#define US_BL                       0x05
-
-// Wheel position sensors 
-/**
-* @brief    WP_R : id of Right wheel position sensor
-*/
-#define WP_R                        0x00
-
-/**
-* @brief    WP_L : id of Left wheel position sensor
-*/
-#define WP_L                        0x01
-
-// Steering stop sensor
-/**
-* @brief    SS_R : id of Right wheel position sensor
-*/
-#define SS_R                        0x00
-
-/**
-* @brief    SS_L : id of Left wheel position sensor
-*/
-#define SS_L                        0x01
-
 /**
  * @brief coef to convert counter value in cm
  */

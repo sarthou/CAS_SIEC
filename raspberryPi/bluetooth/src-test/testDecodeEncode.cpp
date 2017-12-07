@@ -25,7 +25,7 @@ void reception(BluetoothServer *bt)
 void envoi(BluetoothServer *bt)
 {
   while (bt->isConnected()){
-	sleep(1);
+	usleep(50000);
 	int32_t value = (int)linkPosSteeringWheel()->byteMessage[0];
 	Messages msg_steering_wheel = Messages(0x00, 0x00, 0x07, value,0);
 	bt->sendMsg(Messages::encode(msg_steering_wheel));

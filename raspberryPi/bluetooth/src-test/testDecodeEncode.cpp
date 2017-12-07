@@ -26,15 +26,10 @@ void envoi(BluetoothServer *bt)
 {
   while (bt->isConnected()){
 	usleep(50000);
-	int32_t value = (int)linkPosSteeringWheel()->byteMessage[0];
+	
+	int32_t value = (int32_t)linkPosSteeringWheel()->byteMessage[0];
 	Messages msg_steering_wheel = Messages(0x00, 0x00, 0x07, value,0);
 	bt->sendMsg(Messages::encode(msg_steering_wheel));
-	/*
-	for(int i =0; i < Messages::encode(msg_steering_wheel).size(); i++)
-	{
-		std::cout << ((int)Messages::encode(msg_steering_wheel)[i]) << std::endl;
-	}*/
-	std::cout<<linkUSFrontBack()->floatMessage[0]<<" / "<<linkUSFrontBack()->floatMessage[1]<<std::endl;
 	
 	int32_t USB_offset = (int32_t)((linkUSFrontBack()->intMessage[1]<<16)&0xFFFF0000)|((int32_t)linkUSFrontBack()->intMessage[0]&0x0000FFFF);
 	int32_t USF_offset = (int32_t)((linkUSFrontBack()->intMessage[3]<<16)&0xFFFF0000)|((int32_t)linkUSFrontBack()->intMessage[2]&0x0000FFFF);
@@ -42,97 +37,72 @@ void envoi(BluetoothServer *bt)
 	Messages msg_us_front_back = Messages(0x00, 0x00, 0x03, USF_offset,USB_offset);
 	bt->sendMsg(Messages::encode(msg_us_front_back));
 	
-	//std::cout<<"SEND=> " <<Messages::encode(msg_us_front_back)<<" / "<<Messages::encode(msg_steering_wheel).size()<<std::endl;
+	int32_t USR1_offset = (int32_t)((linkUSRight()->intMessage[1]<<16)&0xFFFF0000)|((int32_t)linkUSRight()->intMessage[0]&0x0000FFFF);
+	int32_t USR2_offset = (int32_t)((linkUSRight()->intMessage[3]<<16)&0xFFFF0000)|((int32_t)linkUSRight()->intMessage[2]&0x0000FFFF);
 	
-	/*for(int i =0; i < Messages::encode(msg_us_front_back).size(); i++)
-	{
-		std::cout << ((int)Messages::encode(msg_us_front_back)[i]) << std::endl;
-	}*/
+	Messages msg_us_right = Messages(0x00, 0x00, 0x05, USR2_offset,USR1_offset);
+	bt->sendMsg(Messages::encode(msg_us_right));
 	
+	int32_t USL1_offset = (int32_t)((linkUSLeft()->intMessage[1]<<16)&0xFFFF0000)|((int32_t)linkUSLeft()->intMessage[0]&0x0000FFFF);
+	int32_t USL2_offset = (int32_t)((linkUSLeft()->intMessage[3]<<16)&0xFFFF0000)|((int32_t)linkUSLeft()->intMessage[2]&0x0000FFFF);
+	
+	Messages msg_us_left = Messages(0x00, 0x00, 0x04, USL2_offset,USL1_offset);
+	bt->sendMsg(Messages::encode(msg_us_left));
+	
+	int32_t posWheelL = (int32_t)((linkPosWheelsLR()->intMessage[1]<<16)&0xFFFF0000)|((int32_t)linkPosWheelsLR()->intMessage[0]&0x0000FFFF);
+	int32_t posWheelR = (int32_t)((linkPosWheelsLR()->intMessage[3]<<16)&0xFFFF0000)|((int32_t)linkPosWheelsLR()->intMessage[2]&0x0000FFFF);
+	
+	Messages msg_pos_wheels = Messages(0x00, 0x00, 0x01, posWheelL,posWheelR);
+	bt->sendMsg(Messages::encode(msg_pos_wheels));
+	
+	int32_t  speedValueL = (int32_t)((linkSpeedWheelsLR()->intMessage[1]<<16)&0xFFFF0000)|((int32_t)linkSpeedWheelsLR()->intMessage[0]&0x0000FFFF);
+	int32_t  speedValueR = (int32_t)((linkSpeedWheelsLR()->intMessage[3]<<16)&0xFFFF0000)|((int32_t)linkSpeedWheelsLR()->intMessage[2]&0x0000FFFF);
+	Messages msg_speed = Messages(0x00,0x00, 0x02, speedValueL, speedValueR);
+	bt->sendMsg(Messages::encode(msg_speed));
+	
+	int32_t valueBat = (int32_t)linkBattery()->byteMessage[0];
+	Messages msg_battery = Messages(0x00,0x00,0x06,valueBat,0);
+	bt->sendMsg(Messages::encode(msg_battery));
   }
 }
 
-
-void handler_OLD(BluetoothServer *bt){ //OLD version
-	while(bt->isConnected()){
-	  if (!bt->receptionBuffer.empty()){
-		std::string msg = bt->receptionBuffer.front();
-		std::cout<<msg<<std::endl;
-		bt->receptionBuffer.pop_front();
-		if (msg.compare("left") == 0){
-			//std::cout << "Left => shared variable\n";
-		  linkSteeringWheelOrder()->byteMessage[0] = -100;
-		} else if (msg.compare("right") == 0){
-			//std::cout << "Right => shared variable\n";
-			linkSteeringWheelOrder()->byteMessage[0]= 100;
-			
-		}else if(msg.substr(0,5).compare("front") ==0){
-			//std::cout<<"Front => shared variable\n";
-			msg.pop_back();
-			int speed = stoi(msg.substr(6));
-			//std::cout<<msg.substr(6)<<std::endl;
-			linkMotorsOrder()->intMessage[0]= speed*10;
-			//std::cout<<speed<<std::endl;
-			linkMotorsOrder()->intMessage[1]= speed*10;
-			//std::cout<<speed<<std::endl;
-		}else if(msg.substr(0,4).compare("back") ==0){
-			//std::cout<<"Back => shared variable\n";
-			msg.pop_back();
-			int speed = stoi(msg.substr(5));
-			//std::cout<<msg.substr(5)<<std::endl;
-			linkMotorsOrder()->intMessage[0]= speed*10;
-			//std::cout<<speed<<std::endl;
-			linkMotorsOrder()->intMessage[1]= speed*10;
-			//std::cout<<speed<<std::endl;
-		}else if (msg.substr(0,6).compare("center")==0){
-			msg.pop_back();
-			linkSteeringWheelOrder()->byteMessage[0]=0;
-		}
-	  }
-	}
-}
-
 void handler(BluetoothServer *bt){
+	
 	while(bt->isConnected()){
 	  if (!bt->receptionBuffer.empty()){
 		std::string msg = bt->receptionBuffer.front();
 		bt->receptionBuffer.pop_front();
 		Messages decoded_msg=Messages::decode(msg);
-		//decoded_msg.display();
 		
 		if(decoded_msg.getLevel()==0x00 && decoded_msg.getComplementaryID()==0x00){
-			
-			switch(decoded_msg.getId()){
-			case 0x08 :
-				std::cout<<"front"<<std::endl;
-				
-			break;
-			case 0x04 :
-				std::cout<<"back"<<std::endl;
-				
-			break;
-			case 0x02 :
-				std::cout<<"left"<<std::endl;
-				
-			break;
-			case 0x01 :
-				std::cout<<"right"<<std::endl;
-				
-			break;
-			default :
-			break;
+			char id = decoded_msg.getId();
+			if(id==0x08){
+				//std::cout<<"front"<<decoded_msg.getValue()<<std::endl;
+				int32_t speedF = decoded_msg.getValue();
+				linkMotorsOrder()->intMessage[0]= (int16_t)speedF*10;
+				linkMotorsOrder()->intMessage[1]= (int16_t)speedF*10;
+			}else if(id==0x04){
+				//std::cout<<"back"<<decoded_msg.getValue()<<std::endl;
+				int32_t speedB = decoded_msg.getValue();
+				linkMotorsOrder()->intMessage[0]= (int16_t)speedB*-10;
+				linkMotorsOrder()->intMessage[1]= (int16_t)speedB*-10;
+			}else if(id==0x02){
+				//std::cout<<"left"<<decoded_msg.getValue()<<std::endl;
+				int32_t angleL = decoded_msg.getValue();
+				linkSteeringWheelOrder()->byteMessage[0] = (int8_t)angleL;
+			}else if(id==0x01){
+				//std::cout<<"right"<<decoded_msg.getValue()<<std::endl;
+				int32_t angleR = decoded_msg.getValue();
+				linkSteeringWheelOrder()->byteMessage[0] = -1*(int8_t)angleR;
 			}
 			msg.pop_back();
 		}
-
-		
 		}
 	}
 }
 
 int main()
 {
-  //data_paquet_t *transMotorOrder;
   BluetoothServer btServer;
   std::cout << "The bluetooth server has been declared" << std::endl;
   btServer.acceptConnection();
@@ -143,18 +113,16 @@ int main()
   std::thread second (envoi, &btServer);  // spawn new thread that calls bar(0)
   std::thread third (handler, &btServer); 
 
- // std::cout << "Bluetooth threads are running\n";
+  std::cout << "Bluetooth threads are running\n";
   
   launchCANServices();
   
- // std::cout << "CAN services are running\n";
+  std::cout << "CAN services are running\n";
 
   // synchronize threads:
   first.join();                // pauses until first finishes
   second.join();              // pauses until second finishes
   third.join();
-
-  std::cout << "foo and bar completed.\n";
 
   return 0;
 }

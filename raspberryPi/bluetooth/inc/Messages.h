@@ -29,14 +29,14 @@ class Messages {
 
 			From Raspberry Pi to Pc Application :
 			When complementaryID equals 0x0 :
-			0x00=> Direction
+			0x00=> Unassigned for the moment
 			0x01=> Wheels LR
 			0x02=> Speed
 			0x03=> US FB
 			0x04=> US Left
 			0x05=> US Right
 			0x06=> Battery
-			0x07=> Unassigned for the moment
+			0x07=> Steering wheel
 		*/
 		
 		int32_t value; 

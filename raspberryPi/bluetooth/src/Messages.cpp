@@ -40,10 +40,6 @@ std::string Messages::encode(Messages msg){
 	
 	switch(msg.getId()){
 		case 7 :
-		//sentMessage.resize(3);		
-		//sentMessage[0]=begin;
-		//sentMessage[1]=(char)(msg.getValue()&0x000000FF);
-		//sentMessage[2]='\0';
 		sentMessage+=begin;
 		sentMessage+=(char)(msg.getValue()&0x000000FF);
 		break;
@@ -134,8 +130,6 @@ std::string Messages::encode(Messages msg){
 	
 	return sentMessage;
 }
-
-//g++ -std=c++11 -pthread -lbluetooth -fpermissive CAN_Abstraction.c CAN_Application.c CAN_Periodic.c
 
 void Messages::display(){
 	switch(level){

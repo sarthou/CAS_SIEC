@@ -26,30 +26,34 @@ void envoi(BluetoothServer *bt)
 {
   while (bt->isConnected()){
 	sleep(1);
-	int value = (int)linkPosSteeringWheel()->byteMessage[0];
-	Messages msg_steering_wheel = Messages(0x00, 0x00, 0x00, value,0);
+	int32_t value = (int)linkPosSteeringWheel()->byteMessage[0];
+	Messages msg_steering_wheel = Messages(0x00, 0x00, 0x07, value,0);
 	bt->sendMsg(Messages::encode(msg_steering_wheel));
-	std::cout<<"steering wheel sent"<<value<<std::endl;
-
-	int USF_offset = (int)linkUSFrontBack()->intMessage[1]<<16|(int)linkUSFrontBack()->intMessage[0];
-	int USB_offset = (int)linkUSFrontBack()->intMessage[3]<<16|(int)linkUSFrontBack()->intMessage[2];
+	/*
+	for(int i =0; i < Messages::encode(msg_steering_wheel).size(); i++)
+	{
+		std::cout << ((int)Messages::encode(msg_steering_wheel)[i]) << std::endl;
+	}*/
+	std::cout<<linkUSFrontBack()->floatMessage[0]<<" / "<<linkUSFrontBack()->floatMessage[1]<<std::endl;
+	
+	int32_t USB_offset = (int32_t)((linkUSFrontBack()->intMessage[1]<<16)&0xFFFF0000)|((int32_t)linkUSFrontBack()->intMessage[0]&0x0000FFFF);
+	int32_t USF_offset = (int32_t)((linkUSFrontBack()->intMessage[3]<<16)&0xFFFF0000)|((int32_t)linkUSFrontBack()->intMessage[2]&0x0000FFFF);
 	
 	Messages msg_us_front_back = Messages(0x00, 0x00, 0x03, USF_offset,USB_offset);
 	bt->sendMsg(Messages::encode(msg_us_front_back));
-	std::cout<<"steering us font back sent"<<USB_offset<<" / "<<USF_offset<<std::endl;;
-	/*
-	std::string msg = "[DBG][POS STEERING WHEEL]" + std::to_string(linkPosSteeringWheel()->byteMessage[0])+"\n";
-    bt->sendMsg(msg);
 	
-	std::string msg2 = "[DBG][POS WHEELS LR]" + std::to_string(linkPosWheelsLR()->intMessage[0])+std::to_string(linkPosWheelsLR()->intMessage[1])+"\n";
-    bt->sendMsg(msg2);*/
+	//std::cout<<"SEND=> " <<Messages::encode(msg_us_front_back)<<" / "<<Messages::encode(msg_steering_wheel).size()<<std::endl;
+	
+	/*for(int i =0; i < Messages::encode(msg_us_front_back).size(); i++)
+	{
+		std::cout << ((int)Messages::encode(msg_us_front_back)[i]) << std::endl;
+	}*/
 	
   }
-
 }
 
-/*
-void handler(BluetoothServer *bt){
+
+void handler_OLD(BluetoothServer *bt){ //OLD version
 	while(bt->isConnected()){
 	  if (!bt->receptionBuffer.empty()){
 		std::string msg = bt->receptionBuffer.front();
@@ -86,16 +90,41 @@ void handler(BluetoothServer *bt){
 		}
 	  }
 	}
-}*/
+}
 
 void handler(BluetoothServer *bt){
 	while(bt->isConnected()){
 	  if (!bt->receptionBuffer.empty()){
 		std::string msg = bt->receptionBuffer.front();
 		bt->receptionBuffer.pop_front();
-		
 		Messages decoded_msg=Messages::decode(msg);
-		decoded_msg.display();
+		//decoded_msg.display();
+		
+		if(decoded_msg.getLevel()==0x00 && decoded_msg.getComplementaryID()==0x00){
+			
+			switch(decoded_msg.getId()){
+			case 0x08 :
+				std::cout<<"front"<<std::endl;
+				
+			break;
+			case 0x04 :
+				std::cout<<"back"<<std::endl;
+				
+			break;
+			case 0x02 :
+				std::cout<<"left"<<std::endl;
+				
+			break;
+			case 0x01 :
+				std::cout<<"right"<<std::endl;
+				
+			break;
+			default :
+			break;
+			}
+			msg.pop_back();
+		}
+
 		
 		}
 	}

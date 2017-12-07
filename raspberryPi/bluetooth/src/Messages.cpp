@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-Messages::Messages(char l, char cid, char main_id,int val, int val2){
+Messages::Messages(char l, char cid, char main_id,int32_t val, int32_t val2){
 	level=l;
 	complementaryID=cid;
 	id=main_id;
@@ -20,7 +20,7 @@ Messages Messages::decode(std::string receivedBytes){
 	
 	char id = (receivedBytes[0]&0x0F);
 	
-	int value = (int)(receivedBytes[1]);
+	int32_t value = (int)(receivedBytes[1]);
 	
 	Messages msg = Messages(level,complementaryId,id,value,0);
 	return msg;
@@ -29,9 +29,9 @@ Messages Messages::decode(std::string receivedBytes){
 std::string Messages::encode(Messages msg){
 	std::string sentBytes;
 	
-	char level_offset = ((msg.getLevel()&&0x03)<<6);
-	char complementaryId_offset = ((msg.getComplementaryID()&&0x03)<<4);
-	char id_offset = msg.getId()&&0x00;
+	char level_offset = ((msg.getLevel()&0x03)<<6);
+	char complementaryId_offset = ((msg.getComplementaryID()&0x03)<<4);
+	char id_offset = msg.getId()&0x0F;
 	char begin = level_offset|complementaryId_offset|id_offset;
 	
 	
@@ -39,11 +39,13 @@ std::string Messages::encode(Messages msg){
 	
 	
 	switch(msg.getId()){
-		case 0 : 
-		sentMessage.resize(3);
-		sentMessage[0]=begin;
-		sentMessage[1]=(char)(msg.getValue()&0x000000FF);
-		sentMessage[2]='\0';
+		case 7 :
+		//sentMessage.resize(3);		
+		//sentMessage[0]=begin;
+		//sentMessage[1]=(char)(msg.getValue()&0x000000FF);
+		//sentMessage[2]='\0';
+		sentMessage+=begin;
+		sentMessage+=(char)(msg.getValue()&0x000000FF);
 		break;
 		
 		case 6 : 

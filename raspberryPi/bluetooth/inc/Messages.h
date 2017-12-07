@@ -39,15 +39,15 @@ class Messages {
 			0x07=> Unassigned for the moment
 		*/
 		
-		int value; 
-		int value2;
+		int32_t value; 
+		int32_t value2;
 		
 		/*
 		Used for the reception
 		*/
 		
 		public : 
-		Messages(char l, char cid, char main_id, int val, int val2);
+		Messages(char l, char cid, char main_id,int32_t val, int32_t val2);
 		
 		~Messages();
 		
@@ -70,12 +70,12 @@ class Messages {
 			return id;
 		}
 		
-		int getValue(){
+		int32_t getValue(){
 			return value;
 		}
 		
-		int getValue2(){
-			return value;
+		int32_t getValue2(){
+			return value2;
 		}
 };
 #endif

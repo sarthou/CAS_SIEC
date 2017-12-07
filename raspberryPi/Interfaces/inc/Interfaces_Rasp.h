@@ -7,6 +7,8 @@ data_paquet_t* linkPosSteeringWheel();
 
 data_paquet_t* linkPosWheelsLR();
 
+data_paquet_t* linkSpeedWheelsLR();
+
 data_paquet_t* linkUSFrontBack();
 
 data_paquet_t* linkUSLeft();

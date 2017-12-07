@@ -72,10 +72,11 @@ void launchCANServices (void)  {
 	canSubscribe(0,linkUSFrontBack());
 	canSubscribe(1, linkUSLeft());
 	canSubscribe(2, linkUSRight());
+	canSubscribe(0x102, linkSpeedWheelsLR());
 	canSubscribe(257, linkPosSteeringWheel());
 	canSubscribe(256, linkPosWheelsLR());
 	
-	canSubscribe(512, linkBattery());
+	canSubscribe(0x200, linkBattery());
 	
 	canInit();
 	

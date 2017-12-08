@@ -10,6 +10,7 @@
 #include "system_time.h"
 #include "drivers/systick.h"
 #include "app/CAN/CAN_Periodic.h"
+#include "app/CAN/CAN_Abstraction.h"
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
@@ -52,6 +53,7 @@ void SysTick_Callback(void) {
 	time_millis ++;
 
 	CanCallback(time_millis);
+	TimeoutCallback(time_millis);
 
 	HallSensor_TimeCallback();
 	RearMotors_Callback(time_millis);

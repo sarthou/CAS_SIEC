@@ -6,17 +6,39 @@
  */
 
 #include "app/CAN/CAN_Abstraction.h"
+#include "drivers/common_def.h"
 #include <string.h>
+
+#define TIMEOUT 100
 
 //Internal variables
 int can_ids_[10];
 data_paquet_t* can_data_[10];
 unsigned int can_size_ = 0;
+uint32_t timeout_[10];
+
+void TimeoutCallback(uint64_t time_ms)
+{
+	int i = 0;
+	for(; i < can_size_; i++)
+	{
+		timeout_[i] = timeout_[i] - 1;
+		if(timeout_[i] <= 0)
+		{
+			can_data_[i]->intMessage[0] = 0;
+			can_data_[i]->intMessage[1] = 0;
+			can_data_[i]->intMessage[2] = 0;
+			can_data_[i]->intMessage[3] = 0;
+			timeout_[i] = TIMEOUT;
+		}
+	}
+}
 
 void canSubscribe(int id, data_paquet_t* data)
 {
 	can_ids_[can_size_] = id;
 	can_data_[can_size_] = data;
+	timeout_[can_size_] = TIMEOUT;
 	can_size_ = can_size_ +1;
 }
 
@@ -136,7 +158,10 @@ int receiveMessage(void)
 		int index = findIndexOfId(received.id);
 
 		if(index >= 0) //if index is negative, the id is unknown
+		{
 			*can_data_[index] = received.data;
+			timeout_[index] = TIMEOUT;
+		}
 
 		return received.id;
 	}

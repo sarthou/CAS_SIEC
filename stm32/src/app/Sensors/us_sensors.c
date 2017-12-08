@@ -465,7 +465,23 @@ void DMA1_Channel3_IRQHandler(void)
 	DMA_ClearITPendingBit(DMA1_IT_GL3);
 }
 
-
+int isInfAt(float distance)
+{
+	if((sensors[FRONT_RIGHT].COUNTER_DIFF * DISTANCE_COEF) < distance)
+		return -1;
+	else if((sensors[FRONT_LEFT].COUNTER_DIFF * DISTANCE_COEF) < distance)
+		return -1;
+	else if((sensors[FRONT_CENTER].COUNTER_DIFF * DISTANCE_COEF) < distance)
+		return -1;
+	else if((sensors[REAR_RIGHT].COUNTER_DIFF * DISTANCE_COEF) < distance)
+		return -1;
+	else if((sensors[REAR_LEFT].COUNTER_DIFF * DISTANCE_COEF) < distance)
+		return -1;
+	else if((sensors[REAR_CENTER].COUNTER_DIFF * DISTANCE_COEF) < distance)
+		return -1;
+	else
+		return 0;
+}
 
 /*
  * Function Main

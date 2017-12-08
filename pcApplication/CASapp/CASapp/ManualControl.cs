@@ -71,7 +71,7 @@ namespace CAS
                         current_speed -= 3;
                         if (current_speed < -speed_order)
                             current_speed = -speed_order;
-                        sendSpeed(-current_speed);
+                        sendSpeed(current_speed);
                     }
                     else
                     {

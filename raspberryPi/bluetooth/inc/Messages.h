@@ -13,10 +13,14 @@ class Messages {
 		*/
 		char complementaryID;
 		/*
+			When level==0x00
 			0x0=> sensor & commands
 			0x1=> Unassigned for the moment
 			0x2=> Unassigned for the moment
 			0x3=> Unassigned for the moment
+			
+			When level ==0x03
+			0x0 => Commmunication
 		*/
 		char id;
 		/*
@@ -37,6 +41,9 @@ class Messages {
 			0x05=> US Right
 			0x06=> Battery
 			0x07=> Steering wheel
+			
+			When complementaryId equals 0x00 & level==0x03
+			0x01=>Can error
 		*/
 		
 		int32_t value; 

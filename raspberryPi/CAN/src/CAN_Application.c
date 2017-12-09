@@ -13,11 +13,18 @@
 periode_t my_periode;
 
 volatile uint32_t msTicks; 
+int control_can =0;
+
  void alarmWakeup(int sig_num){
 	 if(sig_num== SIGALRM){
 		 msTicks=msTicks+1;
-		 CanCallback(msTicks);
+		 control_can=control_can+1;
+		 CanCallback(msTicks); 
 	 }
+ }
+ 
+int getControlCan(){
+	return control_can;
  }
  
  void init_my_can()
@@ -83,7 +90,9 @@ void launchCANServices (void)  {
   while (1) {
 	runCanPeriodic();
 	
-	receiveMessage();
+	if(receiveMessage()==0){
+		control_can=0;
+	}
 	
   }
 }

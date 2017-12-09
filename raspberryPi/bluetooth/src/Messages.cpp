@@ -37,18 +37,19 @@ std::string Messages::encode(Messages msg){
 	
 	std::string sentMessage;
 	
-	
+	if(msg.getLevel()==0x00){
 	switch(msg.getId()){
 		case 7 :
 		sentMessage+=begin;
 		sentMessage+=(char)(msg.getValue()&0x000000FF);
+		sentMessage+='\n';
 		break;
 		
 		case 6 : 
 		sentMessage.resize(3);
 		sentMessage[0]=begin;
 		sentMessage[1]=(char)(msg.getValue()&0x000000FF);
-		sentMessage[2]='\0';
+		sentMessage[2]='\n';
 		break;
 		
 		case 1 :
@@ -62,7 +63,7 @@ std::string Messages::encode(Messages msg){
 		sentMessage[6]=(char)((msg.getValue2()&0x0000FF00)>>8);
 		sentMessage[7]=(char)((msg.getValue2()&0x00FF0000)>>16);
 		sentMessage[8]=(char)((msg.getValue2()&0xFF000000)>>24);
-		sentMessage[9]='\0';
+		sentMessage[9]='\n';
 		break;
 		
 		case 2 :
@@ -76,7 +77,7 @@ std::string Messages::encode(Messages msg){
 		sentMessage[6]=(char)((msg.getValue2()&0x0000FF00)>>8);
 		sentMessage[7]=(char)((msg.getValue2()&0x00FF0000)>>16);
 		sentMessage[8]=(char)((msg.getValue2()&0xFF000000)>>24);
-		sentMessage[9]='\0';
+		sentMessage[9]='\n';
 		break;
 		
 		case 3 :
@@ -90,7 +91,7 @@ std::string Messages::encode(Messages msg){
 		sentMessage[6]=(char)((msg.getValue2()&0x0000FF00)>>8);
 		sentMessage[7]=(char)((msg.getValue2()&0x00FF0000)>>16);
 		sentMessage[8]=(char)((msg.getValue2()&0xFF000000)>>24);
-		sentMessage[9]='\0';
+		sentMessage[9]='\n';
 		break;
 		
 		case 4 :
@@ -104,7 +105,7 @@ std::string Messages::encode(Messages msg){
 		sentMessage[6]=(char)((msg.getValue2()&0x0000FF00)>>8);
 		sentMessage[7]=(char)((msg.getValue2()&0x00FF0000)>>16);
 		sentMessage[8]=(char)((msg.getValue2()&0xFF000000)>>24);
-		sentMessage[9]='\0';
+		sentMessage[9]='\n';
 		break;
 		
 		case 5 :
@@ -118,14 +119,21 @@ std::string Messages::encode(Messages msg){
 		sentMessage[6]=(char)((msg.getValue2()&0x0000FF00)>>8);
 		sentMessage[7]=(char)((msg.getValue2()&0x00FF0000)>>16);
 		sentMessage[8]=(char)((msg.getValue2()&0xFF000000)>>24);
-		sentMessage[9]='\0';
+		sentMessage[9]='\n';
 		break;
 		
 		default :
 		sentMessage.resize(2);
 		sentMessage[0]=begin;
-		sentMessage[1]='\0';
+		sentMessage[1]='\n';
 		break;
+	}
+	}
+	
+	if(msg.getLevel()==0x03){
+		sentMessage.resize(2);
+		sentMessage[0]=begin;
+		sentMessage[1]='\n';
 	}
 	
 	return sentMessage;

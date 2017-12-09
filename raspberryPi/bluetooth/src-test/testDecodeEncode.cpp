@@ -74,6 +74,7 @@ void controlCan(BluetoothServer *bt){
 	while (1){
 		if(getControlCan()>100){
 			if(errorCanAlreadySent==0){
+				//std::cout<<"Loss of CAN communicaiton"<<std::endl;
 				Messages msg_Can_error = Messages(0x03,0x00,0x01,0,0);
 				bt->sendMsg(Messages::encode(msg_Can_error));
 				can_Ok=0;
@@ -86,6 +87,17 @@ void controlCan(BluetoothServer *bt){
 				errorCanAlreadySent=0;
 				canRdyAlreadySent=1;
 			}
+		}
+	}
+}
+
+void controlBluetooth(BluetoothServer *bt){
+	while(1){
+		if(bt->isConnected()==0){
+			std::cout<<"Fail Bluetooth"<<std::endl;
+			linkMotorsOrder()->intMessage[0]=0;
+			linkMotorsOrder()->intMessage[1]=0;
+			linkSteeringWheelOrder()->byteMessage[0]=0;
 		}
 	}
 }
@@ -123,6 +135,10 @@ void handler(BluetoothServer *bt){
 		}
 		}
 	}
+	std::cout<<"Loss Bluetooth"<<std::endl;
+	linkMotorsOrder()->intMessage[0]=0;
+	linkMotorsOrder()->intMessage[1]=0;
+	linkSteeringWheelOrder()->byteMessage[0]=0;
 }
 
 int main()
@@ -142,6 +158,8 @@ int main()
   
   std::thread fourth(controlCan, &btServer);
   
+  // std::thread fifth(controlBluetooth, &btServer);
+  
   can_Ok=1;
   launchCANServices();
   
@@ -154,6 +172,7 @@ int main()
   second.join();              // pauses until second finishes
   third.join();
   fourth.join();
+// fifth.join();
 
   return 0;
 }

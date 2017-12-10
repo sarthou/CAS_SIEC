@@ -55,6 +55,7 @@
             this.dir_right = new System.Windows.Forms.Button();
             this.dir_left = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.labelBattery = new System.Windows.Forms.Label();
             this.labelPoseR = new System.Windows.Forms.Label();
             this.labelSpeedR = new System.Windows.Forms.Label();
             this.labelPoseL = new System.Windows.Forms.Label();
@@ -96,7 +97,11 @@
             this.toolStripDisconnect = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.progressBarLabel = new System.Windows.Forms.ToolStripLabel();
-            this.labelBattery = new System.Windows.Forms.Label();
+            this.Battery10 = new System.Windows.Forms.PictureBox();
+            this.Battery30 = new System.Windows.Forms.PictureBox();
+            this.Battery50 = new System.Windows.Forms.PictureBox();
+            this.Battery70 = new System.Windows.Forms.PictureBox();
+            this.Battery100 = new System.Windows.Forms.PictureBox();
             this.tab_control.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.speed_bar)).BeginInit();
@@ -120,6 +125,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.picture_steering)).BeginInit();
             this.tabPage3.SuspendLayout();
             this.toolStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Battery10)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Battery30)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Battery50)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Battery70)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Battery100)).BeginInit();
             this.SuspendLayout();
             // 
             // serialPort1
@@ -382,6 +392,16 @@
             this.tabPage2.UseVisualStyleBackColor = true;
             this.tabPage2.SizeChanged += new System.EventHandler(this.tabPage2_SizeChanged);
             // 
+            // labelBattery
+            // 
+            this.labelBattery.AutoSize = true;
+            this.labelBattery.Location = new System.Drawing.Point(15, 21);
+            this.labelBattery.Name = "labelBattery";
+            this.labelBattery.Size = new System.Drawing.Size(32, 17);
+            this.labelBattery.TabIndex = 27;
+            this.labelBattery.Tag = " %";
+            this.labelBattery.Text = "0 %";
+            // 
             // labelPoseR
             // 
             this.labelPoseR.AutoSize = true;
@@ -635,7 +655,7 @@
             // label_steering
             // 
             this.label_steering.AutoSize = true;
-            this.label_steering.Location = new System.Drawing.Point(63, 114);
+            this.label_steering.Location = new System.Drawing.Point(471, 114);
             this.label_steering.Name = "label_steering";
             this.label_steering.Size = new System.Drawing.Size(16, 17);
             this.label_steering.TabIndex = 1;
@@ -644,7 +664,7 @@
             // picture_steering
             // 
             this.picture_steering.Image = ((System.Drawing.Image)(resources.GetObject("picture_steering.Image")));
-            this.picture_steering.Location = new System.Drawing.Point(31, 14);
+            this.picture_steering.Location = new System.Drawing.Point(474, 14);
             this.picture_steering.Name = "picture_steering";
             this.picture_steering.Size = new System.Drawing.Size(119, 97);
             this.picture_steering.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -818,21 +838,71 @@
             this.progressBarLabel.Size = new System.Drawing.Size(13, 24);
             this.progressBarLabel.Text = " ";
             // 
-            // labelBattery
+            // Battery10
             // 
-            this.labelBattery.AutoSize = true;
-            this.labelBattery.Location = new System.Drawing.Point(577, 114);
-            this.labelBattery.Name = "labelBattery";
-            this.labelBattery.Size = new System.Drawing.Size(32, 17);
-            this.labelBattery.TabIndex = 27;
-            this.labelBattery.Tag = " %";
-            this.labelBattery.Text = "0 %";
+            this.Battery10.Image = ((System.Drawing.Image)(resources.GetObject("Battery10.Image")));
+            this.Battery10.Location = new System.Drawing.Point(25, 59);
+            this.Battery10.Name = "Battery10";
+            this.Battery10.Size = new System.Drawing.Size(85, 50);
+            this.Battery10.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.Battery10.TabIndex = 28;
+            this.Battery10.TabStop = false;
+            this.Battery10.Visible = true;
+            // 
+            // Battery30
+            // 
+            this.Battery30.Image = ((System.Drawing.Image)(resources.GetObject("Battery30.Image")));
+            this.Battery30.Location = new System.Drawing.Point(25, 59);
+            this.Battery30.Name = "Battery30";
+            this.Battery30.Size = new System.Drawing.Size(85, 50);
+            this.Battery30.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.Battery30.TabIndex = 29;
+            this.Battery30.TabStop = false;
+            this.Battery30.Visible = true;
+            // 
+            // Battery50
+            // 
+            this.Battery50.Image = ((System.Drawing.Image)(resources.GetObject("Battery50.Image")));
+            this.Battery50.Location = new System.Drawing.Point(25, 59);
+            this.Battery50.Name = "Battery50";
+            this.Battery50.Size = new System.Drawing.Size(85, 50);
+            this.Battery50.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.Battery50.TabIndex = 29;
+            this.Battery50.TabStop = false;
+            this.Battery50.Visible = true;
+            // 
+            // Battery70
+            // 
+            this.Battery70.Image = ((System.Drawing.Image)(resources.GetObject("Battery70.Image")));
+            this.Battery70.Location = new System.Drawing.Point(25, 59);
+            this.Battery70.Name = "Battery70";
+            this.Battery70.Size = new System.Drawing.Size(85, 50);
+            this.Battery70.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.Battery70.TabIndex = 30;
+            this.Battery70.TabStop = false;
+            this.Battery70.Visible = true;
+            // 
+            // Battery100
+            // 
+            this.Battery100.Image = ((System.Drawing.Image)(resources.GetObject("Battery100.Image")));
+            this.Battery100.Location = new System.Drawing.Point(25, 59);
+            this.Battery100.Name = "Battery100";
+            this.Battery100.Size = new System.Drawing.Size(85, 50);
+            this.Battery100.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.Battery100.TabIndex = 29;
+            this.Battery100.TabStop = false;
+            this.Battery100.Visible = true;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(819, 616);
+            this.Controls.Add(this.Battery100);
+            this.Controls.Add(this.Battery70);
+            this.Controls.Add(this.Battery50);
+            this.Controls.Add(this.Battery30);
+            this.Controls.Add(this.Battery10);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.tab_control);
             this.Controls.Add(this.debug_text);
@@ -877,6 +947,11 @@
             this.tabPage3.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Battery10)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Battery30)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Battery50)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Battery70)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Battery100)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1006,6 +1081,11 @@
         private System.Windows.Forms.PictureBox pictureBox3;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.Label labelBattery;
+        private System.Windows.Forms.PictureBox Battery10;
+        private System.Windows.Forms.PictureBox Battery30;
+        private System.Windows.Forms.PictureBox Battery50;
+        private System.Windows.Forms.PictureBox Battery70;
+        private System.Windows.Forms.PictureBox Battery100;
     }
 }
 

@@ -151,33 +151,68 @@ namespace CAS
         {
             System.IO.Ports.SerialPort sp = (System.IO.Ports.SerialPort)sender;
 
-            string indata = sp.ReadExisting();
-            if (indata != "")
+            while (sp.BytesToRead != 0) 
             {
-                byte[] toBytes = Encoding.GetEncoding(1252).GetBytes(indata);
-
-                this.debug_text.AppendTextReceive(indata);
-
-                if ((toBytes[0] & 0xC0) == 0x00)
-                    indata = updateSensors(toBytes);
-
-                if (indata[0] == '[')
+                sp.NewLine = "\n";
+                try
                 {
-                    if (indata.Contains("[ERR]") && checkBox_error.Checked)
-                        this.logTextBox.AppendText(indata, Color.Red);
-                    else if (indata.Contains("[WRN]") && checkBox_warning.Checked)
-                        this.logTextBox.AppendText(indata, Color.Orange);
-                    else if (indata.Contains("[DBG]") && checkBox_dbg.Checked)
-                        this.logTextBox.AppendText(indata, Color.Blue);
-                    else if (indata.Contains("[CMD]") && checkBox_cmd.Checked)
-                        this.logTextBox.AppendText(indata, Color.Black);
+                    string indata = sp.ReadLine();
+
+                    if (indata != "")
+                    {
+                        byte[] toBytes = Encoding.GetEncoding(1252).GetBytes(indata);
+                        //this.logTextBox.AppendText(getToHex(toBytes), Color.Green);
+
+                        this.debug_text.AppendTextReceive(indata);
+
+                        if ((toBytes[0] & 0xC0) == 0x00)
+                            indata = updateSensors(toBytes);
+                        else if ((toBytes[0] & 0xC0) == 0xC0)
+                            indata = updateError(toBytes);
+
+                        if (indata[0] == '[')
+                        {
+                            if (indata.Contains("[ERR]") && checkBox_error.Checked)
+                                this.logTextBox.AppendText(indata, Color.Red);
+                            else if (indata.Contains("[WRN]") && checkBox_warning.Checked)
+                                this.logTextBox.AppendText(indata, Color.Orange);
+                            else if (indata.Contains("[DBG]") && checkBox_dbg.Checked)
+                                this.logTextBox.AppendText(indata, Color.Blue);
+                            else if (indata.Contains("[CMD]") && checkBox_cmd.Checked)
+                                this.logTextBox.AppendText(indata, Color.Black);
+                        }
+                    }
                 }
+                catch (Exception ex)
+                { }
             }
         }
 
         private void serialPort1_ErrorReceived(object sender, System.IO.Ports.SerialErrorReceivedEventArgs e)
         {
             this.debug_text.AppendTextError("ERROR\r\n");
+        }
+
+        private string updateError(byte[] data)
+        {
+            string log_text = "[ERR]";
+            if ((data[0] & 0x30) == 0x00)
+            {
+                log_text += "[COM]";
+                switch (data[0] & 0x0f)
+                {
+                    case 0x01:
+                        {
+                            log_text += " lost CAN \n";
+                            return log_text;
+                        }
+                    default:
+                        {
+                            break;
+                        }
+                }
+            }
+            return "";
         }
 
         private string updateSensors(byte[] data)
@@ -273,6 +308,42 @@ namespace CAS
                     case 0x06:
                         {
                             log_text += "Battery " + (int)data[1] + "\n";
+
+                            if(data[1] <= 10)
+                            {
+                                Battery100.setVisible(false);
+                                Battery70.setVisible(false);
+                                Battery50.setVisible(false);
+                                Battery30.setVisible(false);
+                            }
+                            else if (data[1] <= 30)
+                            {
+                                Battery100.setVisible(false);
+                                Battery70.setVisible(false);
+                                Battery50.setVisible(false);
+                                Battery30.setVisible(true);
+                            }
+                            else if (data[1] <= 50)
+                            {
+                                Battery100.setVisible(false);
+                                Battery70.setVisible(false);
+                                Battery50.setVisible(true);
+                                Battery30.setVisible(false);
+                            }
+                            else if (data[1] <= 70)
+                            {
+                                Battery100.setVisible(false);
+                                Battery70.setVisible(true);
+                                Battery50.setVisible(false);
+                                Battery30.setVisible(false);
+                            }
+                            else
+                            {
+                                Battery100.setVisible(true);
+                                Battery70.setVisible(false);
+                                Battery50.setVisible(false);
+                                Battery30.setVisible(false);
+                            }
 
                             labelBattery.AppendLabelText(((int)data[1]).ToString());
                             return log_text;

@@ -71,14 +71,14 @@ namespace CAS
                         current_speed -= 3;
                         if (current_speed < -speed_order)
                             current_speed = -speed_order;
-                        sendToCar("back " + current_speed.ToString() + "%");
+                        sendSpeed(current_speed);
                     }
                     else
                     {
                         current_speed += 3;
                         if (current_speed > speed_order)
                             current_speed = speed_order;
-                        sendToCar("front " + current_speed.ToString() + "%");
+                        sendSpeed(current_speed);
                     }
                 }
                 else
@@ -87,9 +87,9 @@ namespace CAS
                 if (keyRight ^ keyLeft)
                 {
                     if (keyRight)
-                        sendToCar("right");
+                        sendDirection(100); //right
                     else
-                        sendToCar("left");
+                        sendDirection(-100); //left
                 }
             }
             else if ((e.KeyCode == Keys.Add) || (e.KeyCode == Keys.Subtract))
@@ -136,18 +136,18 @@ namespace CAS
             if(e.KeyCode == Keys.Space)
             {
                 current_speed = 0;
-                sendToCar("front " + current_speed.ToString() + "%");
-                sendToCar("center");
+                sendSpeed(current_speed);
+                sendDirection(0);
             }
 
             if ((e.KeyCode == Keys.Down || e.KeyCode == Keys.Up) && !keyBack && !keyFront)
             {
                 current_speed = 0;
-                sendToCar("front " + current_speed.ToString() + "%");
+                sendSpeed(current_speed);
             }
 
             if ((e.KeyCode == Keys.Left || e.KeyCode == Keys.Right) && !keyLeft && !keyRight)
-                sendToCar("center");
+                sendDirection(0);
         }
 
         private void speed_bar_ValueChanged(object sender, EventArgs e)
@@ -164,6 +164,54 @@ namespace CAS
             {
                 e.Handled = true;
             }
+        }
+
+        private void sendSpeed(int speed)
+        {
+            Byte[] data = { 0x0, 0x0 };
+            if (speed >= 0)
+                data[0] = 0x08;
+            else
+                data[0] = 0x04;
+
+            data[1] = (Byte)Math.Abs(speed);
+            sendToCar(data);
+        }
+
+        private void sendDirection(int direction)
+        {
+            Byte[] data = { 0x0, 0x0 };
+            if (direction >= 0)
+                data[0] = 0x01;
+            else
+                data[0] = 0x02;
+
+            data[1] = (Byte)Math.Abs(direction);
+            sendToCar(data);
+        }
+
+        private string getControlText(Byte[] data)
+        {
+            string text = "";
+
+            if(data[0] == 0x08)
+            {
+                text += "front : " + data[1].ToString();
+            }
+            else if(data[0] == 0x04)
+            {
+                text += "back : " + data[1].ToString();
+            }
+            else if(data[0] == 0x02)
+            {
+                text += "left : " + data[1].ToString();
+            }
+            else if(data[0] == 0x01)
+            {
+                text += "right : " + data[1].ToString();
+            }
+
+            return text;
         }
     }
 }

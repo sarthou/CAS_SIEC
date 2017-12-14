@@ -88,7 +88,7 @@ namespace CAS
                 }
             }
             else if (checkBox_error.Checked)
-                this.logTextBox.AppendText("[ERR] car disconnect. Fail to send '" + data + "'\r\n", Color.Red);
+                this.logTextBox.AppendText("[ERR] car disconnect. Fail to send " + data + "\r\n", Color.Red);
         }
 
         private void sendToCar(Byte[] data)
@@ -98,8 +98,14 @@ namespace CAS
                 try
                 {
                     serialPort1.Write(data, 0, data.Length);
-
                     this.debug_text.AppendTextSent(getToHex(data));
+                    if (checkBox_SEND.Checked)
+                        this.logTextBox.AppendText("[SEND] " + getControlText(data) + "\r\n");
+                }
+                catch (System.TimeoutException e)
+                {
+                    if (checkBox_error.Checked)
+                        this.logTextBox.AppendText("[TIMEOUT] " + e.Message + "\r\n", Color.Red);
                 }
                 catch (Exception e)
                 {
@@ -109,6 +115,8 @@ namespace CAS
                     MessageBox.Show("Error of communication : " + e.Message, "Connection error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+            else if (checkBox_error.Checked)
+                this.logTextBox.AppendText("[ERR] car disconnect. Fail to send " + getControlText(data) + "\r\n", Color.Red);
         }
 
         private void sendToCar(TextBox box)
@@ -143,24 +151,253 @@ namespace CAS
         {
             System.IO.Ports.SerialPort sp = (System.IO.Ports.SerialPort)sender;
 
-            string indata = sp.ReadExisting();
-            this.debug_text.AppendTextReceive(indata);
-            if(indata[0] == '[')
+            while (sp.BytesToRead != 0) 
             {
-                if (indata.Contains("[ERR]") && checkBox_error.Checked)
-                    this.logTextBox.AppendText(indata, Color.Red);
-                else if (indata.Contains("[WRN]") && checkBox_warning.Checked)
-                    this.logTextBox.AppendText(indata, Color.Orange);
-                else if(indata.Contains("[DBG]") && checkBox_dbg.Checked)
-                    this.logTextBox.AppendText(indata, Color.Blue);
-                else if (indata.Contains("[CMD]") && checkBox_cmd.Checked)
-                    this.logTextBox.AppendText(indata, Color.Black);
+                sp.NewLine = "\n";
+                try
+                {
+                    string indata = sp.ReadLine();
+
+                    if (indata != "")
+                    {
+                        byte[] toBytes = Encoding.GetEncoding(1252).GetBytes(indata);
+                        //this.logTextBox.AppendText(getToHex(toBytes), Color.Green);
+
+                        this.debug_text.AppendTextReceive(indata);
+
+                        if ((toBytes[0] & 0xC0) == 0x00)
+                            indata = updateSensors(toBytes);
+                        else if ((toBytes[0] & 0xC0) == 0xC0)
+                            indata = updateError(toBytes);
+
+                        if (indata[0] == '[')
+                        {
+                            if (indata.Contains("[ERR]") && checkBox_error.Checked)
+                                this.logTextBox.AppendText(indata, Color.Red);
+                            else if (indata.Contains("[WRN]") && checkBox_warning.Checked)
+                                this.logTextBox.AppendText(indata, Color.Orange);
+                            else if (indata.Contains("[DBG]") && checkBox_dbg.Checked)
+                                this.logTextBox.AppendText(indata, Color.Blue);
+                            else if (indata.Contains("[CMD]") && checkBox_cmd.Checked)
+                                this.logTextBox.AppendText(indata, Color.Black);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                { }
             }
         }
 
         private void serialPort1_ErrorReceived(object sender, System.IO.Ports.SerialErrorReceivedEventArgs e)
         {
             this.debug_text.AppendTextError("ERROR\r\n");
+        }
+
+        private string updateError(byte[] data)
+        {
+            string log_text = "[ERR]";
+            if ((data[0] & 0x30) == 0x00)
+            {
+                log_text += "[COM]";
+                switch (data[0] & 0x0f)
+                {
+                    case 0x01:
+                        {
+                            log_text += " lost CAN \n";
+                            return log_text;
+                        }
+                    default:
+                        {
+                            break;
+                        }
+                }
+            }
+            return "";
+        }
+
+        private string updateSensors(byte[] data)
+        {
+            string log_text = "[CMD]";
+            if((data[0] & 0x30) == 0x00)
+            {
+                log_text += "[SENSOR]";
+                switch(data[0] & 0x0f)
+                {
+                    case 0x07:
+                        {
+                            log_text += "steeringwheel " + (int)data[1] + "\n";
+
+                            label_steering.AppendLabelText(((int)data[1]).ToString());
+                            return log_text;
+                        }
+                    case 0x01:
+                        {
+                            float Left = BitConverter.ToSingle(data, 1);
+                            float Right = BitConverter.ToSingle(data, 5);
+                            log_text += "Pose " + Left.ToString() + " : " + Right.ToString() + "\n";
+                            labelPoseL.AppendLabelText(Left.ToString().substr(5));
+                            labelPoseR.AppendLabelText(Right.ToString().substr(5));
+                            return log_text;
+                        }
+                    case 0x02:
+                        {
+                            float Left = BitConverter.ToSingle(data, 1);
+                            float Right = BitConverter.ToSingle(data, 5);
+                            log_text += "Speed " + Left.ToString() + " : " + Right.ToString() + "\n";
+                            labelSpeedL.AppendLabelText(Left.ToString().substr(5));
+                            labelSpeedR.AppendLabelText(Right.ToString().substr(5));
+                            return log_text;
+                        }
+                    case 0x03:
+                        {
+                            float usF = BitConverter.ToSingle(data, 1);
+                            float usB = BitConverter.ToSingle(data, 5);
+                            log_text += "US FB " + usF.ToString() + " : " + usB.ToString() + "\n";
+                            label_USF.AppendLabelText(usF.ToString().substr(5));
+                            label_USB.AppendLabelText(usB.ToString().substr(5));
+
+                            if (usF < 40)
+                                picture_USFW.setVisible(true);
+                            else
+                                picture_USFW.setVisible(false);
+
+                            if (usB < 40)
+                                picture_USBW.setVisible(true);
+                            else
+                                picture_USBW.setVisible(false);
+                            return log_text;
+                        }
+                    case 0x04:
+                        {
+                            double usF = BitConverter.ToSingle(data, 1);
+                            double usB = BitConverter.ToSingle(data, 5);
+                            log_text += "US Left " + usF.ToString() + " : " + usB.ToString() + "\n";
+                            label_USLF.AppendLabelText(usF.ToString().substr(5));
+                            label_USLB.AppendLabelText(usB.ToString().substr(5));
+
+                            if (usF < 40)
+                                picture_USLFW.setVisible(true);
+                            else
+                                picture_USLFW.setVisible(false);
+
+                            if (usB < 40)
+                                picture_USLBW.setVisible(true);
+                            else
+                                picture_USLBW.setVisible(false);
+                            return log_text;
+                        }
+                    case 0x05:
+                        {
+                            double usF = BitConverter.ToSingle(data, 1);
+                            double usB = BitConverter.ToSingle(data, 5);
+                            log_text += "US Right " + usF.ToString() + " : " + usB.ToString() + "\n";
+                            label_USRF.AppendLabelText(usF.ToString().substr(5));
+                            label_USRB.AppendLabelText(usB.ToString().substr(5));
+
+                            if (usF < 40)
+                                picture_USRFW.setVisible(true);
+                            else
+                                picture_USRFW.setVisible(false);
+
+                            if (usB < 40)
+                                picture_USRBW.setVisible(true);
+                            else
+                                picture_USRBW.setVisible(false);
+                            return log_text;
+                        }
+                    case 0x06:
+                        {
+                            log_text += "Battery " + (int)data[1] + "\n";
+
+                            if(data[1] <= 10)
+                            {
+                                Battery100.setVisible(false);
+                                Battery70.setVisible(false);
+                                Battery50.setVisible(false);
+                                Battery30.setVisible(false);
+                            }
+                            else if (data[1] <= 30)
+                            {
+                                Battery100.setVisible(false);
+                                Battery70.setVisible(false);
+                                Battery50.setVisible(false);
+                                Battery30.setVisible(true);
+                            }
+                            else if (data[1] <= 50)
+                            {
+                                Battery100.setVisible(false);
+                                Battery70.setVisible(false);
+                                Battery50.setVisible(true);
+                                Battery30.setVisible(false);
+                            }
+                            else if (data[1] <= 70)
+                            {
+                                Battery100.setVisible(false);
+                                Battery70.setVisible(true);
+                                Battery50.setVisible(false);
+                                Battery30.setVisible(false);
+                            }
+                            else
+                            {
+                                Battery100.setVisible(true);
+                                Battery70.setVisible(false);
+                                Battery50.setVisible(false);
+                                Battery30.setVisible(false);
+                            }
+
+                            labelBattery.AppendLabelText(((int)data[1]).ToString());
+                            return log_text;
+                        }
+                    default:
+                        {
+                            break;
+                        }
+                }
+            }
+            return "";
+        }
+    }
+
+    public static class StringExtensions
+    {
+        public static String substr(this String text, int nb)
+        {
+            if (text.Length > nb)
+                text = text.Substring(0, nb);
+
+            return text;
+        }
+    }
+
+    public static class LabelExtensions
+    {
+        public static void AppendLabelText(this Label label, string text)
+        {
+            if (!label.InvokeRequired)
+            {
+                label.Text = text + label.Tag;
+            }
+            else
+            {
+                label.Invoke(new System.Action<Label, string>(AppendLabelText), label, text);
+            }
+
+        }
+    }
+
+    public static class PictureBoxExtensions
+    {
+        public static void setVisible(this PictureBox box, bool visible)
+        {
+            if (!box.InvokeRequired)
+            {
+                box.Visible = visible;
+            }
+            else
+            {
+                box.Invoke(new System.Action<PictureBox, bool>(setVisible), box, visible);
+            }
+
         }
     }
 
@@ -186,7 +423,7 @@ namespace CAS
 
         public static void AppendTextReceive(this RichTextBox box, string text)
         {
-            box.AppendText(text, Color.MediumBlue);
+            box.AppendText(text, Color.AliceBlue);
         }
 
         public static void AppendTextSent(this RichTextBox box, string text)

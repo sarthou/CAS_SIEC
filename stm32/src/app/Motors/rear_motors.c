@@ -17,6 +17,7 @@
 #include "app/Sensors/position_sensors.h"
 #include "app/Sensors/speed_sensors.h"
 #include "app/Sensors/hall_sensors.h"
+#include "app/Sensors/us_sensors.h"
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
@@ -126,6 +127,13 @@ void RearMotors_Callback(uint64_t time_ms)
 		if(time_ms%10 == 0) // MOTORS_COMMAND_TIME_BETWEEN_TWO_UPDATES
 		{
 			GetRearMotors(&speed_cmd_L, &speed_cmd_R);
+
+			if(isInfAt(25) == -1)
+			{
+				speed_cmd_L = 0;
+				speed_cmd_R = 0;
+			}
+
 			if(REAR_CONTROL)
 			{
 				 RearMotor_controlL(speed_cmd_L);

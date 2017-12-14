@@ -1,0 +1,7 @@
+ctrl_interface=/var/run/wpa_supplicant GROUP=netdev
+update_config=1
+
+network={
+	ssid="DarleneWiFi"
+	psk=9fd69fde6729fd982811513b2f91485d227ec7f8066c0e4921f1bf49498dd13c
+}

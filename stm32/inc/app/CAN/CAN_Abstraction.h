@@ -35,6 +35,8 @@ typedef struct{
  extern "C" {
 #endif
 
+ void TimeoutCallback(uint64_t time_ms);
+
 //Subscribes to an id and set the memory place for the data
 void canSubscribe(int id, data_paquet_t* data);
 

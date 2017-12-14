@@ -326,3 +326,4 @@ void HallSensor_decount(Sensor_Enum hall_identifier) {
 	else
 		adder_R = DECOUNT_ADDER;
 }
+

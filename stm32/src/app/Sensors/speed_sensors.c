@@ -99,7 +99,7 @@ float SpeedSensor_get(float unit, Sensor_Enum SpeedSensor_identifier)
 	if (SpeedSensor_identifier == SENSOR_L)
 		SetCarSpeedL(this_speed);
 	else if (SpeedSensor_identifier == SENSOR_R)
-		SetCarSpeedL(this_speed);
+		SetCarSpeedR(this_speed);
 
 	return this_speed;
 }

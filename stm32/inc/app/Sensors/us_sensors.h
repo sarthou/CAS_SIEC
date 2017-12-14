@@ -41,6 +41,8 @@ extern "C"{
  void US_StartAcq(void);
  void US_StopAcq(void);
  
+ int isInfAt(float distance);
+
 #ifdef __cplusplus
 }
 #endif

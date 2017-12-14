@@ -69,7 +69,6 @@ int32_t HallSensor_getLap(Sensor_Enum hall_identifier);
 uint64_t HallSensor_getLastPop(uint8_t n, Sensor_Enum hall_identifier);
 int8_t HallSensor_getNumberTicksInPeriod(Sensor_Enum hall_identifier);
 
-
 //weak function from Ext_callbacks
 void HallSensor_Handler(Sensor_Enum hall_identifier);
 //weak function from system_time

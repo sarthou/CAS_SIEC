@@ -2,6 +2,7 @@
 
 data_paquet_t posSteeringWheel;
 data_paquet_t posWheelsLR;
+data_paquet_t speedWheelsLR;
 data_paquet_t USFrontBack;
 data_paquet_t USLeft;
 data_paquet_t USRight;
@@ -15,6 +16,10 @@ data_paquet_t* linkPosSteeringWheel(){
 
 data_paquet_t* linkPosWheelsLR(){
 	return &posWheelsLR;
+}
+
+data_paquet_t* linkSpeedWheelsLR(){
+	return &speedWheelsLR;
 }
 
 data_paquet_t* linkUSFrontBack(){

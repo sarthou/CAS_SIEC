@@ -25,7 +25,7 @@ namespace CAS
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            check_com_thread.Abort();
+            check_com_thread.Abort(); // abandonnez le navire !!
         }
 
         /*
@@ -70,7 +70,7 @@ namespace CAS
         /*
          * Send & receive Data
          */
-        private void sendToCar(string data)
+        private void sendToCar(string data) // les femmes et les points-virgule d'abord !
         {
             if (is_connected)
             {
@@ -88,13 +88,13 @@ namespace CAS
                 }
             }
             else if (checkBox_error.Checked)
-                this.logTextBox.AppendText("[ERR] car disconnect. Fail to send " + data + "\r\n", Color.Red);
+                this.logTextBox.AppendText("[ERR] car disconnect. DO NOT PANIC ! Fail to send " + data + "\r\n", Color.Red);
         }
 
         private void sendToCar(Byte[] data)
         {
             if (is_connected)
-            {
+            {// bolobolobolobolobolobolobolobolobolobolobolobolobolobolobolobolobolobolobolobolobolobolobolobolobolobolobolobolobolobolobolobolo
                 try
                 {
                     serialPort1.Write(data, 0, data.Length);
@@ -102,25 +102,26 @@ namespace CAS
                     if (checkBox_SEND.Checked)
                         this.logTextBox.AppendText("[SEND] " + getControlText(data) + "\r\n");
                 }
-                catch (System.TimeoutException e)
+                catch (System.TimeoutException e) // booh !
                 {
                     if (checkBox_error.Checked)
                         this.logTextBox.AppendText("[TIMEOUT] " + e.Message + "\r\n", Color.Red);
                 }
-                catch (Exception e)
+                catch (Exception e) // snif !
                 {
                     this.debug_text.AppendTextError("Communication Error");
                     is_connected = false;
-                    Connecting_button.Text = "connect";
+                    Connecting_button.Text = "connect"; // bolobolobolobolobolobolobolobolobolobolobolobolobolobolobolobolobolobolobolobolobolobolobolobolobolobolobolobolobolobolobolobolo
                     MessageBox.Show("Error of communication : " + e.Message, "Connection error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             else if (checkBox_error.Checked)
-                this.logTextBox.AppendText("[ERR] car disconnect. Fail to send " + getControlText(data) + "\r\n", Color.Red);
+                this.logTextBox.AppendText("[ERR] car disconnect. DO NOT PANIC ! Fail to send " + getControlText(data) + "\r\n", Color.Red);
         }
 
-        private void sendToCar(TextBox box)
+        private void sendToCar(TextBox box) 
         {
+            MessageBox.Show("hi there !"); // ici n'est rien
             if (is_connected)
             {
                 serialPort1.Write(box.Text);
@@ -137,7 +138,7 @@ namespace CAS
 
         private void textBox2_enter(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Enter)
+            if (e.KeyCode == Keys.Enter) // Entrez c'est tout vert !
             {
                 if (is_connected)
                     sendToCar(textBox2);
@@ -147,7 +148,7 @@ namespace CAS
             }
         }
 
-        private void serialPort1_DataReceived(object sender, System.IO.Ports.SerialDataReceivedEventArgs e)
+        private void serialPort1_DataReceived(object sender, System.IO.Ports.SerialDataReceivedEventArgs e) // je crois qu'on a un message !
         {
             System.IO.Ports.SerialPort sp = (System.IO.Ports.SerialPort)sender;
 
@@ -158,19 +159,23 @@ namespace CAS
                 {
                     string indata = sp.ReadLine();
 
-                    if (indata != "")
+                    if (indata != "") // ouf !
                     {
                         byte[] toBytes = Encoding.GetEncoding(1252).GetBytes(indata);
                         //this.logTextBox.AppendText(getToHex(toBytes), Color.Green);
 
-                        this.debug_text.AppendTextReceive(indata);
+                        this.debug_text.AppendTextReceive(indata); // yay !
 
                         if ((toBytes[0] & 0xC0) == 0x00)
                             indata = updateSensors(toBytes);
                         else if ((toBytes[0] & 0xC0) == 0xC0)
                             indata = updateError(toBytes);
+                        else if ((toBytes[0] & 0xC0) == 0x40)
+                        {
+                            indata = "[DBG]" + indata.Substring(1);// hi
+                        }
 
-                        if (indata[0] == '[')
+                            if (indata[0] == '[')
                         {
                             if (indata.Contains("[ERR]") && checkBox_error.Checked)
                                 this.logTextBox.AppendText(indata, Color.Red);
@@ -184,13 +189,14 @@ namespace CAS
                     }
                 }
                 catch (Exception ex)
-                { }
+                { //oups, something went wrong !
+                }
             }
         }
 
         private void serialPort1_ErrorReceived(object sender, System.IO.Ports.SerialErrorReceivedEventArgs e)
         {
-            this.debug_text.AppendTextError("ERROR\r\n");
+            this.debug_text.AppendTextError("ERROR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\r\n");
         }
 
         private string updateError(byte[] data)
@@ -203,7 +209,7 @@ namespace CAS
                 {
                     case 0x01:
                         {
-                            log_text += " lost CAN \n";
+                            log_text += " lost CAN, snif... \n";
                             return log_text;
                         }
                     default:
@@ -215,25 +221,25 @@ namespace CAS
             return "";
         }
 
-        private string updateSensors(byte[] data)
+        private string updateSensors(byte[] data) // sense sense sense
         {
             string log_text = "[CMD]";
-            if((data[0] & 0x30) == 0x00)
+            if ((data[0] & 0x30) == 0x00)
             {
                 log_text += "[SENSOR]";
-                switch(data[0] & 0x0f)
+                switch (data[0] & 0x0f)
                 {
                     case 0x07:
                         {
-                            log_text += "steeringwheel " + (int)data[1] + "\n";
+                            log_text += "steeringwheel " + (int)data[1] + "\n"; // attention virage !!!!
 
                             label_steering.AppendLabelText(((int)data[1]).ToString());
                             return log_text;
                         }
                     case 0x01:
                         {
-                            float Left = BitConverter.ToSingle(data, 1);
-                            float Right = BitConverter.ToSingle(data, 5);
+                            float Left = BitConverter.ToSingle(data, 1); // bien
+                            float Right = BitConverter.ToSingle(data, 5); // mal
                             log_text += "Pose " + Left.ToString() + " : " + Right.ToString() + "\n";
                             labelPoseL.AppendLabelText(Left.ToString().substr(5));
                             labelPoseR.AppendLabelText(Right.ToString().substr(5));
@@ -243,7 +249,7 @@ namespace CAS
                         {
                             float Left = BitConverter.ToSingle(data, 1);
                             float Right = BitConverter.ToSingle(data, 5);
-                            log_text += "Speed " + Left.ToString() + " : " + Right.ToString() + "\n";
+                            log_text += "Speed " + Left.ToString() + " : " + Right.ToString() + " a fond les ballons !!!\n";
                             labelSpeedL.AppendLabelText(Left.ToString().substr(5));
                             labelSpeedR.AppendLabelText(Right.ToString().substr(5));
                             return log_text;
@@ -307,9 +313,9 @@ namespace CAS
                         }
                     case 0x06:
                         {
-                            log_text += "Battery " + (int)data[1] + "\n";
+                            log_text += "Battery ( an object which stores energy)" + (int)data[1] + "\n";
 
-                            if(data[1] <= 10)
+                            if (data[1] <= 10)
                             {
                                 Battery100.setVisible(false);
                                 Battery70.setVisible(false);
@@ -354,7 +360,53 @@ namespace CAS
                         }
                 }
             }
-            return "";
+            else if ((data[0] & 0x30) == 0x20)
+            {
+                log_text += "[CAMERA]";
+                switch (data[0] & 0x0f)
+                {
+                    case 0x00:
+                        {
+                            log_text += "no car\n";
+                            picture_car_detected.Visible = false;
+                            picture_car_near.Visible = false;
+                            picture_car_too_near.Visible = false;
+                            picture_no_car.Visible = true;
+                            return log_text;
+                        }
+                    case 0x01:
+                        {
+                            log_text += "car at right ";
+                            picture_no_car.Visible = false;
+                            double depth = BitConverter.ToSingle(data, 1);
+                            double lat = BitConverter.ToSingle(data, 5);
+                            log_text += depth.ToString() + " : " + lat.ToString() + "\n";
+                            double picture_pose = 283.0 + 112.0 * lat / 1.0f;
+                            if (picture_pose > 395) picture_pose = 395;
+                            picture_car_detected.Location = new Point((int)picture_pose, picture_car_detected.Location.Y);
+                            picture_car_detected.Visible = true;
+                            return log_text;
+                        }
+                    case 0x02:
+                        {
+                            log_text += "car at left (opposite of rigth)(well, you see what I mean)\n";
+                            picture_no_car.Visible = false;
+                            double depth = BitConverter.ToSingle(data, 1);
+                            double lat = BitConverter.ToSingle(data, 5);
+                            log_text += depth.ToString() + " : " + lat.ToString() + "\n";
+                            double picture_pose = 283.0 - 112.0 * lat / 1.0f;
+                            if (picture_pose < 171) picture_pose = 171;
+                            picture_car_detected.Location = new Point((int)picture_pose, picture_car_detected.Location.Y);
+                            picture_car_detected.Visible = true;
+                            return log_text;
+                        }
+                    default:
+                        {
+                            break;
+                        }
+                }
+            }
+                return "";
         }
     }
 

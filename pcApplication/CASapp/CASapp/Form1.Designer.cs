@@ -47,6 +47,11 @@
             this.debug_text = new System.Windows.Forms.RichTextBox();
             this.tab_control = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.picture_car_too_near = new System.Windows.Forms.PictureBox();
+            this.picture_car_near = new System.Windows.Forms.PictureBox();
+            this.picture_car_detected = new System.Windows.Forms.PictureBox();
+            this.picture_no_car = new System.Windows.Forms.PictureBox();
+            this.pictureBox5 = new System.Windows.Forms.PictureBox();
             this.speed_label = new System.Windows.Forms.Label();
             this.speed_bar = new System.Windows.Forms.TrackBar();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
@@ -104,6 +109,11 @@
             this.Battery100 = new System.Windows.Forms.PictureBox();
             this.tab_control.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picture_car_too_near)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture_car_near)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture_car_detected)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture_no_car)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.speed_bar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.tabPage2.SuspendLayout();
@@ -252,6 +262,11 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.picture_car_too_near);
+            this.tabPage1.Controls.Add(this.picture_car_near);
+            this.tabPage1.Controls.Add(this.picture_car_detected);
+            this.tabPage1.Controls.Add(this.picture_no_car);
+            this.tabPage1.Controls.Add(this.pictureBox5);
             this.tabPage1.Controls.Add(this.speed_label);
             this.tabPage1.Controls.Add(this.speed_bar);
             this.tabPage1.Controls.Add(this.pictureBox1);
@@ -266,6 +281,64 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Control";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // picture_car_too_near
+            // 
+            this.picture_car_too_near.Image = ((System.Drawing.Image)(resources.GetObject("picture_car_too_near.Image")));
+            this.picture_car_too_near.InitialImage = ((System.Drawing.Image)(resources.GetObject("picture_car_too_near.InitialImage")));
+            this.picture_car_too_near.Location = new System.Drawing.Point(283, 60);
+            this.picture_car_too_near.Name = "picture_car_too_near";
+            this.picture_car_too_near.Size = new System.Drawing.Size(99, 76);
+            this.picture_car_too_near.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picture_car_too_near.TabIndex = 21;
+            this.picture_car_too_near.TabStop = false;
+            this.picture_car_too_near.Visible = false;
+            // 
+            // picture_car_near
+            // 
+            this.picture_car_near.Image = ((System.Drawing.Image)(resources.GetObject("picture_car_near.Image")));
+            this.picture_car_near.InitialImage = ((System.Drawing.Image)(resources.GetObject("picture_car_near.InitialImage")));
+            this.picture_car_near.Location = new System.Drawing.Point(283, 60);
+            this.picture_car_near.Name = "picture_car_near";
+            this.picture_car_near.Size = new System.Drawing.Size(99, 76);
+            this.picture_car_near.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picture_car_near.TabIndex = 20;
+            this.picture_car_near.TabStop = false;
+            this.picture_car_near.Visible = false;
+            // 
+            // picture_car_detected
+            // 
+            this.picture_car_detected.Image = ((System.Drawing.Image)(resources.GetObject("picture_car_detected.Image")));
+            this.picture_car_detected.InitialImage = ((System.Drawing.Image)(resources.GetObject("picture_car_detected.InitialImage")));
+            this.picture_car_detected.Location = new System.Drawing.Point(283, 60);
+            this.picture_car_detected.Name = "picture_car_detected";
+            this.picture_car_detected.Size = new System.Drawing.Size(99, 76);
+            this.picture_car_detected.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picture_car_detected.TabIndex = 19;
+            this.picture_car_detected.TabStop = false;
+            this.picture_car_detected.Visible = false;
+            // 
+            // picture_no_car
+            // 
+            this.picture_no_car.Image = ((System.Drawing.Image)(resources.GetObject("picture_no_car.Image")));
+            this.picture_no_car.InitialImage = ((System.Drawing.Image)(resources.GetObject("picture_no_car.InitialImage")));
+            this.picture_no_car.Location = new System.Drawing.Point(283, 60);
+            this.picture_no_car.Name = "picture_no_car";
+            this.picture_no_car.Size = new System.Drawing.Size(99, 76);
+            this.picture_no_car.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picture_no_car.TabIndex = 18;
+            this.picture_no_car.TabStop = false;
+            // 
+            // pictureBox5
+            // 
+            this.pictureBox5.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox5.Image")));
+            this.pictureBox5.InitialImage = ((System.Drawing.Image)(resources.GetObject("pictureBox5.InitialImage")));
+            this.pictureBox5.Location = new System.Drawing.Point(318, 21);
+            this.pictureBox5.Name = "pictureBox5";
+            this.pictureBox5.Size = new System.Drawing.Size(27, 159);
+            this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox5.TabIndex = 17;
+            this.pictureBox5.TabStop = false;
             // 
             // speed_label
             // 
@@ -465,7 +538,7 @@
             // label_USRB
             // 
             this.label_USRB.AutoSize = true;
-            this.label_USRB.Location = new System.Drawing.Point(402, 230);
+            this.label_USRB.Location = new System.Drawing.Point(390, 259);
             this.label_USRB.Name = "label_USRB";
             this.label_USRB.Size = new System.Drawing.Size(23, 17);
             this.label_USRB.TabIndex = 20;
@@ -474,7 +547,7 @@
             // label_USRF
             // 
             this.label_USRF.AutoSize = true;
-            this.label_USRF.Location = new System.Drawing.Point(402, 152);
+            this.label_USRF.Location = new System.Drawing.Point(390, 119);
             this.label_USRF.Name = "label_USRF";
             this.label_USRF.Size = new System.Drawing.Size(23, 17);
             this.label_USRF.TabIndex = 19;
@@ -483,7 +556,7 @@
             // label_USF
             // 
             this.label_USF.AutoSize = true;
-            this.label_USF.Location = new System.Drawing.Point(303, 21);
+            this.label_USF.Location = new System.Drawing.Point(267, 99);
             this.label_USF.Name = "label_USF";
             this.label_USF.Size = new System.Drawing.Size(23, 17);
             this.label_USF.TabIndex = 18;
@@ -492,7 +565,7 @@
             // label_USB
             // 
             this.label_USB.AutoSize = true;
-            this.label_USB.Location = new System.Drawing.Point(303, 359);
+            this.label_USB.Location = new System.Drawing.Point(336, 99);
             this.label_USB.Name = "label_USB";
             this.label_USB.Size = new System.Drawing.Size(23, 17);
             this.label_USB.TabIndex = 17;
@@ -501,7 +574,7 @@
             // label_USLB
             // 
             this.label_USLB.AutoSize = true;
-            this.label_USLB.Location = new System.Drawing.Point(203, 230);
+            this.label_USLB.Location = new System.Drawing.Point(219, 259);
             this.label_USLB.Name = "label_USLB";
             this.label_USLB.Size = new System.Drawing.Size(23, 17);
             this.label_USLB.TabIndex = 16;
@@ -510,7 +583,7 @@
             // label_USLF
             // 
             this.label_USLF.AutoSize = true;
-            this.label_USLF.Location = new System.Drawing.Point(203, 152);
+            this.label_USLF.Location = new System.Drawing.Point(209, 123);
             this.label_USLF.Name = "label_USLF";
             this.label_USLF.Size = new System.Drawing.Size(23, 17);
             this.label_USLF.TabIndex = 15;
@@ -519,7 +592,7 @@
             // picture_USFW
             // 
             this.picture_USFW.Image = ((System.Drawing.Image)(resources.GetObject("picture_USFW.Image")));
-            this.picture_USFW.Location = new System.Drawing.Point(306, 41);
+            this.picture_USFW.Location = new System.Drawing.Point(272, 119);
             this.picture_USFW.Name = "picture_USFW";
             this.picture_USFW.Size = new System.Drawing.Size(54, 50);
             this.picture_USFW.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -530,7 +603,7 @@
             // picture_USLFW
             // 
             this.picture_USLFW.Image = ((System.Drawing.Image)(resources.GetObject("picture_USLFW.Image")));
-            this.picture_USLFW.Location = new System.Drawing.Point(206, 97);
+            this.picture_USLFW.Location = new System.Drawing.Point(222, 143);
             this.picture_USLFW.Name = "picture_USLFW";
             this.picture_USLFW.Size = new System.Drawing.Size(54, 50);
             this.picture_USLFW.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -541,7 +614,7 @@
             // picture_USLBW
             // 
             this.picture_USLBW.Image = ((System.Drawing.Image)(resources.GetObject("picture_USLBW.Image")));
-            this.picture_USLBW.Location = new System.Drawing.Point(206, 250);
+            this.picture_USLBW.Location = new System.Drawing.Point(222, 206);
             this.picture_USLBW.Name = "picture_USLBW";
             this.picture_USLBW.Size = new System.Drawing.Size(54, 50);
             this.picture_USLBW.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -552,7 +625,7 @@
             // picture_USRFW
             // 
             this.picture_USRFW.Image = ((System.Drawing.Image)(resources.GetObject("picture_USRFW.Image")));
-            this.picture_USRFW.Location = new System.Drawing.Point(402, 97);
+            this.picture_USRFW.Location = new System.Drawing.Point(377, 139);
             this.picture_USRFW.Name = "picture_USRFW";
             this.picture_USRFW.Size = new System.Drawing.Size(54, 50);
             this.picture_USRFW.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -563,7 +636,7 @@
             // picture_USRBW
             // 
             this.picture_USRBW.Image = ((System.Drawing.Image)(resources.GetObject("picture_USRBW.Image")));
-            this.picture_USRBW.Location = new System.Drawing.Point(402, 250);
+            this.picture_USRBW.Location = new System.Drawing.Point(377, 206);
             this.picture_USRBW.Name = "picture_USRBW";
             this.picture_USRBW.Size = new System.Drawing.Size(54, 50);
             this.picture_USRBW.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -574,7 +647,7 @@
             // picture_USBW
             // 
             this.picture_USBW.Image = ((System.Drawing.Image)(resources.GetObject("picture_USBW.Image")));
-            this.picture_USBW.Location = new System.Drawing.Point(306, 306);
+            this.picture_USBW.Location = new System.Drawing.Point(330, 119);
             this.picture_USBW.Name = "picture_USBW";
             this.picture_USBW.Size = new System.Drawing.Size(54, 50);
             this.picture_USBW.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -585,7 +658,7 @@
             // picture_USLF
             // 
             this.picture_USLF.Image = ((System.Drawing.Image)(resources.GetObject("picture_USLF.Image")));
-            this.picture_USLF.Location = new System.Drawing.Point(206, 97);
+            this.picture_USLF.Location = new System.Drawing.Point(222, 143);
             this.picture_USLF.Name = "picture_USLF";
             this.picture_USLF.Size = new System.Drawing.Size(54, 50);
             this.picture_USLF.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -595,7 +668,7 @@
             // picture_USLB
             // 
             this.picture_USLB.Image = ((System.Drawing.Image)(resources.GetObject("picture_USLB.Image")));
-            this.picture_USLB.Location = new System.Drawing.Point(206, 250);
+            this.picture_USLB.Location = new System.Drawing.Point(222, 206);
             this.picture_USLB.Name = "picture_USLB";
             this.picture_USLB.Size = new System.Drawing.Size(54, 50);
             this.picture_USLB.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -605,7 +678,7 @@
             // picture_USF
             // 
             this.picture_USF.Image = ((System.Drawing.Image)(resources.GetObject("picture_USF.Image")));
-            this.picture_USF.Location = new System.Drawing.Point(306, 41);
+            this.picture_USF.Location = new System.Drawing.Point(272, 119);
             this.picture_USF.Name = "picture_USF";
             this.picture_USF.Size = new System.Drawing.Size(54, 50);
             this.picture_USF.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -615,7 +688,7 @@
             // picture_USRF
             // 
             this.picture_USRF.Image = ((System.Drawing.Image)(resources.GetObject("picture_USRF.Image")));
-            this.picture_USRF.Location = new System.Drawing.Point(402, 97);
+            this.picture_USRF.Location = new System.Drawing.Point(377, 139);
             this.picture_USRF.Name = "picture_USRF";
             this.picture_USRF.Size = new System.Drawing.Size(54, 50);
             this.picture_USRF.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -625,7 +698,7 @@
             // picture_USRB
             // 
             this.picture_USRB.Image = ((System.Drawing.Image)(resources.GetObject("picture_USRB.Image")));
-            this.picture_USRB.Location = new System.Drawing.Point(402, 250);
+            this.picture_USRB.Location = new System.Drawing.Point(377, 206);
             this.picture_USRB.Name = "picture_USRB";
             this.picture_USRB.Size = new System.Drawing.Size(54, 50);
             this.picture_USRB.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -635,7 +708,7 @@
             // pictureUSB
             // 
             this.pictureUSB.Image = ((System.Drawing.Image)(resources.GetObject("pictureUSB.Image")));
-            this.pictureUSB.Location = new System.Drawing.Point(306, 306);
+            this.pictureUSB.Location = new System.Drawing.Point(330, 119);
             this.pictureUSB.Name = "pictureUSB";
             this.pictureUSB.Size = new System.Drawing.Size(54, 50);
             this.pictureUSB.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -645,7 +718,7 @@
             // picture_car_sensors
             // 
             this.picture_car_sensors.Image = ((System.Drawing.Image)(resources.GetObject("picture_car_sensors.Image")));
-            this.picture_car_sensors.Location = new System.Drawing.Point(266, 97);
+            this.picture_car_sensors.Location = new System.Drawing.Point(263, 166);
             this.picture_car_sensors.Name = "picture_car_sensors";
             this.picture_car_sensors.Size = new System.Drawing.Size(130, 203);
             this.picture_car_sensors.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -847,7 +920,6 @@
             this.Battery10.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.Battery10.TabIndex = 28;
             this.Battery10.TabStop = false;
-            this.Battery10.Visible = true;
             // 
             // Battery30
             // 
@@ -858,7 +930,6 @@
             this.Battery30.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.Battery30.TabIndex = 29;
             this.Battery30.TabStop = false;
-            this.Battery30.Visible = true;
             // 
             // Battery50
             // 
@@ -869,7 +940,6 @@
             this.Battery50.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.Battery50.TabIndex = 29;
             this.Battery50.TabStop = false;
-            this.Battery50.Visible = true;
             // 
             // Battery70
             // 
@@ -880,7 +950,6 @@
             this.Battery70.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.Battery70.TabIndex = 30;
             this.Battery70.TabStop = false;
-            this.Battery70.Visible = true;
             // 
             // Battery100
             // 
@@ -891,7 +960,6 @@
             this.Battery100.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.Battery100.TabIndex = 29;
             this.Battery100.TabStop = false;
-            this.Battery100.Visible = true;
             // 
             // Form1
             // 
@@ -923,6 +991,11 @@
             this.tab_control.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picture_car_too_near)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture_car_near)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture_car_detected)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture_no_car)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.speed_bar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.tabPage2.ResumeLayout(false);
@@ -983,6 +1056,7 @@
                 {
 
                 }
+                System.Threading.Thread.Sleep(500);
             }
         }
 
@@ -1086,6 +1160,11 @@
         private System.Windows.Forms.PictureBox Battery50;
         private System.Windows.Forms.PictureBox Battery70;
         private System.Windows.Forms.PictureBox Battery100;
+        private System.Windows.Forms.PictureBox picture_no_car;
+        private System.Windows.Forms.PictureBox pictureBox5;
+        private System.Windows.Forms.PictureBox picture_car_detected;
+        private System.Windows.Forms.PictureBox picture_car_too_near;
+        private System.Windows.Forms.PictureBox picture_car_near;
     }
 }
 

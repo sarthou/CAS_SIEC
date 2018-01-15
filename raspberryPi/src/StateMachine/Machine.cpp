@@ -34,6 +34,7 @@ void Machine::run()
     int hasToExecute=1; //Default value
     while(1) //While no final state is reached?
     {
+    	usleep(100000);
         if(hasToExecute==1)
         {
             unsigned int i=0;

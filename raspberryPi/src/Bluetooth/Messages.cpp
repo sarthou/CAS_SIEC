@@ -84,44 +84,86 @@ std::string Messages::encode(Messages msg)
 
 	if(msg.getLevel()==0x00)
 	{
-		switch(msg.getId())
+		if(msg.getComplementaryID() == 0x00)
 		{
-			case 7 :
-			sentMessage+=begin;
-			sentMessage+=(char)(msg.getValue()&0x000000FF);
-			sentMessage+='\n';
-			break;
+			switch(msg.getId())
+			{
+				case 7 :
+				sentMessage+=begin;
+				sentMessage+=(char)(msg.getValue()&0x000000FF);
+				sentMessage+='\n';
+				break;
 
-			case 6 :
-			sentMessage.resize(3);
-			sentMessage[0]=begin;
-			sentMessage[1]=(char)(msg.getValue()&0x000000FF);
-			sentMessage[2]='\n';
-			break;
+				case 6 :
+				sentMessage.resize(3);
+				sentMessage[0]=begin;
+				sentMessage[1]=(char)(msg.getValue()&0x000000FF);
+				sentMessage[2]='\n';
+				break;
 
-			case 1 :
-			case 2 :
-			case 3 :
-			case 4 :
-			case 5 :
-			sentMessage.resize(10);
-			sentMessage[0]=begin;
-			sentMessage[1]=(char)(msg.getValue()&0x000000FF);
-			sentMessage[2]=(char)((msg.getValue()&0x0000FF00)>>8);
-			sentMessage[3]=(char)((msg.getValue()&0x00FF0000)>>16);
-			sentMessage[4]=(char)((msg.getValue()&0xFF000000)>>24);
-			sentMessage[5]=(char)(msg.getValue2()&0x000000FF);
-			sentMessage[6]=(char)((msg.getValue2()&0x0000FF00)>>8);
-			sentMessage[7]=(char)((msg.getValue2()&0x00FF0000)>>16);
-			sentMessage[8]=(char)((msg.getValue2()&0xFF000000)>>24);
-			sentMessage[9]='\n';
-			break;
+				case 1 :
+				case 2 :
+				case 3 :
+				case 4 :
+				case 5 :
+				sentMessage.resize(10);
+				sentMessage[0]=begin;
+				sentMessage[1]=(char)(msg.getValue()&0x000000FF);
+				sentMessage[2]=(char)((msg.getValue()&0x0000FF00)>>8);
+				sentMessage[3]=(char)((msg.getValue()&0x00FF0000)>>16);
+				sentMessage[4]=(char)((msg.getValue()&0xFF000000)>>24);
+				sentMessage[5]=(char)(msg.getValue2()&0x000000FF);
+				sentMessage[6]=(char)((msg.getValue2()&0x0000FF00)>>8);
+				sentMessage[7]=(char)((msg.getValue2()&0x00FF0000)>>16);
+				sentMessage[8]=(char)((msg.getValue2()&0xFF000000)>>24);
+				sentMessage[9]='\n';
+				break;
 
-			default :
-			sentMessage.resize(2);
-			sentMessage[0]=begin;
-			sentMessage[1]='\n';
-			break;
+				default :
+				sentMessage.resize(2);
+				sentMessage[0]=begin;
+				sentMessage[1]='\n';
+				break;
+			}
+		}
+		else if(msg.getComplementaryID() == 0x02)
+		{
+			switch(msg.getId())
+			{
+				case 0 :
+				sentMessage.resize(2);
+				sentMessage[0]=begin;
+				sentMessage[1]='\n';
+				break;
+
+				case 1 :
+				case 2 :
+				sentMessage.resize(10);
+				sentMessage[0]=begin;
+				sentMessage[1]=(char)(msg.getValue()&0x000000FF);
+				sentMessage[2]=(char)((msg.getValue()&0x0000FF00)>>8);
+				sentMessage[3]=(char)((msg.getValue()&0x00FF0000)>>16);
+				sentMessage[4]=(char)((msg.getValue()&0xFF000000)>>24);
+				sentMessage[5]=(char)(msg.getValue2()&0x000000FF);
+				sentMessage[6]=(char)((msg.getValue2()&0x0000FF00)>>8);
+				sentMessage[7]=(char)((msg.getValue2()&0x00FF0000)>>16);
+				sentMessage[8]=(char)((msg.getValue2()&0xFF000000)>>24);
+				sentMessage[9]='\n';
+				break;
+
+				case 3:
+				sentMessage.resize(3);
+				sentMessage[0]=begin;
+				sentMessage[1]=(char)(msg.getValue()&0x000000FF);
+				sentMessage[2]='\n';
+				break;
+
+				default :
+				sentMessage.resize(2);
+				sentMessage[0]=begin;
+				sentMessage[1]='\n';
+				break;
+			}
 		}
 	}
 

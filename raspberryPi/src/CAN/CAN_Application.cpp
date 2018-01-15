@@ -88,6 +88,7 @@ void launchCANServices (void)  {
 	canInit();
 
   while (1) {
+	  usleep(1000);
 	runCanPeriodic();
 
 	if(receiveMessage()==0){

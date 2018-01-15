@@ -2,6 +2,9 @@
 #include "opencv2/imgproc.hpp"
 #include "opencv2/imgcodecs.hpp"
 #include "opencv2/highgui.hpp"
+#include <opencv2/aruco.hpp>
+
+
 
 #include <iostream>
 #include <math.h>
@@ -22,10 +25,9 @@ typedef struct positionVoiture
 	float percentageSide; //
 } positionVoiture;
 
-static double angle( Point pt1, Point pt2, Point pt0 );
 
-positionVoiture findSquares( const Mat& image, vector<vector<Point> >& squares );
-
+//positionVoiture findSquares( const Mat& image, vector<vector<Point> >& squares );
+positionVoiture findTags( const Mat& image, vector<vector<Point2f> >& squares );
 void threadTraitement();
 
 

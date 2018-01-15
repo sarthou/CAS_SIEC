@@ -1,6 +1,7 @@
-#include "traitement_image/traitementimg.hpp"
-#include "Interface/PosVoitInterface.h"
+#include <Interface/ImageInterface.h>
+#include "ImageProcessing/ImageProcessing.hpp"
 
+#include <unistd.h>
 
 // helper function:
 // finds a cosine of angle between vectors
@@ -104,7 +105,6 @@ positionVoiture findSquares( const Mat& image, vector<vector<Point> >& squares )
 						vector<int> coordonneesY;
 						for (size_t i=0; i<approx.size(); i++){
 							coordonneesY.push_back(approx[i].y);
-							//std::cout<<"Les coordonnées du point "<<i<<" sont : "<<approx[i]<<endl;
 						}
 
 
@@ -112,15 +112,11 @@ positionVoiture findSquares( const Mat& image, vector<vector<Point> >& squares )
 						float centre = (float)(approx[0].x+approx[1].x+approx[2].x+approx[3].x)/4.0;
 						//float pourcentage;
 						if(centre > 340.0){
-							//cout << "La voiture est à droite: ";
 							returnValue.side = 1;
 							returnValue.percentageSide =((float)(centre - 340.0)/250.0)*100.0;
-							//cout << pourcentage << " %" << endl;
 						} else {
-							//cout << "La voiture est à gauche: ";
 							returnValue.side = 0;
 							returnValue.percentageSide = ((float)(340.0-centre)/250.0)*100.0;
-							//cout << pourcentage << " %" << endl;
 						}
 
 						//Calcul de la distance
@@ -130,14 +126,11 @@ positionVoiture findSquares( const Mat& image, vector<vector<Point> >& squares )
 						maxH = MAX(maxH, abs(coordonneesY[0]-coordonneesY[2]));
 						maxH = MAX(maxH, abs(coordonneesY[1]-coordonneesY[2]));
 						maxH = MAX(maxH, abs(coordonneesY[1]-coordonneesY[3]));
-						//std::cout<<"La hauteur est "<<maxH;
+
 						float maxHeight = ((float)maxH)/2.0;
-						//std::cout<<"La distance est "<<
 						returnValue.dist = 4203.9*pow(maxHeight, -0.987);
-						//std::cout<<endl;
 						flagSortie=true;
 						break;
-
                 }
             }
         }
@@ -147,30 +140,40 @@ positionVoiture findSquares( const Mat& image, vector<vector<Point> >& squares )
 
 
 
-void threadTraitement(){
-  //Open the capture device
-  VideoCapture capture;
+void threadProcessing()
+{
+	//Open the capture device
+	VideoCapture capture;
 	capture.set(CV_CAP_PROP_BUFFERSIZE, 3);
-  capture.open(0);
-  if ( !capture.isOpened() )  // if not success, exit program
-  {
-    cout << "Cannot open the web cam" << endl;
-    //Traiter ici l'event Camera Indispo
-    //return -1;
-  }
+	capture.open(0);
+	if ( !capture.isOpened() )  // if not success, exit program
+	{
+		cout << "Cannot open the web cam" << endl;
+		//Traiter ici l'event Camera Indispo
+		//return -1;
+	}
 
-  //Valeurs du filtre de couleur
-	int iLowH = 38;
+	//Valeurs du filtre de couleur
+	/*int iLowH = 38;
 	int iHighH = 100;
 	int iLowS = 50;
 	int iHighS = 150;
 	int iLowV = 100;
+	int iHighV = 255;*/
+	int iLowH = 20;
+	int iHighH = 30;
+	int iLowS = 100;
+	int iHighS = 255;
+	int iLowV = 100;
 	int iHighV = 255;
 
-  //Capture a temporary image from the camera
+	//speed_limit
+	uint32_t depth = 10000;
+
+	//Capture a temporary image from the camera
 	Mat imgTmp;
 	capture >> imgTmp;
-  //Create a black image with the size as the camera output
+	//Create a black image with the size as the camera output
 	Mat imgLines = Mat::zeros( imgTmp.size(), CV_8UC3 );;
 
 	Mat imgOriginal;
@@ -179,44 +182,48 @@ void threadTraitement(){
 	vector<vector<Point> > squares;
 	Mat imgThresholded_colored;
 
-  while (capture.isOpened())
-  {
-    if(capture.isOpened()){
-  		for (int i=0; i<5; i++){
-  			capture >> imgOriginal;
-  		}
+	while (capture.isOpened())
+	{
+		usleep(1000);
+		if(capture.isOpened())
+		{
+			for (int i=0; i<5; i++)
+				capture >> imgOriginal;
 		}
 
-    cvtColor(imgOriginal, imgHSV, COLOR_BGR2HSV); //Convert the captured frame from BGR to HSV
-  	inRange(imgHSV, Scalar(iLowH, iLowS, iLowV), Scalar(iHighH, iHighS, iHighV), imgThresholded); //Threshold the image
-    //morphological opening (removes small objects from the foreground)
-  	erode(imgThresholded, imgThresholded, getStructuringElement(MORPH_ELLIPSE, Size(5, 5)) );
-  	dilate( imgThresholded, imgThresholded, getStructuringElement(MORPH_ELLIPSE, Size(5, 5)) );
-     //morphological closing (removes small holes from the foreground)
-    dilate( imgThresholded, imgThresholded, getStructuringElement(MORPH_ELLIPSE, Size(5, 5)) );
-    erode(imgThresholded, imgThresholded, getStructuringElement(MORPH_ELLIPSE, Size(5, 5)) );
+		cvtColor(imgOriginal, imgHSV, COLOR_BGR2HSV); //Convert the captured frame from BGR to HSV
+		inRange(imgHSV, Scalar(iLowH, iLowS, iLowV), Scalar(iHighH, iHighS, iHighV), imgThresholded); //Threshold the image
+		//morphological opening (removes small objects from the foreground)
+		erode(imgThresholded, imgThresholded, getStructuringElement(MORPH_ELLIPSE, Size(5, 5)) );
+		dilate( imgThresholded, imgThresholded, getStructuringElement(MORPH_ELLIPSE, Size(5, 5)) );
+		//morphological closing (removes small holes from the foreground)
+		dilate( imgThresholded, imgThresholded, getStructuringElement(MORPH_ELLIPSE, Size(5, 5)) );
+		erode(imgThresholded, imgThresholded, getStructuringElement(MORPH_ELLIPSE, Size(5, 5)) );
 
-    cvtColor(imgThresholded, imgThresholded_colored, COLOR_GRAY2BGR);
+		cvtColor(imgThresholded, imgThresholded_colored, COLOR_GRAY2BGR);
 
+		positionVoiture posVoit = findSquares(imgThresholded_colored, squares);
+		//Faire les affectations de valeurs ici
+		//*(linkPositionVoiture()) = findSquares(imgThresholded_colored, squares);
 
-    positionVoiture posVoit = findSquares(imgThresholded_colored, squares);
-    //Faire les affectations de valeurs ici
-    //*(linkPositionVoiture()) = findSquares(imgThresholded_colored, squares);
+		if (squares.size() != 0)
+		{
+			*(linkPositionVoiture()) = posVoit;
+			depth = posVoit.dist;
+		}
+		else
+		{
+			initCarPosition();
+			depth = 10000;
+		}
 
-    if (squares.size() != 0){
-    	*(linkPositionVoiture()) = posVoit;
-    	cout << "La voiture : " << endl
-		<< "Distance : " << posVoit.dist << " cm"<< endl
-		<< "Cote : " << posVoit.side << endl
-		<< "Pourcentage :" << posVoit.percentageSide << endl;
-	} else {
-		initCarPosition();
-		cout << "No Car Detected" << endl;
+		if(depth < 150)
+		{
+			*(linkCameraSpeedLimit()) = 11;
+		}
+		else
+		{
+			*(linkCameraSpeedLimit()) = 100;
+		}
 	}
-    }
-
-
-    //return 0;
-
-
 }

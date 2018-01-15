@@ -33,11 +33,9 @@ float u6(){
 	return linkUSRight()->floatMessage[0];
 }
 
-float dist=50.0;
-
 int t1Function(){
 	int res=0;
-	if(u1()<dist){
+	if(u1()<50.0){
 		res=1;
 	}
 	return res;
@@ -45,7 +43,7 @@ int t1Function(){
 
 int t2Function(){
 	int res=0;
-	if(u2()<40.0){
+	if(u2()<50.0){
 		res=1;
 	}
 	return res;
@@ -53,7 +51,7 @@ int t2Function(){
 
 int t3Function(){
 	int res=0;
-	if(u3()<50.0||u4()<50.0||u5()<50.0){
+	if(u3()<60.0||u4()<60.0||u5()<60.0){
 		res=1;
 	}
 	return res;
@@ -61,7 +59,7 @@ int t3Function(){
 
 int t4Function(){
 	int res=0;
-	if(u6()<dist){
+	if(u6()<50.0){
 		res=1;
 	}
 	return res;
@@ -69,7 +67,7 @@ int t4Function(){
 
 int t8Function(){
 	int res=0;
-	if(u3()<40.0){
+	if(u3()<50.0){
 		res=1;
 	}
 	return res;
@@ -77,7 +75,7 @@ int t8Function(){
 
 int t9Function(){
 	int res=0;
-	if(u4()<40.0){
+	if(u4()<50.0){
 		res=1;
 	}
 	return res;
@@ -85,7 +83,7 @@ int t9Function(){
 
 int t10Function(){
 	int res=0;
-	if(u5()<40.0){
+	if(u5()<50.0){
 		res=1;
 	}
 	return res;
@@ -93,7 +91,7 @@ int t10Function(){
 
 int t11Function(){
 	int res=0;
-	if(u3()<30.0&&u4()>30.0){
+	if(u3()<40.0 && u4()>40.0){
 		res=1;
 	}
 	return res;
@@ -101,7 +99,7 @@ int t11Function(){
 
 int t12Function(){
 	int res=0;
-	if(u4()<30.0&&u3()>=30.0){
+	if(u4()<40.0 && u3()>=40.0){
 		res=1;
 	}
 	return res;
@@ -109,7 +107,7 @@ int t12Function(){
 
 int t13Function(){
 	int res=0;
-	if(u4()<20.0&&u5()>20.0){
+	if(u4()<20.0 && u5()>20.0){
 		res=1;
 	}
 	return res;
@@ -117,10 +115,50 @@ int t13Function(){
 
 int t14Function(){
 	int res=0;
-	if(u4()>=20.0&&u5()<20.0){
+	if(u4()>=30.0&&u5()<30.0){
 		res=1;
 	}
 	return res;
+}
+
+int t15Function(){
+	int res=0;
+	if(u5()<20.0 && u6()>40.0){
+		res=1;
+	}
+	return res;
+}
+
+int t16Function(){
+	int res=0;
+	if(u6()<=40.0){
+		res=1;
+	}
+	return res;
+}
+
+int t17Function(){
+	int res=0;
+	if(u5()<20.0 && u4()<30.0){
+		res=1;
+	}
+	return res;
+}
+
+int t18Function(){
+	int res=0;
+	if(u5()>=20.0 && u4()>=30.0){
+		res=1;
+	}
+	return res;
+}
+
+int trueFunction(){
+	return 1;
+}
+
+int falseFunction(){
+	return 0;
 }
 
 Machine CarBehavior::createCarBehaviorStateMachine(BluetoothServer * btServer){
@@ -138,8 +176,13 @@ Machine CarBehavior::createCarBehaviorStateMachine(BluetoothServer * btServer){
 	process.addState(State("12",btServer,NULL));//9
 	process.addState(State("13",btServer,NULL));//10
 	process.addState(State("14",btServer,NULL));//11
+	process.addState(State("15",btServer,NULL));//12
+	process.addState(State("16",btServer,NULL));//13
+	process.addState(State("17",btServer,NULL));//14
+	process.addState(State("18",btServer,NULL));//15
+	process.addState(State("19",btServer,NULL));//16
 
-	process.addTransition(Transition(0,1,t1Function));
+	process.addTransition(Transition(0,1,falseFunction));
 	process.addTransition(Transition(0,2,t2Function));
 	process.addTransition(Transition(0,3,t3Function));
 	process.addTransition(Transition(0,4,t4Function));
@@ -150,6 +193,13 @@ Machine CarBehavior::createCarBehaviorStateMachine(BluetoothServer * btServer){
 	process.addTransition(Transition(5,9,t12Function));
 	process.addTransition(Transition(9,10,t13Function));
 	process.addTransition(Transition(9,11,t14Function));
+	process.addTransition(Transition(11,12,t15Function));
+	process.addTransition(Transition(11,13,t16Function));
+	process.addTransition(Transition(6,9,trueFunction));
+	process.addTransition(Transition(7,11,trueFunction));
+	process.addTransition(Transition(12,14,t17Function));
+	process.addTransition(Transition(12,15,t18Function));
+	process.addTransition(Transition(15,16,t16Function));
 
 	return process;
 }
@@ -158,6 +208,7 @@ void CarBehavior::task2()
 {
 	while(1)
 	{
+		usleep(200000);
 		int nb=-1;
 		std::cin>>nb;
 		switch(nb)

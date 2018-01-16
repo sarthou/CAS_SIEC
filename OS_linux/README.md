@@ -6,7 +6,7 @@ This Yocto image has been built based on the branch Jethro.
 
 To use the Cross-Compilation SDK for Windows, we tried to developp the same image based on the branch Rocko. Using this branch, the SDK worked, but the DHCP server was not working anymore. If you decide to use the branch Rocko, you should consider fixing this issue. It might be due to the dnsmasq recipe and configuration files.
 
-
+# First boot :
 
 After the first boot, you should run the script RUN_ON_FIRST_BOOT.sh
 

@@ -170,10 +170,10 @@ namespace CAS
                             indata = updateSensors(toBytes);
                         else if ((toBytes[0] & 0xC0) == 0xC0)
                             indata = updateError(toBytes);
-                        else if ((toBytes[0] & 0xC0) == 0x40)
+                        /*else if ((toBytes[0] & 0xC0) == 0x40)
                         {
                             indata = "[DBG]" + indata.Substring(1);
-                        }
+                        }*/
 
                             if (indata[0] == '[')
                         {
@@ -260,6 +260,11 @@ namespace CAS
                 picture_car_too_near.setPose((int)picture_pose, picture_car_too_near.Location.Y);
             }
            
+        }
+
+        private void display_sm(uint state_id)
+        {
+
         }
 
         private string updateSensors(byte[] data)
@@ -426,11 +431,23 @@ namespace CAS
                         }
                     case 0x01:
                         {
-                            log_text += "car at left \n";
+                            log_text += "car at left ";
                             double depth = BitConverter.ToSingle(data, 1);
                             double lat = BitConverter.ToSingle(data, 5);
                             log_text += depth.ToString() + " : " + lat.ToString() + "\n";
                             displayCar(depth, -lat);
+                            return log_text;
+                        }
+                    case 0x03:
+                        {
+                            log_text += "speed limit ";
+                            int limit = (int)data[1];
+                            log_text += limit.ToString() + "\n";
+                            max_speed = limit;
+                            if (max_speed != 100)
+                                picture_speed_limit.setVisible(true);
+                            else
+                                picture_speed_limit.setVisible(false);
                             return log_text;
                         }
                     default:
@@ -438,6 +455,14 @@ namespace CAS
                             break;
                         }
                 }
+            }
+            else if ((data[0] & 0x30) == 0x10)
+            {
+                log_text += "[SM]";
+                uint id = ((uint)data[1]) & ((uint)(data[2] << 8));
+                display_sm(id);
+                log_text += "state " + id.ToString() + "\n";
+                return log_text;
             }
                 return "";
         }
@@ -465,6 +490,22 @@ namespace CAS
             else
             {
                 label.Invoke(new System.Action<Label, string>(AppendLabelText), label, text);
+            }
+
+        }
+    }
+
+    public static class TrackBarExtensions
+    {
+        public static void setMax(this TrackBar bar, int max)
+        {
+            if (!bar.InvokeRequired)
+            {
+                bar.Maximum = max;
+            }
+            else
+            {
+                bar.Invoke(new System.Action<TrackBar, int>(setMax), bar, max);
             }
 
         }

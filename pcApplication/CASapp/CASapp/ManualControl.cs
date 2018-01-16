@@ -17,6 +17,7 @@ namespace CAS
         private bool keyLeft = false;
         private bool keyRight = false;
         private int speed_order = 70;
+        private int max_speed = 100;
         private int current_speed = 0;
 
         private void PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
@@ -71,6 +72,11 @@ namespace CAS
                         current_speed -= 3;
                         if (current_speed < -speed_order)
                             current_speed = -speed_order;
+                        if(current_speed < -max_speed)
+                        {
+                            current_speed = -max_speed;
+                            speed_bar.Value = -current_speed;
+                        }
                         sendSpeed(current_speed);
                     }
                     else
@@ -78,6 +84,11 @@ namespace CAS
                         current_speed += 3;
                         if (current_speed > speed_order)
                             current_speed = speed_order;
+                        if(current_speed > max_speed)
+                        {
+                            current_speed = max_speed;
+                            speed_bar.Value = current_speed;
+                        }
                         sendSpeed(current_speed);
                     }
                 }
@@ -97,8 +108,8 @@ namespace CAS
                 if (e.KeyCode == Keys.Add)
                 {
                     speed_order = speed_order + 1;
-                    if (speed_order > 100)
-                        speed_order = 100;
+                    if (speed_order > max_speed)
+                        speed_order = max_speed;
                 }
                 else if (e.KeyCode == Keys.Subtract)
                 {
@@ -152,6 +163,8 @@ namespace CAS
 
         private void speed_bar_ValueChanged(object sender, EventArgs e)
         {
+            if (speed_bar.Value > max_speed)
+                speed_bar.Value = max_speed;
             speed_order = speed_bar.Value;
             speed_label.Text = speed_label.Tag + speed_order.ToString() + "%";
         }

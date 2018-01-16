@@ -47,6 +47,7 @@
             this.debug_text = new System.Windows.Forms.RichTextBox();
             this.tab_control = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.picture_speed_limit = new System.Windows.Forms.PictureBox();
             this.picture_car_too_near = new System.Windows.Forms.PictureBox();
             this.picture_car_near = new System.Windows.Forms.PictureBox();
             this.picture_car_detected = new System.Windows.Forms.PictureBox();
@@ -107,8 +108,15 @@
             this.Battery50 = new System.Windows.Forms.PictureBox();
             this.Battery70 = new System.Windows.Forms.PictureBox();
             this.Battery100 = new System.Windows.Forms.PictureBox();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.pictureBox4 = new System.Windows.Forms.PictureBox();
+            this.pictureBox6 = new System.Windows.Forms.PictureBox();
+            this.pictureBox7 = new System.Windows.Forms.PictureBox();
+            this.pictureBox8 = new System.Windows.Forms.PictureBox();
+            this.pictureBox9 = new System.Windows.Forms.PictureBox();
             this.tab_control.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picture_speed_limit)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picture_car_too_near)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picture_car_near)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picture_car_detected)).BeginInit();
@@ -140,6 +148,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.Battery50)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Battery70)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Battery100)).BeginInit();
+            this.tabPage4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).BeginInit();
             this.SuspendLayout();
             // 
             // serialPort1
@@ -249,6 +263,7 @@
             this.tab_control.Controls.Add(this.tabPage1);
             this.tab_control.Controls.Add(this.tabPage2);
             this.tab_control.Controls.Add(this.tabPage3);
+            this.tab_control.Controls.Add(this.tabPage4);
             this.tab_control.Location = new System.Drawing.Point(136, 34);
             this.tab_control.Multiline = true;
             this.tab_control.Name = "tab_control";
@@ -262,6 +277,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.picture_speed_limit);
             this.tabPage1.Controls.Add(this.picture_car_too_near);
             this.tabPage1.Controls.Add(this.picture_car_near);
             this.tabPage1.Controls.Add(this.picture_car_detected);
@@ -281,6 +297,18 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Control";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // picture_speed_limit
+            // 
+            this.picture_speed_limit.Image = ((System.Drawing.Image)(resources.GetObject("picture_speed_limit.Image")));
+            this.picture_speed_limit.InitialImage = ((System.Drawing.Image)(resources.GetObject("picture_speed_limit.InitialImage")));
+            this.picture_speed_limit.Location = new System.Drawing.Point(109, 87);
+            this.picture_speed_limit.Name = "picture_speed_limit";
+            this.picture_speed_limit.Size = new System.Drawing.Size(62, 71);
+            this.picture_speed_limit.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picture_speed_limit.TabIndex = 22;
+            this.picture_speed_limit.TabStop = false;
+            this.picture_speed_limit.Visible = false;
             // 
             // picture_car_too_near
             // 
@@ -855,6 +883,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.logTextBox.Enabled = false;
+            this.logTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.logTextBox.HideSelection = false;
             this.logTextBox.Location = new System.Drawing.Point(4, 50);
             this.logTextBox.Name = "logTextBox";
@@ -961,6 +990,65 @@
             this.Battery100.TabIndex = 29;
             this.Battery100.TabStop = false;
             // 
+            // tabPage4
+            // 
+            this.tabPage4.Controls.Add(this.pictureBox9);
+            this.tabPage4.Controls.Add(this.pictureBox8);
+            this.tabPage4.Controls.Add(this.pictureBox7);
+            this.tabPage4.Controls.Add(this.pictureBox6);
+            this.tabPage4.Controls.Add(this.pictureBox4);
+            this.tabPage4.Location = new System.Drawing.Point(4, 25);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Size = new System.Drawing.Size(663, 384);
+            this.tabPage4.TabIndex = 3;
+            this.tabPage4.Text = "Graph";
+            this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // pictureBox4
+            // 
+            this.pictureBox4.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox4.Image")));
+            this.pictureBox4.Location = new System.Drawing.Point(216, 123);
+            this.pictureBox4.Name = "pictureBox4";
+            this.pictureBox4.Size = new System.Drawing.Size(40, 40);
+            this.pictureBox4.TabIndex = 23;
+            this.pictureBox4.TabStop = false;
+            // 
+            // pictureBox6
+            // 
+            this.pictureBox6.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox6.Image")));
+            this.pictureBox6.Location = new System.Drawing.Point(282, 123);
+            this.pictureBox6.Name = "pictureBox6";
+            this.pictureBox6.Size = new System.Drawing.Size(40, 40);
+            this.pictureBox6.TabIndex = 24;
+            this.pictureBox6.TabStop = false;
+            // 
+            // pictureBox7
+            // 
+            this.pictureBox7.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox7.Image")));
+            this.pictureBox7.Location = new System.Drawing.Point(339, 123);
+            this.pictureBox7.Name = "pictureBox7";
+            this.pictureBox7.Size = new System.Drawing.Size(40, 40);
+            this.pictureBox7.TabIndex = 25;
+            this.pictureBox7.TabStop = false;
+            // 
+            // pictureBox8
+            // 
+            this.pictureBox8.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox8.Image")));
+            this.pictureBox8.Location = new System.Drawing.Point(401, 123);
+            this.pictureBox8.Name = "pictureBox8";
+            this.pictureBox8.Size = new System.Drawing.Size(40, 40);
+            this.pictureBox8.TabIndex = 26;
+            this.pictureBox8.TabStop = false;
+            // 
+            // pictureBox9
+            // 
+            this.pictureBox9.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox9.Image")));
+            this.pictureBox9.Location = new System.Drawing.Point(459, 123);
+            this.pictureBox9.Name = "pictureBox9";
+            this.pictureBox9.Size = new System.Drawing.Size(40, 40);
+            this.pictureBox9.TabIndex = 27;
+            this.pictureBox9.TabStop = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -991,6 +1079,7 @@
             this.tab_control.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picture_speed_limit)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picture_car_too_near)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picture_car_near)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picture_car_detected)).EndInit();
@@ -1025,6 +1114,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.Battery50)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Battery70)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Battery100)).EndInit();
+            this.tabPage4.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1165,6 +1260,13 @@
         private System.Windows.Forms.PictureBox picture_car_detected;
         private System.Windows.Forms.PictureBox picture_car_too_near;
         private System.Windows.Forms.PictureBox picture_car_near;
+        private System.Windows.Forms.PictureBox picture_speed_limit;
+        private System.Windows.Forms.TabPage tabPage4;
+        private System.Windows.Forms.PictureBox pictureBox9;
+        private System.Windows.Forms.PictureBox pictureBox8;
+        private System.Windows.Forms.PictureBox pictureBox7;
+        private System.Windows.Forms.PictureBox pictureBox6;
+        private System.Windows.Forms.PictureBox pictureBox4;
     }
 }
 

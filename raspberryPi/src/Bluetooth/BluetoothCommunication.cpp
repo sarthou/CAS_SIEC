@@ -33,7 +33,7 @@ void BluetoothServer::sendMsg(const std::string & msg){
   if (bytes_send < 0)
     connected = 0;
 
-  std::cout << bytes_send << " bytes have been sent"<< std::endl;
+  //std::cout << bytes_send << " bytes have been sent"<< std::endl;
 }
 
 std::string BluetoothServer::receiveMsg(){

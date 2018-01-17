@@ -125,6 +125,12 @@ std::string Messages::encode(Messages msg)
 				sentMessage[1]='\n';
 				break;
 			}
+		}else if(msg.getComplementaryID()==0x01){
+			sentMessage.resize(4);
+			sentMessage[0]=begin;
+			sentMessage[1]=(char)(msg.getValue()&0x000000FF);
+			sentMessage[2]=(char)(msg.getValue2()&0x000000FF);
+			sentMessage[3]='\n';
 		}
 		else if(msg.getComplementaryID() == 0x02)
 		{

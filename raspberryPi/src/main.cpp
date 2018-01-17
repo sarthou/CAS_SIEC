@@ -218,10 +218,7 @@ void runStateMachine(Machine * process)
 	process->run();
 }
 
-void task1()
-{
-	CarBehavior::task2();
-}
+
 
 int main()
 {
@@ -248,7 +245,7 @@ int main()
 	std::thread behavior(runStateMachine, &process);
 	std::cout << "State Machine is running" << std::endl;
 
-	std::thread keyboard(task1);
+
 
 	//Can threads
 	can_Ok = 1;

@@ -12,6 +12,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/time.h>
+#include <stdio.h>
 
 #include "CAN/CAN_Abstraction.h"
 
@@ -89,7 +90,10 @@ int sendMessage(int16_t id, data_paquet_t data)
 	can_paquet_t paquet;
 	paquet.id=id;
 	paquet.data=data;
-
+	if(id==16){
+		printf("%d\n",data.intMessage[0]);
+		printf("%d\n\n",data.intMessage[1]);
+	}
 	struct can_frame frame;
 	frame=createPaquet(paquet);
 

@@ -26,7 +26,7 @@ positionVoiture findTags(const Mat& image, vector<vector<Point2f> >& squares ){
 		 //if(markerIds.size() != 0){
 		 for ( int j=0; j< markerIds.size(); j++){
 			 if (markerIds[j]==2){
-				 cout << "Marker ID Detected :" << markerIds[j] << endl;
+				 //cout << "Marker ID Detected :" << markerIds[j] << endl;
 				 //cout << markerIds[0]<<endl;
 				 //cout << markerCorners[0][0]<<endl;
 				 //cout << markerCorners[0][1]<<endl;
@@ -65,8 +65,9 @@ positionVoiture findTags(const Mat& image, vector<vector<Point2f> >& squares ){
 				maxH = MAX(maxH, abs(coordonneesY[1]-coordonneesY[3]));
 				//std::cout<<"La hauteur est "<<maxH;
 				float maxHeight = ((float)maxH)/2.0;
-				//std::cout<<"La distance est "<<
+
 				returnValue.dist = 4203.9*pow(maxHeight, -0.987);
+				//std::cout<<"La distance est :"<< returnValue.dist << std::endl;
 			 }
 	 }
 
@@ -119,9 +120,10 @@ void threadProcessing(){
 		if (squares.size() != 0){
 
 			*(linkPositionVoiture()) = posVoit;
-			cout << "Car detected" << endl;
+			//cout << "Car detected" << endl;
 			depth = posVoit.dist;
 		} else {
+			//cout << "No car detected" << endl;
 			initCarPosition();
 			depth = 1000;
 			//cout << "No Car Detected" << endl;

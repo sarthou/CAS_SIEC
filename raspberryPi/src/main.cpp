@@ -180,12 +180,23 @@ void handler(BluetoothServer *bt)
 				if (id == 0x08)
 				{
 					int32_t speedF = decoded_msg.getValue();
+
+					if(speedF > *(linkCameraSpeedLimit()))
+					{
+						std::cout << speedF;
+						speedF=*(linkCameraSpeedLimit());
+						//std::cout << " " << speedF << std::endl;
+					}
 					linkMotorsOrder()->intMessage[0] = (int16_t) speedF * 10;
 					linkMotorsOrder()->intMessage[1] = (int16_t) speedF * 10;
 				}
 				else if (id == 0x04)
 				{
 					int32_t speedB = decoded_msg.getValue();
+					if(speedB > *(linkCameraSpeedLimit()))
+					{
+						speedB=*(linkCameraSpeedLimit());
+					}
 					linkMotorsOrder()->intMessage[0] = (int16_t) speedB * -10;
 					linkMotorsOrder()->intMessage[1] = (int16_t) speedB * -10;
 				}

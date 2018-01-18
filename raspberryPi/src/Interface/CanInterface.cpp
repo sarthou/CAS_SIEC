@@ -1,4 +1,5 @@
 #include "Interface/CanInterface.h"
+#include <iostream>
 
 //Information concerning the car
 data_paquet_t posSteeringWheel;
@@ -49,6 +50,7 @@ data_paquet_t* linkUSRight(){
 }
 
 data_paquet_t* linkMotorsOrder(){
+	std::cout << motorsOrder.intMessage[0] << std::endl;
 	return &motorsOrder;
 }
 

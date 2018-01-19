@@ -45,15 +45,15 @@ positionVoiture findTags(const Mat& image, vector<vector<Point2f> >& squares ){
 				float centre = (float)(markerCorners[j][0].x+markerCorners[j][1].x+markerCorners[j][2].x+markerCorners[j][3].x)/4.0;
 									//float pourcentage;
 				if(centre > 340.0){
-						//cout << "La voiture est à droite: ";
+					//cout << "La voiture est à droite: ";
 					returnValue.side = 1;
 					returnValue.percentageSide =((float)(centre - 340.0)/250.0)*100.0;
-					//cout << pourcentage << " %" << endl;
+					//cout << returnValue.percentageSide << " %" << endl;
 				} else {
 					//cout << "La voiture est à gauche: ";
 					returnValue.side = 0;
 					returnValue.percentageSide = ((float)(340.0-centre)/250.0)*100.0;
-					//cout << pourcentage << " %" << endl;
+					//cout << returnValue.percentageSide << " %" << endl;
 				}
 
 				//Calcul de la distance

@@ -13,6 +13,8 @@
 #include <unistd.h>
 #include <sys/time.h>
 #include <stdio.h>
+#include "Interface/CanInterface.h"
+#include "Interface/ImageInterface.h"
 
 #include "CAN/CAN_Abstraction.h"
 
@@ -91,8 +93,12 @@ int sendMessage(int16_t id, data_paquet_t data)
 	paquet.id=id;
 	paquet.data=data;
 	if(id==16){
-		printf("%d\n",data.intMessage[0]);
-		printf("%d\n\n",data.intMessage[1]);
+		//printf("%d\n",data.intMessage[0]);
+		//printf("%d\n\n",data.intMessage[1]);
+		if ((*(linkCameraSpeedLimit()) * 10) < linkMotorsOrder()->intMessage[0]){
+				linkMotorsOrder()->intMessage[0] = *(linkCameraSpeedLimit()) * 10;
+				linkMotorsOrder()->intMessage[1] = *(linkCameraSpeedLimit()) * 10 ;
+			}
 	}
 	struct can_frame frame;
 	frame=createPaquet(paquet);

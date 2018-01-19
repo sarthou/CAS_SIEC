@@ -1,4 +1,5 @@
 #include "Interface/CanInterface.h"
+#include "Interface/ImageInterface.h"
 #include <iostream>
 
 //Information concerning the car
@@ -50,7 +51,12 @@ data_paquet_t* linkUSRight(){
 }
 
 data_paquet_t* linkMotorsOrder(){
-	std::cout << motorsOrder.intMessage[0] << std::endl;
+
+	//std::cout << motorsOrder.intMessage[0] << std::endl;
+	//if ((*(linkCameraSpeedLimit()) * 10) < motorsOrder.intMessage[0]){
+	//	motorsOrder.intMessage[0] = *(linkCameraSpeedLimit()) * 10;
+	//	motorsOrder.intMessage[1] = *(linkCameraSpeedLimit()) * 10 ;
+	//}
 	return &motorsOrder;
 }
 

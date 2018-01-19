@@ -4,11 +4,20 @@
 #include "Interface/CanInterface.h"
 #include "Interface/ImageInterface.h"
 #include "CAN/CAN_Abstraction.h"
+#include "Interface/AdviceInterface.h"
+#include "ImageProcessing/ImageProcessing.hpp"
 
 int Tag_Far=0;
 int Tag_Left=0;
 int Tag_Front=0;
 int Tag_Right=0;
+
+
+// 4 8 9 10 12 15 16
+int releaseAdvice(){
+	*(linkUserAdvice()) = 1;
+	return 0;
+}
 
 int getCarSide(){
 	return linkPositionVoiture()->side;
@@ -25,15 +34,15 @@ float getCarPercentage(){
 }
 
 int isLeft(){
-	return ((getCarDistance()>0) && (getCarSide()==0) && (getCarPercentage()>25.0));
+	return ((getCarDistance()>0) && (getCarSide()==0) && (getCarPercentage()>2.0));
 }
 
 int isRight(){
-	return ((getCarDistance()>0) && (getCarSide()==1) && (getCarPercentage()>25.0));
+	return ((getCarDistance()>0) && (getCarSide()==1) && (getCarPercentage()>2.0));
 }
 
 int isMiddle(){
-	return ((getCarDistance()>0) && (getCarPercentage()<=25.0));
+	return ((getCarDistance()>0) && (getCarPercentage()<=2.0));
 }
 
 
@@ -83,6 +92,7 @@ int t8_9Function(){
 	int res=0;
 	if(u3()<50.0){
 		res=1;
+		releaseAdvice();
 	}
 	return res;
 }
@@ -91,6 +101,7 @@ int t8_10Function(){
 	int res=0;
 	if(u4()<50.0){
 		res=1;
+		releaseAdvice();
 	}
 	return res;
 }
@@ -99,6 +110,7 @@ int t8_12Function(){
 	int res=0;
 	if(u5()<50.0){
 		res=1;
+		releaseAdvice();
 	}
 	return res;
 }
@@ -107,6 +119,7 @@ int t9_11Function(){
 	int res=0;
 	if(u3()<40.0 && u4()>40.0){
 		res=1;
+		releaseAdvice();
 	}
 	return res;
 }
@@ -115,14 +128,16 @@ int t9_10Function(){
 	int res=0;
 	if(u4()<40.0 && u3()>=40.0){
 		res=1;
+		releaseAdvice();
 	}
 	return res;
 }
 
 int t10_13Function(){
 	int res=0;
-	if(u4()<20.0 && u5()>20.0){
+	if((u4()<20.0 && u5()>20.0) || (u4()<15.0 && u5()<15.0) ){
 		res=1;
+		releaseAdvice();
 	}
 	return res;
 }
@@ -131,6 +146,7 @@ int t10_12Function(){
 	int res=0;
 	if(u4()>=30.0&&u5()<30.0){
 		res=1;
+		releaseAdvice();
 	}
 	return res;
 }
@@ -139,6 +155,7 @@ int t12_15Function(){
 	int res=0;
 	if(u5()<20.0 && u6()>40.0){
 		res=1;
+		releaseAdvice();
 	}
 	return res;
 }
@@ -147,6 +164,7 @@ int t12_14Function(){
 	int res=0;
 	if(u6()<=40.0){
 		res=1;
+		releaseAdvice();
 	}
 	return res;
 }
@@ -155,6 +173,7 @@ int t15_18Function(){
 	int res=0;
 	if(u5()<20.0 && u4()<30.0){
 		res=1;
+		releaseAdvice();
 	}
 	return res;
 }
@@ -163,6 +182,7 @@ int t15_17Function(){
 	int res=0;
 	if(u5()>=20.0 && u4()>=30.0){
 		res=1;
+		releaseAdvice();
 	}
 	return res;
 }
@@ -171,6 +191,7 @@ int t17_16Function(){
 	int res=0;
 	if(u6()<=30.0){
 		res=1;
+		releaseAdvice();
 	}
 	return res;
 }
@@ -193,7 +214,7 @@ int t20Function(){
 
 int t2_3Function(){
 	int res=0;
-	if(isMiddle()){
+	if(isMiddle() || isRight()){
 		res=1;
 	}
 	return res;
@@ -217,8 +238,9 @@ int t23Function(){
 
 int t4_3Function(){
 	int res=0;
-	if(isMiddle()){
+	if(isMiddle() || isLeft()){
 		res=1;
+		releaseAdvice();
 	}
 	return res;
 }
@@ -241,15 +263,16 @@ int t3_4Function(){
 
 int t4_6Function(){
 	int res=0;
-	if(getCarDistance()<150 && getCarDistance()>0){
+	if(getCarDistance()<250 && getCarDistance()>0){
 		res=1;
+		releaseAdvice();
 	}
 	return res;
 }
 
 int t2_5Function(){
 	int res=0;
-	if(getCarDistance()<150 && getCarDistance()>0){
+	if(getCarDistance()<250 && getCarDistance()>0){
 		res=1;
 	}
 	return res;
@@ -257,7 +280,8 @@ int t2_5Function(){
 
 int t3_5Function(){
 	int res=0;
-	if(getCarDistance()<150 && getCarDistance()>0){
+	if(getCarDistance()<250
+			&& getCarDistance()>0){
 		res=1;
 	}
 	return res;
@@ -278,12 +302,30 @@ int reduceSpeed(){
 }
 
 int limitSpeed(){
+	*(linkCameraSpeedLimit()) = 20;
+	return 0;
+}
+
+int emergencyLimitSpeed(){
 	*(linkCameraSpeedLimit()) = 11;
 	return 0;
 }
 
 int stopCar(){
 	*(linkCameraSpeedLimit()) = 0;
+	return 0;
+}
+
+int adviseUser(){
+	*(linkUserAdvice()) = 0;
+	return 0;
+}
+
+
+
+int state_8(){
+	emergencyLimitSpeed();
+	adviseUser();
 	return 0;
 }
 
@@ -296,20 +338,20 @@ Machine CarBehavior::createCarBehaviorStateMachine(BluetoothServer * btServer){
 	process.addState(State("01",btServer,reduceSpeed));//18
 	process.addState(State("02",btServer,NULL));//19
 	process.addState(State("03",btServer,NULL));//20
-	process.addState(State("04",btServer,NULL));//21
+	process.addState(State("04",btServer,adviseUser));//21
 	process.addState(State("05",btServer,limitSpeed));//0
 	process.addState(State("06",btServer,stopCar));//22
 	process.addState(State("07",btServer,NULL));//4
-	process.addState(State("08",btServer,NULL));//3
-	process.addState(State("09",btServer,NULL));//5
-	process.addState(State("10",btServer,NULL));//9
+	process.addState(State("08",btServer,state_8));//3
+	process.addState(State("09",btServer,adviseUser));//5
+	process.addState(State("10",btServer,adviseUser));//9
 	process.addState(State("11",btServer,stopCar));//8
-	process.addState(State("12",btServer,NULL));//11
+	process.addState(State("12",btServer,adviseUser));//11
 	process.addState(State("13",btServer,stopCar));//10
 	process.addState(State("14",btServer,NULL));//13
-	process.addState(State("15",btServer,NULL));//12
+	process.addState(State("15",btServer,adviseUser));//12
 	process.addState(State("16",btServer,NULL));//16
-	process.addState(State("17",btServer,NULL));//15
+	process.addState(State("17",btServer,adviseUser));//15
 	process.addState(State("18",btServer,stopCar));//14
 
 	process.addTransition(Transition(0,1,t0_1Function));

@@ -1,5 +1,6 @@
 #include <stdint.h>
 #include <Interface/ImageInterface.h>
+#include "ImageProcessing/ImageProcessing.hpp"
 
 positionVoiture PosVoit;
 int32_t speed_limit = 100;

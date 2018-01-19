@@ -12,6 +12,7 @@
 #include "Bluetooth/Messages.h"
 #include "CarBehavior.h"
 #include "ImageProcessing/ImageProcessing.hpp"
+#include "Interface/AdviceInterface.h"
 
 int can_Ok;
 
@@ -127,6 +128,13 @@ void sendBluetooth(BluetoothServer *bt)
 			int32_t limit = *linkCameraSpeedLimit();
 			Messages msg_speed_limit = Messages(0x00, 0x02, 0x03, limit, 0);
 			bt->sendMsg(Messages::encode(msg_speed_limit));
+
+			//Advice to the user 0 : conseil
+			int32_t advice = *linkUserAdvice();
+			Messages msg_advice = Messages(0x00, 0x02, 0x04, advice, 0);
+			bt->sendMsg(Messages::encode(msg_advice));
+
+
 		}
 	}
 }
@@ -180,23 +188,26 @@ void handler(BluetoothServer *bt)
 				if (id == 0x08)
 				{
 					int32_t speedF = decoded_msg.getValue();
-
+					/*
 					if(speedF > *(linkCameraSpeedLimit()))
 					{
 						std::cout << speedF;
 						speedF=*(linkCameraSpeedLimit());
 						//std::cout << " " << speedF << std::endl;
 					}
+					*/
 					linkMotorsOrder()->intMessage[0] = (int16_t) speedF * 10;
 					linkMotorsOrder()->intMessage[1] = (int16_t) speedF * 10;
 				}
 				else if (id == 0x04)
 				{
 					int32_t speedB = decoded_msg.getValue();
+					/*
 					if(speedB > *(linkCameraSpeedLimit()))
 					{
 						speedB=*(linkCameraSpeedLimit());
 					}
+					*/
 					linkMotorsOrder()->intMessage[0] = (int16_t) speedB * -10;
 					linkMotorsOrder()->intMessage[1] = (int16_t) speedB * -10;
 				}
@@ -250,6 +261,7 @@ int main()
 
 	initCarValue();
 	initCarPosition();
+	initUserAdvice();
 
 	//StateMachine threads
 	Machine process = CarBehavior::createCarBehaviorStateMachine(&btServer);

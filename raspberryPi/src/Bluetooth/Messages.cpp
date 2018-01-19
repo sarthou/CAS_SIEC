@@ -164,6 +164,13 @@ std::string Messages::encode(Messages msg)
 				sentMessage[2]='\n';
 				break;
 
+				case 4:
+				sentMessage.resize(3);
+				sentMessage[0]=begin;
+				sentMessage[1]=(char)(msg.getValue()&0x000000FF);
+				sentMessage[2]='\n';
+				break;
+
 				default :
 				sentMessage.resize(2);
 				sentMessage[0]=begin;

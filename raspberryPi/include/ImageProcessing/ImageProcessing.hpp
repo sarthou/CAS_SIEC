@@ -28,7 +28,7 @@ typedef struct positionVoiture
 
 //positionVoiture findSquares( const Mat& image, vector<vector<Point> >& squares );
 positionVoiture findTags( const Mat& image, vector<vector<Point2f> >& squares );
-void threadTraitement();
+void threadProcessing();
 
 
 #endif

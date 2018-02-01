@@ -25,7 +25,7 @@ namespace CAS
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            check_com_thread.Abort();
+            check_com_thread.Abort(); // abandonnez le navire !!
         }
 
         /*
@@ -70,7 +70,7 @@ namespace CAS
         /*
          * Send & receive Data
          */
-        private void sendToCar(string data)
+        private void sendToCar(string data) // les femmes et les points-virgule d'abord !
         {
             if (is_connected)
             {
@@ -88,7 +88,7 @@ namespace CAS
                 }
             }
             else if (checkBox_error.Checked)
-                this.logTextBox.AppendText("[ERR] car disconnect. Fail to send " + data + "\r\n", Color.Red);
+                this.logTextBox.AppendText("[ERR] car disconnect. DO NOT PANIC ! Fail to send " + data + "\r\n", Color.Red);
         }
 
         private void sendToCar(Byte[] data)
@@ -116,11 +116,12 @@ namespace CAS
                 }
             }
             else if (checkBox_error.Checked)
-                this.logTextBox.AppendText("[ERR] car disconnect. Fail to send " + getControlText(data) + "\r\n", Color.Red);
+                this.logTextBox.AppendText("[ERR] car disconnect" + getControlText(data) + "\r\n", Color.Red);
         }
 
-        private void sendToCar(TextBox box)
+        private void sendToCar(TextBox box) 
         {
+            MessageBox.Show("hi there !"); 
             if (is_connected)
             {
                 serialPort1.Write(box.Text);
@@ -151,7 +152,7 @@ namespace CAS
         {
             System.IO.Ports.SerialPort sp = (System.IO.Ports.SerialPort)sender;
 
-            while (sp.BytesToRead != 0) 
+            while (sp.BytesToRead != 0)  //TODO fix it
             {
                 sp.NewLine = "\n";
                 try
@@ -169,8 +170,12 @@ namespace CAS
                             indata = updateSensors(toBytes);
                         else if ((toBytes[0] & 0xC0) == 0xC0)
                             indata = updateError(toBytes);
+                        /*else if ((toBytes[0] & 0xC0) == 0x40)
+                        {
+                            indata = "[DBG]" + indata.Substring(1);
+                        }*/
 
-                        if (indata[0] == '[')
+                            if (indata[0] == '[')
                         {
                             if (indata.Contains("[ERR]") && checkBox_error.Checked)
                                 this.logTextBox.AppendText(indata, Color.Red);
@@ -184,13 +189,14 @@ namespace CAS
                     }
                 }
                 catch (Exception ex)
-                { }
+                { //oups, something went wrong !
+                }
             }
         }
 
         private void serialPort1_ErrorReceived(object sender, System.IO.Ports.SerialErrorReceivedEventArgs e)
         {
-            this.debug_text.AppendTextError("ERROR\r\n");
+            this.debug_text.AppendTextError("ERROR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\r\n");
         }
 
         private string updateError(byte[] data)
@@ -215,17 +221,107 @@ namespace CAS
             return "";
         }
 
+        private void displayCar(double depth, double lat)
+        {
+            double picture_pose = 283.0 + 112.0 * lat / 100.0f;
+            if (picture_pose > 395) picture_pose = 395;
+            else if (picture_pose < 171) picture_pose = 171;
+
+            if(depth > 210)
+            {
+                picture_car_detected.setVisible(false);
+                picture_car_near.setVisible(false);
+                picture_car_too_near.setVisible(false);
+                picture_no_car.setVisible(true);
+                picture_no_car.setPose((int)picture_pose, picture_no_car.Location.Y);
+            }
+            else if(depth > 150)
+            {
+                picture_car_detected.setVisible(true);
+                picture_car_near.setVisible(false);
+                picture_car_too_near.setVisible(false);
+                picture_no_car.setVisible(false);
+                picture_car_detected.setPose((int)picture_pose, picture_car_detected.Location.Y);
+            }
+            else if(depth > 75)
+            {
+                picture_car_detected.setVisible(false);
+                picture_car_near.setVisible(true);
+                picture_car_too_near.setVisible(false);
+                picture_no_car.setVisible(false);
+                picture_car_near.setPose((int)picture_pose, picture_car_near.Location.Y);
+            }
+            else
+            {
+                picture_car_detected.setVisible(false);
+                picture_car_near.setVisible(false);
+                picture_car_too_near.setVisible(true);
+                picture_no_car.setVisible(false);
+                picture_car_too_near.setPose((int)picture_pose, picture_car_too_near.Location.Y);
+            }
+           
+        }
+
+        private void display_sm(string state_id)
+        {
+            ActState0.setVisible(false);
+            ActState1.setVisible(false);
+            ActState2.setVisible(false);
+            ActState3.setVisible(false);
+            ActState4.setVisible(false);
+            ActState5.setVisible(false);
+            ActState6.setVisible(false);
+            ActState7.setVisible(false);
+            ActState8.setVisible(false);
+            ActState9.setVisible(false);
+            ActState10.setVisible(false);
+            ActState11.setVisible(false);
+            ActState12.setVisible(false);
+            ActState13.setVisible(false);
+            ActState14.setVisible(false);
+            ActState15.setVisible(false);
+            ActState16.setVisible(false);
+            ActState17.setVisible(false);
+            ActState18.setVisible(false);
+
+            ulysse1.setVisible(false);
+            ulysse2.setVisible(false);
+            ulysse3.setVisible(false);
+            ulysse4.setVisible(false);
+            ulysse5.setVisible(false);
+
+            if (state_id == "00") { ActState0.setVisible(true); ulysse3.setVisible(true); }
+            else if (state_id == "01") { ActState1.setVisible(true); ulysse3.setVisible(true); }
+            else if (state_id == "02") { ActState2.setVisible(true); ulysse4.setVisible(true); }
+            else if (state_id == "03") { ActState3.setVisible(true); ulysse3.setVisible(true); }
+            else if (state_id == "04") { ActState4.setVisible(true); ulysse2.setVisible(true); }
+            else if (state_id == "05") { ActState5.setVisible(true); ulysse4.setVisible(true); }
+            else if (state_id == "06") { ActState6.setVisible(true); ulysse1.setVisible(true); }
+            else if (state_id == "07") { ActState7.setVisible(true); ulysse5.setVisible(true); }
+            else if (state_id == "08") { ActState8.setVisible(true); ulysse3.setVisible(true); }
+            else if (state_id == "09") { ActState9.setVisible(true); ulysse2.setVisible(true); }
+            else if (state_id == "10") { ActState10.setVisible(true); ulysse2.setVisible(true); }
+            else if (state_id == "11") { ActState11.setVisible(true); ulysse1.setVisible(true); }
+            else if (state_id == "12") { ActState12.setVisible(true); ulysse3.setVisible(true); }
+            else if (state_id == "13") { ActState13.setVisible(true); ulysse1.setVisible(true); }
+            else if (state_id == "14") { ActState14.setVisible(true); ulysse5.setVisible(true); }
+            else if (state_id == "15") { ActState15.setVisible(true); ulysse2.setVisible(true); }
+            else if (state_id == "16") { ActState16.setVisible(true); ulysse5.setVisible(true); }
+            else if (state_id == "17") { ActState17.setVisible(true); ulysse4.setVisible(true); }
+            else if (state_id == "18") { ActState18.setVisible(true); ulysse1.setVisible(true); }
+            }
+
         private string updateSensors(byte[] data)
         {
             string log_text = "[CMD]";
-            if((data[0] & 0x30) == 0x00)
+            if ((data[0] & 0x30) == 0x00)
             {
                 log_text += "[SENSOR]";
-                switch(data[0] & 0x0f)
+                switch (data[0] & 0x0f)
                 {
                     case 0x07:
                         {
-                            log_text += "steeringwheel " + (int)data[1] + "\n";
+                            log_text += "steeringwheel " + (int)data[1] + "\n"; 
 
                             label_steering.AppendLabelText(((int)data[1]).ToString());
                             return log_text;
@@ -309,7 +405,7 @@ namespace CAS
                         {
                             log_text += "Battery " + (int)data[1] + "\n";
 
-                            if(data[1] <= 10)
+                            if (data[1] <= 10)
                             {
                                 Battery100.setVisible(false);
                                 Battery70.setVisible(false);
@@ -354,7 +450,83 @@ namespace CAS
                         }
                 }
             }
-            return "";
+            else if ((data[0] & 0x30) == 0x20)
+            {
+                log_text += "[CAMERA]";
+                switch (data[0] & 0x0f)
+                {
+                    case 0x00:
+                        {
+                            log_text += "no car\n";
+                            picture_car_detected.setVisible(false);
+                            picture_car_near.setVisible(false);
+                            picture_car_too_near.setVisible(false);
+                            picture_no_car.setVisible(false);
+                            return log_text;
+                        }
+                    case 0x02:
+                        {
+                            log_text += "car at right ";
+                            double depth = BitConverter.ToSingle(data, 1);
+                            double lat = BitConverter.ToSingle(data, 5);
+                            log_text += depth.ToString() + " : " + lat.ToString() + "\n";
+                            displayCar(depth, lat);
+                            return log_text;
+                        }
+                    case 0x01:
+                        {
+                            log_text += "car at left ";
+                            double depth = BitConverter.ToSingle(data, 1);
+                            double lat = BitConverter.ToSingle(data, 5);
+                            log_text += depth.ToString() + " : " + lat.ToString() + "\n";
+                            displayCar(depth, -lat);
+                            return log_text;
+                        }
+                    case 0x03:
+                        {
+                            log_text += "speed limit ";
+                            int limit = (int)data[1];
+                            log_text += limit.ToString() + "\n";
+                            max_speed = limit;
+                            if (max_speed != 100)
+                                picture_speed_limit.setVisible(true);
+                            else
+                                picture_speed_limit.setVisible(false);
+                            return log_text;
+                        }
+                    case 0x04:
+                        {
+                            log_text += "advise";
+                            if(data[1] == 0x00)
+                            {
+                                arrowLeft.setVisible(true);
+                                return log_text;
+                            }
+                            arrowLeft.setVisible(false);
+                            return "";
+                        }
+                    default:
+                        {
+                            break;
+                        }
+                }
+            }
+            else if ((data[0] & 0x30) == 0x10)
+            {
+                log_text = "[WRN][SM]";
+                string id = "";
+                id += new String(Convert.ToChar(data[1]), 1) + new String(Convert.ToChar(data[2]), 1);
+                if ((id == "00") || (id == "01") || (id == "02") || (id == "03") || (id == "04") || (id == "05") ||
+                    (id == "06") || (id == "07") || (id == "08") || (id == "09") || (id == "10") || (id == "11") ||
+                    (id == "12") || (id == "13") || (id == "14") || (id == "15") || (id == "16") || (id == "17") ||
+                    (id == "18"))
+                {
+                    display_sm(id);
+                    log_text += "state " + id + "\n";
+                    return log_text;
+                }
+            }
+                return "";
         }
     }
 
@@ -385,6 +557,22 @@ namespace CAS
         }
     }
 
+    public static class TrackBarExtensions
+    {
+        public static void setMax(this TrackBar bar, int max)
+        {
+            if (!bar.InvokeRequired)
+            {
+                bar.Maximum = max;
+            }
+            else
+            {
+                bar.Invoke(new System.Action<TrackBar, int>(setMax), bar, max);
+            }
+
+        }
+    }
+
     public static class PictureBoxExtensions
     {
         public static void setVisible(this PictureBox box, bool visible)
@@ -396,6 +584,19 @@ namespace CAS
             else
             {
                 box.Invoke(new System.Action<PictureBox, bool>(setVisible), box, visible);
+            }
+
+        }
+
+        public static void setPose(this PictureBox box, int X, int Y)
+        {
+            if (!box.InvokeRequired)
+            {
+                box.Location = new Point((int)X, Y);
+            }
+            else
+            {
+                box.Invoke(new System.Action<PictureBox, int, int>(setPose), box, X, Y);
             }
 
         }

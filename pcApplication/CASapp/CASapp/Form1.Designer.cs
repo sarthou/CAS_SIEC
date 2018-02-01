@@ -47,6 +47,12 @@
             this.debug_text = new System.Windows.Forms.RichTextBox();
             this.tab_control = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.arrowLeft = new System.Windows.Forms.PictureBox();
+            this.ulysse5 = new System.Windows.Forms.PictureBox();
+            this.ulysse4 = new System.Windows.Forms.PictureBox();
+            this.ulysse3 = new System.Windows.Forms.PictureBox();
+            this.ulysse2 = new System.Windows.Forms.PictureBox();
+            this.ulysse1 = new System.Windows.Forms.PictureBox();
             this.picture_speed_limit = new System.Windows.Forms.PictureBox();
             this.picture_car_too_near = new System.Windows.Forms.PictureBox();
             this.picture_car_near = new System.Windows.Forms.PictureBox();
@@ -98,6 +104,27 @@
             this.clearLogButton = new System.Windows.Forms.Button();
             this.saveLogButton = new System.Windows.Forms.Button();
             this.logTextBox = new System.Windows.Forms.RichTextBox();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.ActState18 = new System.Windows.Forms.PictureBox();
+            this.ActState13 = new System.Windows.Forms.PictureBox();
+            this.ActState11 = new System.Windows.Forms.PictureBox();
+            this.ActState6 = new System.Windows.Forms.PictureBox();
+            this.ActState17 = new System.Windows.Forms.PictureBox();
+            this.ActState15 = new System.Windows.Forms.PictureBox();
+            this.ActState10 = new System.Windows.Forms.PictureBox();
+            this.ActState9 = new System.Windows.Forms.PictureBox();
+            this.ActState4 = new System.Windows.Forms.PictureBox();
+            this.ActState12 = new System.Windows.Forms.PictureBox();
+            this.ActState8 = new System.Windows.Forms.PictureBox();
+            this.ActState16 = new System.Windows.Forms.PictureBox();
+            this.ActState14 = new System.Windows.Forms.PictureBox();
+            this.ActState7 = new System.Windows.Forms.PictureBox();
+            this.ActState5 = new System.Windows.Forms.PictureBox();
+            this.ActState2 = new System.Windows.Forms.PictureBox();
+            this.ActState3 = new System.Windows.Forms.PictureBox();
+            this.ActState1 = new System.Windows.Forms.PictureBox();
+            this.ActState0 = new System.Windows.Forms.PictureBox();
+            this.pictureBox10 = new System.Windows.Forms.PictureBox();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripConnect = new System.Windows.Forms.ToolStripButton();
             this.toolStripDisconnect = new System.Windows.Forms.ToolStripButton();
@@ -108,14 +135,14 @@
             this.Battery50 = new System.Windows.Forms.PictureBox();
             this.Battery70 = new System.Windows.Forms.PictureBox();
             this.Battery100 = new System.Windows.Forms.PictureBox();
-            this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.pictureBox4 = new System.Windows.Forms.PictureBox();
-            this.pictureBox6 = new System.Windows.Forms.PictureBox();
-            this.pictureBox7 = new System.Windows.Forms.PictureBox();
-            this.pictureBox8 = new System.Windows.Forms.PictureBox();
-            this.pictureBox9 = new System.Windows.Forms.PictureBox();
             this.tab_control.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.arrowLeft)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ulysse5)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ulysse4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ulysse3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ulysse2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ulysse1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picture_speed_limit)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picture_car_too_near)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picture_car_near)).BeginInit();
@@ -142,18 +169,33 @@
             ((System.ComponentModel.ISupportInitialize)(this.picture_car_sensors)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picture_steering)).BeginInit();
             this.tabPage3.SuspendLayout();
+            this.tabPage4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ActState18)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ActState13)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ActState11)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ActState6)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ActState17)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ActState15)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ActState10)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ActState9)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ActState4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ActState12)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ActState8)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ActState16)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ActState14)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ActState7)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ActState5)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ActState2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ActState3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ActState1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ActState0)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).BeginInit();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Battery10)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Battery30)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Battery50)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Battery70)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Battery100)).BeginInit();
-            this.tabPage4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).BeginInit();
             this.SuspendLayout();
             // 
             // serialPort1
@@ -243,11 +285,11 @@
             this.debug_text.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.debug_text.ForeColor = System.Drawing.Color.White;
             this.debug_text.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.debug_text.Location = new System.Drawing.Point(137, 453);
+            this.debug_text.Location = new System.Drawing.Point(137, 539);
             this.debug_text.MinimumSize = new System.Drawing.Size(30, 30);
             this.debug_text.Name = "debug_text";
             this.debug_text.ReadOnly = true;
-            this.debug_text.Size = new System.Drawing.Size(670, 124);
+            this.debug_text.Size = new System.Drawing.Size(670, 38);
             this.debug_text.TabIndex = 10;
             this.debug_text.Text = "";
             this.debug_text.TextChanged += new System.EventHandler(this.richTextBox_TextChanged);
@@ -268,7 +310,7 @@
             this.tab_control.Multiline = true;
             this.tab_control.Name = "tab_control";
             this.tab_control.SelectedIndex = 0;
-            this.tab_control.Size = new System.Drawing.Size(671, 413);
+            this.tab_control.Size = new System.Drawing.Size(671, 499);
             this.tab_control.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.tab_control.TabIndex = 11;
             this.tab_control.KeyDown += new System.Windows.Forms.KeyEventHandler(this.keyPress);
@@ -277,6 +319,12 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.arrowLeft);
+            this.tabPage1.Controls.Add(this.ulysse5);
+            this.tabPage1.Controls.Add(this.ulysse4);
+            this.tabPage1.Controls.Add(this.ulysse3);
+            this.tabPage1.Controls.Add(this.ulysse2);
+            this.tabPage1.Controls.Add(this.ulysse1);
             this.tabPage1.Controls.Add(this.picture_speed_limit);
             this.tabPage1.Controls.Add(this.picture_car_too_near);
             this.tabPage1.Controls.Add(this.picture_car_near);
@@ -293,10 +341,81 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 25);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(663, 384);
+            this.tabPage1.Size = new System.Drawing.Size(663, 470);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Control";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // arrowLeft
+            // 
+            this.arrowLeft.Image = ((System.Drawing.Image)(resources.GetObject("arrowLeft.Image")));
+            this.arrowLeft.InitialImage = ((System.Drawing.Image)(resources.GetObject("arrowLeft.InitialImage")));
+            this.arrowLeft.Location = new System.Drawing.Point(170, 177);
+            this.arrowLeft.Name = "arrowLeft";
+            this.arrowLeft.Size = new System.Drawing.Size(99, 76);
+            this.arrowLeft.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.arrowLeft.TabIndex = 28;
+            this.arrowLeft.TabStop = false;
+            this.arrowLeft.Visible = false;
+            // 
+            // ulysse5
+            // 
+            this.ulysse5.Image = ((System.Drawing.Image)(resources.GetObject("ulysse5.Image")));
+            this.ulysse5.InitialImage = ((System.Drawing.Image)(resources.GetObject("ulysse5.InitialImage")));
+            this.ulysse5.Location = new System.Drawing.Point(441, 143);
+            this.ulysse5.Name = "ulysse5";
+            this.ulysse5.Size = new System.Drawing.Size(164, 226);
+            this.ulysse5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.ulysse5.TabIndex = 27;
+            this.ulysse5.TabStop = false;
+            this.ulysse5.Visible = false;
+            // 
+            // ulysse4
+            // 
+            this.ulysse4.Image = ((System.Drawing.Image)(resources.GetObject("ulysse4.Image")));
+            this.ulysse4.InitialImage = ((System.Drawing.Image)(resources.GetObject("ulysse4.InitialImage")));
+            this.ulysse4.Location = new System.Drawing.Point(441, 145);
+            this.ulysse4.Name = "ulysse4";
+            this.ulysse4.Size = new System.Drawing.Size(164, 226);
+            this.ulysse4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.ulysse4.TabIndex = 26;
+            this.ulysse4.TabStop = false;
+            this.ulysse4.Visible = false;
+            // 
+            // ulysse3
+            // 
+            this.ulysse3.Image = ((System.Drawing.Image)(resources.GetObject("ulysse3.Image")));
+            this.ulysse3.InitialImage = ((System.Drawing.Image)(resources.GetObject("ulysse3.InitialImage")));
+            this.ulysse3.Location = new System.Drawing.Point(441, 145);
+            this.ulysse3.Name = "ulysse3";
+            this.ulysse3.Size = new System.Drawing.Size(164, 226);
+            this.ulysse3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.ulysse3.TabIndex = 25;
+            this.ulysse3.TabStop = false;
+            // 
+            // ulysse2
+            // 
+            this.ulysse2.Image = ((System.Drawing.Image)(resources.GetObject("ulysse2.Image")));
+            this.ulysse2.InitialImage = ((System.Drawing.Image)(resources.GetObject("ulysse2.InitialImage")));
+            this.ulysse2.Location = new System.Drawing.Point(441, 145);
+            this.ulysse2.Name = "ulysse2";
+            this.ulysse2.Size = new System.Drawing.Size(164, 226);
+            this.ulysse2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.ulysse2.TabIndex = 24;
+            this.ulysse2.TabStop = false;
+            this.ulysse2.Visible = false;
+            // 
+            // ulysse1
+            // 
+            this.ulysse1.Image = ((System.Drawing.Image)(resources.GetObject("ulysse1.Image")));
+            this.ulysse1.InitialImage = ((System.Drawing.Image)(resources.GetObject("ulysse1.InitialImage")));
+            this.ulysse1.Location = new System.Drawing.Point(441, 145);
+            this.ulysse1.Name = "ulysse1";
+            this.ulysse1.Size = new System.Drawing.Size(164, 226);
+            this.ulysse1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.ulysse1.TabIndex = 23;
+            this.ulysse1.TabStop = false;
+            this.ulysse1.Visible = false;
             // 
             // picture_speed_limit
             // 
@@ -487,7 +606,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 25);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(663, 384);
+            this.tabPage2.Size = new System.Drawing.Size(663, 470);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Sensors";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -784,7 +903,7 @@
             this.tabPage3.Controls.Add(this.logTextBox);
             this.tabPage3.Location = new System.Drawing.Point(4, 25);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(663, 384);
+            this.tabPage3.Size = new System.Drawing.Size(663, 470);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Debug";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -894,6 +1013,235 @@
             this.logTextBox.Text = "";
             this.logTextBox.VisibleChanged += new System.EventHandler(this.logVisibleChange);
             // 
+            // tabPage4
+            // 
+            this.tabPage4.Controls.Add(this.ActState18);
+            this.tabPage4.Controls.Add(this.ActState13);
+            this.tabPage4.Controls.Add(this.ActState11);
+            this.tabPage4.Controls.Add(this.ActState6);
+            this.tabPage4.Controls.Add(this.ActState17);
+            this.tabPage4.Controls.Add(this.ActState15);
+            this.tabPage4.Controls.Add(this.ActState10);
+            this.tabPage4.Controls.Add(this.ActState9);
+            this.tabPage4.Controls.Add(this.ActState4);
+            this.tabPage4.Controls.Add(this.ActState12);
+            this.tabPage4.Controls.Add(this.ActState8);
+            this.tabPage4.Controls.Add(this.ActState16);
+            this.tabPage4.Controls.Add(this.ActState14);
+            this.tabPage4.Controls.Add(this.ActState7);
+            this.tabPage4.Controls.Add(this.ActState5);
+            this.tabPage4.Controls.Add(this.ActState2);
+            this.tabPage4.Controls.Add(this.ActState3);
+            this.tabPage4.Controls.Add(this.ActState1);
+            this.tabPage4.Controls.Add(this.ActState0);
+            this.tabPage4.Controls.Add(this.pictureBox10);
+            this.tabPage4.Location = new System.Drawing.Point(4, 25);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Size = new System.Drawing.Size(663, 470);
+            this.tabPage4.TabIndex = 3;
+            this.tabPage4.Text = "Graph";
+            this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // ActState18
+            // 
+            this.ActState18.Image = ((System.Drawing.Image)(resources.GetObject("ActState18.Image")));
+            this.ActState18.Location = new System.Drawing.Point(166, 427);
+            this.ActState18.Name = "ActState18";
+            this.ActState18.Size = new System.Drawing.Size(24, 23);
+            this.ActState18.TabIndex = 47;
+            this.ActState18.TabStop = false;
+            this.ActState18.Visible = false;
+            // 
+            // ActState13
+            // 
+            this.ActState13.Image = ((System.Drawing.Image)(resources.GetObject("ActState13.Image")));
+            this.ActState13.Location = new System.Drawing.Point(208, 328);
+            this.ActState13.Name = "ActState13";
+            this.ActState13.Size = new System.Drawing.Size(23, 23);
+            this.ActState13.TabIndex = 46;
+            this.ActState13.TabStop = false;
+            this.ActState13.Visible = false;
+            // 
+            // ActState11
+            // 
+            this.ActState11.Image = ((System.Drawing.Image)(resources.GetObject("ActState11.Image")));
+            this.ActState11.Location = new System.Drawing.Point(249, 279);
+            this.ActState11.Name = "ActState11";
+            this.ActState11.Size = new System.Drawing.Size(24, 23);
+            this.ActState11.TabIndex = 45;
+            this.ActState11.TabStop = false;
+            this.ActState11.Visible = false;
+            // 
+            // ActState6
+            // 
+            this.ActState6.Image = ((System.Drawing.Image)(resources.GetObject("ActState6.Image")));
+            this.ActState6.Location = new System.Drawing.Point(287, 135);
+            this.ActState6.Name = "ActState6";
+            this.ActState6.Size = new System.Drawing.Size(23, 23);
+            this.ActState6.TabIndex = 44;
+            this.ActState6.TabStop = false;
+            this.ActState6.Visible = false;
+            // 
+            // ActState17
+            // 
+            this.ActState17.Image = ((System.Drawing.Image)(resources.GetObject("ActState17.Image")));
+            this.ActState17.Location = new System.Drawing.Point(103, 427);
+            this.ActState17.Name = "ActState17";
+            this.ActState17.Size = new System.Drawing.Size(23, 23);
+            this.ActState17.TabIndex = 43;
+            this.ActState17.TabStop = false;
+            this.ActState17.Visible = false;
+            // 
+            // ActState15
+            // 
+            this.ActState15.Image = ((System.Drawing.Image)(resources.GetObject("ActState15.Image")));
+            this.ActState15.Location = new System.Drawing.Point(144, 378);
+            this.ActState15.Name = "ActState15";
+            this.ActState15.Size = new System.Drawing.Size(24, 23);
+            this.ActState15.TabIndex = 42;
+            this.ActState15.TabStop = false;
+            this.ActState15.Visible = false;
+            // 
+            // ActState10
+            // 
+            this.ActState10.Image = ((System.Drawing.Image)(resources.GetObject("ActState10.Image")));
+            this.ActState10.Location = new System.Drawing.Point(175, 279);
+            this.ActState10.Name = "ActState10";
+            this.ActState10.Size = new System.Drawing.Size(23, 23);
+            this.ActState10.TabIndex = 41;
+            this.ActState10.TabStop = false;
+            this.ActState10.Visible = false;
+            // 
+            // ActState9
+            // 
+            this.ActState9.Image = ((System.Drawing.Image)(resources.GetObject("ActState9.Image")));
+            this.ActState9.Location = new System.Drawing.Point(216, 228);
+            this.ActState9.Name = "ActState9";
+            this.ActState9.Size = new System.Drawing.Size(24, 23);
+            this.ActState9.TabIndex = 40;
+            this.ActState9.TabStop = false;
+            this.ActState9.Visible = false;
+            // 
+            // ActState4
+            // 
+            this.ActState4.Image = ((System.Drawing.Image)(resources.GetObject("ActState4.Image")));
+            this.ActState4.Location = new System.Drawing.Point(221, 90);
+            this.ActState4.Name = "ActState4";
+            this.ActState4.Size = new System.Drawing.Size(23, 23);
+            this.ActState4.TabIndex = 39;
+            this.ActState4.TabStop = false;
+            this.ActState4.Visible = false;
+            // 
+            // ActState12
+            // 
+            this.ActState12.Image = ((System.Drawing.Image)(resources.GetObject("ActState12.Image")));
+            this.ActState12.Location = new System.Drawing.Point(132, 329);
+            this.ActState12.Name = "ActState12";
+            this.ActState12.Size = new System.Drawing.Size(23, 23);
+            this.ActState12.TabIndex = 38;
+            this.ActState12.TabStop = false;
+            this.ActState12.Visible = false;
+            // 
+            // ActState8
+            // 
+            this.ActState8.Image = ((System.Drawing.Image)(resources.GetObject("ActState8.Image")));
+            this.ActState8.Location = new System.Drawing.Point(148, 178);
+            this.ActState8.Name = "ActState8";
+            this.ActState8.Size = new System.Drawing.Size(23, 23);
+            this.ActState8.TabIndex = 37;
+            this.ActState8.TabStop = false;
+            this.ActState8.Visible = false;
+            // 
+            // ActState16
+            // 
+            this.ActState16.Image = ((System.Drawing.Image)(resources.GetObject("ActState16.Image")));
+            this.ActState16.Location = new System.Drawing.Point(40, 444);
+            this.ActState16.Name = "ActState16";
+            this.ActState16.Size = new System.Drawing.Size(24, 23);
+            this.ActState16.TabIndex = 36;
+            this.ActState16.TabStop = false;
+            this.ActState16.Visible = false;
+            // 
+            // ActState14
+            // 
+            this.ActState14.Image = ((System.Drawing.Image)(resources.GetObject("ActState14.Image")));
+            this.ActState14.Location = new System.Drawing.Point(40, 378);
+            this.ActState14.Name = "ActState14";
+            this.ActState14.Size = new System.Drawing.Size(24, 23);
+            this.ActState14.TabIndex = 35;
+            this.ActState14.TabStop = false;
+            this.ActState14.Visible = false;
+            // 
+            // ActState7
+            // 
+            this.ActState7.Image = ((System.Drawing.Image)(resources.GetObject("ActState7.Image")));
+            this.ActState7.Location = new System.Drawing.Point(40, 178);
+            this.ActState7.Name = "ActState7";
+            this.ActState7.Size = new System.Drawing.Size(24, 23);
+            this.ActState7.TabIndex = 34;
+            this.ActState7.TabStop = false;
+            this.ActState7.Visible = false;
+            // 
+            // ActState5
+            // 
+            this.ActState5.Image = ((System.Drawing.Image)(resources.GetObject("ActState5.Image")));
+            this.ActState5.Location = new System.Drawing.Point(108, 134);
+            this.ActState5.Name = "ActState5";
+            this.ActState5.Size = new System.Drawing.Size(24, 23);
+            this.ActState5.TabIndex = 33;
+            this.ActState5.TabStop = false;
+            this.ActState5.Visible = false;
+            // 
+            // ActState2
+            // 
+            this.ActState2.Image = ((System.Drawing.Image)(resources.GetObject("ActState2.Image")));
+            this.ActState2.Location = new System.Drawing.Point(40, 90);
+            this.ActState2.Name = "ActState2";
+            this.ActState2.Size = new System.Drawing.Size(24, 23);
+            this.ActState2.TabIndex = 32;
+            this.ActState2.TabStop = false;
+            this.ActState2.Visible = false;
+            // 
+            // ActState3
+            // 
+            this.ActState3.Image = ((System.Drawing.Image)(resources.GetObject("ActState3.Image")));
+            this.ActState3.Location = new System.Drawing.Point(131, 91);
+            this.ActState3.Name = "ActState3";
+            this.ActState3.Size = new System.Drawing.Size(23, 23);
+            this.ActState3.TabIndex = 31;
+            this.ActState3.TabStop = false;
+            this.ActState3.Visible = false;
+            // 
+            // ActState1
+            // 
+            this.ActState1.Image = ((System.Drawing.Image)(resources.GetObject("ActState1.Image")));
+            this.ActState1.Location = new System.Drawing.Point(131, 47);
+            this.ActState1.Name = "ActState1";
+            this.ActState1.Size = new System.Drawing.Size(24, 23);
+            this.ActState1.TabIndex = 30;
+            this.ActState1.TabStop = false;
+            this.ActState1.Visible = false;
+            // 
+            // ActState0
+            // 
+            this.ActState0.Image = ((System.Drawing.Image)(resources.GetObject("ActState0.Image")));
+            this.ActState0.Location = new System.Drawing.Point(131, 3);
+            this.ActState0.Name = "ActState0";
+            this.ActState0.Size = new System.Drawing.Size(23, 23);
+            this.ActState0.TabIndex = 29;
+            this.ActState0.TabStop = false;
+            this.ActState0.Visible = false;
+            // 
+            // pictureBox10
+            // 
+            this.pictureBox10.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox10.Image")));
+            this.pictureBox10.Location = new System.Drawing.Point(12, 3);
+            this.pictureBox10.Name = "pictureBox10";
+            this.pictureBox10.Size = new System.Drawing.Size(328, 467);
+            this.pictureBox10.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox10.TabIndex = 28;
+            this.pictureBox10.TabStop = false;
+            // 
             // toolStrip1
             // 
             this.toolStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
@@ -990,65 +1338,6 @@
             this.Battery100.TabIndex = 29;
             this.Battery100.TabStop = false;
             // 
-            // tabPage4
-            // 
-            this.tabPage4.Controls.Add(this.pictureBox9);
-            this.tabPage4.Controls.Add(this.pictureBox8);
-            this.tabPage4.Controls.Add(this.pictureBox7);
-            this.tabPage4.Controls.Add(this.pictureBox6);
-            this.tabPage4.Controls.Add(this.pictureBox4);
-            this.tabPage4.Location = new System.Drawing.Point(4, 25);
-            this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(663, 384);
-            this.tabPage4.TabIndex = 3;
-            this.tabPage4.Text = "Graph";
-            this.tabPage4.UseVisualStyleBackColor = true;
-            // 
-            // pictureBox4
-            // 
-            this.pictureBox4.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox4.Image")));
-            this.pictureBox4.Location = new System.Drawing.Point(216, 123);
-            this.pictureBox4.Name = "pictureBox4";
-            this.pictureBox4.Size = new System.Drawing.Size(40, 40);
-            this.pictureBox4.TabIndex = 23;
-            this.pictureBox4.TabStop = false;
-            // 
-            // pictureBox6
-            // 
-            this.pictureBox6.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox6.Image")));
-            this.pictureBox6.Location = new System.Drawing.Point(282, 123);
-            this.pictureBox6.Name = "pictureBox6";
-            this.pictureBox6.Size = new System.Drawing.Size(40, 40);
-            this.pictureBox6.TabIndex = 24;
-            this.pictureBox6.TabStop = false;
-            // 
-            // pictureBox7
-            // 
-            this.pictureBox7.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox7.Image")));
-            this.pictureBox7.Location = new System.Drawing.Point(339, 123);
-            this.pictureBox7.Name = "pictureBox7";
-            this.pictureBox7.Size = new System.Drawing.Size(40, 40);
-            this.pictureBox7.TabIndex = 25;
-            this.pictureBox7.TabStop = false;
-            // 
-            // pictureBox8
-            // 
-            this.pictureBox8.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox8.Image")));
-            this.pictureBox8.Location = new System.Drawing.Point(401, 123);
-            this.pictureBox8.Name = "pictureBox8";
-            this.pictureBox8.Size = new System.Drawing.Size(40, 40);
-            this.pictureBox8.TabIndex = 26;
-            this.pictureBox8.TabStop = false;
-            // 
-            // pictureBox9
-            // 
-            this.pictureBox9.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox9.Image")));
-            this.pictureBox9.Location = new System.Drawing.Point(459, 123);
-            this.pictureBox9.Name = "pictureBox9";
-            this.pictureBox9.Size = new System.Drawing.Size(40, 40);
-            this.pictureBox9.TabIndex = 27;
-            this.pictureBox9.TabStop = false;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -1079,6 +1368,12 @@
             this.tab_control.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.arrowLeft)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ulysse5)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ulysse4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ulysse3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ulysse2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ulysse1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picture_speed_limit)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picture_car_too_near)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picture_car_near)).EndInit();
@@ -1107,6 +1402,27 @@
             ((System.ComponentModel.ISupportInitialize)(this.picture_steering)).EndInit();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
+            this.tabPage4.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.ActState18)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ActState13)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ActState11)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ActState6)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ActState17)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ActState15)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ActState10)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ActState9)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ActState4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ActState12)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ActState8)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ActState16)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ActState14)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ActState7)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ActState5)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ActState2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ActState3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ActState1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ActState0)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).EndInit();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Battery10)).EndInit();
@@ -1114,12 +1430,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.Battery50)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Battery70)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Battery100)).EndInit();
-            this.tabPage4.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1262,11 +1572,32 @@
         private System.Windows.Forms.PictureBox picture_car_near;
         private System.Windows.Forms.PictureBox picture_speed_limit;
         private System.Windows.Forms.TabPage tabPage4;
-        private System.Windows.Forms.PictureBox pictureBox9;
-        private System.Windows.Forms.PictureBox pictureBox8;
-        private System.Windows.Forms.PictureBox pictureBox7;
-        private System.Windows.Forms.PictureBox pictureBox6;
-        private System.Windows.Forms.PictureBox pictureBox4;
+        private System.Windows.Forms.PictureBox pictureBox10;
+        private System.Windows.Forms.PictureBox ActState0;
+        private System.Windows.Forms.PictureBox ActState5;
+        private System.Windows.Forms.PictureBox ActState2;
+        private System.Windows.Forms.PictureBox ActState3;
+        private System.Windows.Forms.PictureBox ActState1;
+        private System.Windows.Forms.PictureBox ActState7;
+        private System.Windows.Forms.PictureBox ActState16;
+        private System.Windows.Forms.PictureBox ActState14;
+        private System.Windows.Forms.PictureBox ActState12;
+        private System.Windows.Forms.PictureBox ActState8;
+        private System.Windows.Forms.PictureBox ActState17;
+        private System.Windows.Forms.PictureBox ActState15;
+        private System.Windows.Forms.PictureBox ActState10;
+        private System.Windows.Forms.PictureBox ActState9;
+        private System.Windows.Forms.PictureBox ActState4;
+        private System.Windows.Forms.PictureBox ActState6;
+        private System.Windows.Forms.PictureBox ActState18;
+        private System.Windows.Forms.PictureBox ActState13;
+        private System.Windows.Forms.PictureBox ActState11;
+        private System.Windows.Forms.PictureBox ulysse5;
+        private System.Windows.Forms.PictureBox ulysse4;
+        private System.Windows.Forms.PictureBox ulysse3;
+        private System.Windows.Forms.PictureBox ulysse2;
+        private System.Windows.Forms.PictureBox ulysse1;
+        private System.Windows.Forms.PictureBox arrowLeft;
     }
 }
 

@@ -262,10 +262,54 @@ namespace CAS
            
         }
 
-        private void display_sm(uint state_id)
+        private void display_sm(string state_id)
         {
+            ActState0.setVisible(false);
+            ActState1.setVisible(false);
+            ActState2.setVisible(false);
+            ActState3.setVisible(false);
+            ActState4.setVisible(false);
+            ActState5.setVisible(false);
+            ActState6.setVisible(false);
+            ActState7.setVisible(false);
+            ActState8.setVisible(false);
+            ActState9.setVisible(false);
+            ActState10.setVisible(false);
+            ActState11.setVisible(false);
+            ActState12.setVisible(false);
+            ActState13.setVisible(false);
+            ActState14.setVisible(false);
+            ActState15.setVisible(false);
+            ActState16.setVisible(false);
+            ActState17.setVisible(false);
+            ActState18.setVisible(false);
 
-        }
+            ulysse1.setVisible(false);
+            ulysse2.setVisible(false);
+            ulysse3.setVisible(false);
+            ulysse4.setVisible(false);
+            ulysse5.setVisible(false);
+
+            if (state_id == "00") { ActState0.setVisible(true); ulysse3.setVisible(true); }
+            else if (state_id == "01") { ActState1.setVisible(true); ulysse3.setVisible(true); }
+            else if (state_id == "02") { ActState2.setVisible(true); ulysse4.setVisible(true); }
+            else if (state_id == "03") { ActState3.setVisible(true); ulysse3.setVisible(true); }
+            else if (state_id == "04") { ActState4.setVisible(true); ulysse2.setVisible(true); }
+            else if (state_id == "05") { ActState5.setVisible(true); ulysse4.setVisible(true); }
+            else if (state_id == "06") { ActState6.setVisible(true); ulysse1.setVisible(true); }
+            else if (state_id == "07") { ActState7.setVisible(true); ulysse5.setVisible(true); }
+            else if (state_id == "08") { ActState8.setVisible(true); ulysse3.setVisible(true); }
+            else if (state_id == "09") { ActState9.setVisible(true); ulysse2.setVisible(true); }
+            else if (state_id == "10") { ActState10.setVisible(true); ulysse2.setVisible(true); }
+            else if (state_id == "11") { ActState11.setVisible(true); ulysse1.setVisible(true); }
+            else if (state_id == "12") { ActState12.setVisible(true); ulysse3.setVisible(true); }
+            else if (state_id == "13") { ActState13.setVisible(true); ulysse1.setVisible(true); }
+            else if (state_id == "14") { ActState14.setVisible(true); ulysse5.setVisible(true); }
+            else if (state_id == "15") { ActState15.setVisible(true); ulysse2.setVisible(true); }
+            else if (state_id == "16") { ActState16.setVisible(true); ulysse5.setVisible(true); }
+            else if (state_id == "17") { ActState17.setVisible(true); ulysse4.setVisible(true); }
+            else if (state_id == "18") { ActState18.setVisible(true); ulysse1.setVisible(true); }
+            }
 
         private string updateSensors(byte[] data)
         {
@@ -450,6 +494,17 @@ namespace CAS
                                 picture_speed_limit.setVisible(false);
                             return log_text;
                         }
+                    case 0x04:
+                        {
+                            log_text += "advise";
+                            if(data[1] == 0x00)
+                            {
+                                arrowLeft.setVisible(true);
+                                return log_text;
+                            }
+                            arrowLeft.setVisible(false);
+                            return "";
+                        }
                     default:
                         {
                             break;
@@ -458,11 +513,18 @@ namespace CAS
             }
             else if ((data[0] & 0x30) == 0x10)
             {
-                log_text += "[SM]";
-                uint id = ((uint)data[1]) & ((uint)(data[2] << 8));
-                display_sm(id);
-                log_text += "state " + id.ToString() + "\n";
-                return log_text;
+                log_text = "[WRN][SM]";
+                string id = "";
+                id += new String(Convert.ToChar(data[1]), 1) + new String(Convert.ToChar(data[2]), 1);
+                if ((id == "00") || (id == "01") || (id == "02") || (id == "03") || (id == "04") || (id == "05") ||
+                    (id == "06") || (id == "07") || (id == "08") || (id == "09") || (id == "10") || (id == "11") ||
+                    (id == "12") || (id == "13") || (id == "14") || (id == "15") || (id == "16") || (id == "17") ||
+                    (id == "18"))
+                {
+                    display_sm(id);
+                    log_text += "state " + id + "\n";
+                    return log_text;
+                }
             }
                 return "";
         }
